@@ -73,7 +73,9 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 @keyframes ppa{0%,100%{box-shadow:0 0 0 0 rgba(155,0,255,.5);}50%{box-shadow:0 0 0 8px rgba(155,0,255,0);}}
 @keyframes ppb{0%,100%{box-shadow:0 0 0 0 rgba(255,0,128,.5);}50%{box-shadow:0 0 0 8px rgba(255,0,128,0);}}
 .cue-active{background:var(--p)!important;color:#fff!important;border-color:var(--p)!important;box-shadow:0 0 12px rgba(155,0,255,.6)!important;}
-.btn.hi{background:rgba(155,0,255,.28);color:var(--p);border-color:var(--p);}
+.btn.hi{background:rgba(155,0,255,.3);color:var(--p);border-color:var(--p);}
+.pb-btn{font-size:14px !important;letter-spacing:0 !important;}
+.pb-btn.active{background:rgba(155,0,255,.35);color:#fff;border-color:var(--p);}
 
 /* TEMPO */
 .tw{display:flex;align-items:center;gap:7px;margin-bottom:9px;}
@@ -158,6 +160,12 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
     <button class="btn bsm" id="cA" onclick="cue('A')">CUE</button>
     <button class="btn bpl" id="pA" onclick="play('A')">▶</button>
     <button class="btn bsm" onclick="home('A')">⏮</button>
+    <button class="btn bsm pb-btn" id="pbLA"
+      onmousedown="pbStart('A',-1)" onmouseup="pbStop('A')" onmouseleave="pbStop('A')"
+      ontouchstart="event.preventDefault();pbStart('A',-1)" ontouchend="event.preventDefault();pbStop('A')">«</button>
+    <button class="btn bsm pb-btn" id="pbRA"
+      onmousedown="pbStart('A',1)" onmouseup="pbStop('A')" onmouseleave="pbStop('A')"
+      ontouchstart="event.preventDefault();pbStart('A',1)" ontouchend="event.preventDefault();pbStop('A')">»</button>
     <button class="btn bsm" id="syA" onclick="sync('A')">SYNC</button>
   </div>
   <div class="tw"><span class="tl">Tempo</span><input type="range" id="tA" min="-8" max="8" value="0" step="0.1" oninput="tempo('A',this.value)"><span class="tv" id="tvA">0%</span></div>
@@ -201,6 +209,12 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
     <button class="btn bsm" id="cB" onclick="cue('B')">CUE</button>
     <button class="btn bpl" id="pB" onclick="play('B')">▶</button>
     <button class="btn bsm" onclick="home('B')">⏮</button>
+    <button class="btn bsm pb-btn" id="pbLB"
+      onmousedown="pbStart('B',-1)" onmouseup="pbStop('B')" onmouseleave="pbStop('B')"
+      ontouchstart="event.preventDefault();pbStart('B',-1)" ontouchend="event.preventDefault();pbStop('B')">«</button>
+    <button class="btn bsm pb-btn" id="pbRB"
+      onmousedown="pbStart('B',1)" onmouseup="pbStop('B')" onmouseleave="pbStop('B')"
+      ontouchstart="event.preventDefault();pbStart('B',1)" ontouchend="event.preventDefault();pbStop('B')">»</button>
     <button class="btn bsm" id="syB" onclick="sync('B')">SYNC</button>
   </div>
   <div class="tw"><span class="tl">Tempo</span><input type="range" id="tB" min="-8" max="8" value="0" step="0.1" oninput="tempo('B',this.value)"><span class="tv" id="tvB">0%</span></div>
@@ -488,19 +502,69 @@ function home(k) {
   status('Deck ' + k + ' → начало трека');
 }
 
-// ── SYNC ─────────────────────────────────────────────────────
+// ── PITCHBEND ────────────────────────────────────────────────
+const pbState = { A:{active:false,dir:0}, B:{active:false,dir:0} };
+
+function pbStart(k, dir) {
+  const d = D[k], pb = pbState[k];
+  if (!d.buf || !d.playing) return;
+  pb.active = true; pb.dir = dir;
+  if (d.src) d.src.playbackRate.value = d.rate * (1 + dir * 0.04);
+  const btnId = dir < 0 ? 'pbL'+k : 'pbR'+k;
+  const btn = document.getElementById(btnId);
+  if (btn) btn.classList.add('active');
+}
+
+function pbStop(k) {
+  const d = D[k], pb = pbState[k];
+  if (!pb.active) return;
+  pb.active = false;
+  if (d.src) {
+    const start = d.src.playbackRate.value, target = d.rate;
+    let step = 0;
+    const t = setInterval(() => {
+      step++;
+      if (!d.src || step >= 15) { clearInterval(t); if(d.src) d.src.playbackRate.value = target; return; }
+      d.src.playbackRate.value = start + (target - start) * (step / 15);
+    }, 20);
+  }
+  ['pbL'+k,'pbR'+k].forEach(id => { const b=document.getElementById(id); if(b) b.classList.remove('active'); });
+}
+
+// ── SYNC WITH PHASE ALIGNMENT ────────────────────────────────
 function sync(k) {
   const o = k === 'A' ? 'B' : 'A';
   if (!D[o].bpm || !D[k].bpm) { status('SYNC: нужен BPM на обоих деках'); return; }
+
+  // Step 1: match BPM
   const targetBPM = D[o].bpm * D[o].rate;
   const nr = targetBPM / D[k].bpm;
   D[k].rate = nr; if (D[k].src) D[k].src.playbackRate.value = nr;
+
+  // Step 2: phase align — snap to nearest beat of the master deck
+  if (D[o].playing && D[o].bpm && D[k].buf) {
+    const beatLen = 60 / targetBPM;
+    const masterPos = D[o].playing && D[o].src && D[o].startAC > 0
+      ? AC.currentTime - D[o].startAC : D[o].pos;
+    const masterPhase = masterPos % beatLen;
+    const thisBeats = Math.floor(D[k].pos / beatLen);
+    const aligned = thisBeats * beatLen + masterPhase;
+    const finalPos = (aligned >= 0 && aligned < D[k].buf.duration) ? aligned : D[k].pos;
+    if (D[k].playing) {
+      if (D[k].src) { try { D[k].src.onended=null; D[k].src.stop(); } catch(e){} D[k].src=null; }
+      D[k].playing = false; D[k].pos = finalPos;
+      startFrom(k, finalPos);
+    } else {
+      D[k].pos = finalPos;
+    }
+  }
+
   const pct = (nr - 1) * 100;
   document.getElementById('t' + k).value = Math.max(-8, Math.min(8, pct));
   document.getElementById('tv' + k).textContent = (pct >= 0 ? '+' : '') + pct.toFixed(1) + '%';
   updBPM(k);
-  const btn = document.getElementById('sy' + k); btn.classList.add('hi'); setTimeout(() => btn.classList.remove('hi'), 700);
-  status('Deck ' + k + ' SYNC → ' + Math.round(targetBPM) + ' BPM');
+  const btn = document.getElementById('sy'+k); btn.classList.add('hi'); setTimeout(()=>btn.classList.remove('hi'),700);
+  status('Deck '+k+' SYNC → '+Math.round(targetBPM)+' BPM + фаза выровнена');
 }
 
 // ── TEMPO ────────────────────────────────────────────────────
@@ -674,16 +738,53 @@ document.getElementById('mv').addEventListener('input', function() {
 // ── JOG SCRATCH ──────────────────────────────────────────────
 ['A','B'].forEach(k => {
   const jog = document.getElementById('j' + k);
-  let la = null, st2 = null;
-  const ang = (e, el) => { const r=el.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,t=e.touches?e.touches[0]:e; return Math.atan2(t.clientY-cy,t.clientX-cx)*180/Math.PI; };
-  jog.addEventListener('touchstart', e => { e.preventDefault(); la=ang(e,jog); }, {passive:false});
-  jog.addEventListener('touchmove',  e => {
-    e.preventDefault(); const a=ang(e,jog);
-    if (la !== null) { let df=a-la; if(df>180)df-=360; if(df<-180)df+=360; const d=D[k]; if(d.src&&d.playing){d.src.playbackRate.value=Math.max(0,d.rate+df*0.06); clearTimeout(st2); st2=setTimeout(()=>{if(d.src)d.src.playbackRate.value=d.rate;},180);} }
+  let la = null, st2 = null, mouseDown = false;
+
+  const ang = (e, el) => {
+    const r=el.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2;
+    const t = e.touches ? e.touches[0] : e;
+    return Math.atan2(t.clientY-cy, t.clientX-cx) * 180/Math.PI;
+  };
+
+  const onMove = (e, a) => {
+    if (la !== null) {
+      let df = a - la;
+      if (df > 180) df -= 360;
+      if (df < -180) df += 360;
+      const d = D[k];
+      if (d.src && d.playing) {
+        d.src.playbackRate.value = Math.max(0, d.rate + df * 0.06);
+        clearTimeout(st2);
+        st2 = setTimeout(() => { if(d.src) d.src.playbackRate.value = d.rate; }, 180);
+      }
+    }
     la = a;
-  }, {passive:false});
-  jog.addEventListener('touchend', () => { la=null; });
-  jog.addEventListener('click', () => play(k));
+  };
+
+  // TOUCH
+  jog.addEventListener('touchstart', e => { e.preventDefault(); la=ang(e,jog); }, {passive:false});
+  jog.addEventListener('touchmove',  e => { e.preventDefault(); onMove(e, ang(e,jog)); }, {passive:false});
+  jog.addEventListener('touchend',   () => { la=null; });
+
+  // MOUSE — capture so we keep tracking even outside element
+  jog.addEventListener('mousedown', e => {
+    e.preventDefault();
+    mouseDown = true;
+    la = ang(e, jog);
+    jog.style.cursor = 'grabbing';
+    const onMM = e => { if (!mouseDown) return; onMove(e, ang(e, jog)); };
+    const onMU = () => {
+      mouseDown = false; la = null;
+      jog.style.cursor = 'grab';
+      document.removeEventListener('mousemove', onMM);
+      document.removeEventListener('mouseup', onMU);
+    };
+    document.addEventListener('mousemove', onMM);
+    document.addEventListener('mouseup', onMU);
+  });
+
+  // Click = play/pause only if not dragged
+  jog.addEventListener('click', () => { if (!mouseDown) play(k); });
 });
 
 // ── DRAG & DROP ──────────────────────────────────────────────
