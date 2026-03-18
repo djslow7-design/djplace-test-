@@ -153,7 +153,13 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 <!-- DECK A -->
 <div class="dk da" id="dkA">
   <div class="dh"><span class="did">DECK A</span><span class="bpmt" id="bA" onclick="bPop('A')">— BPM</span></div>
-  <div class="lz" id="lzA"><input type="file" accept="audio/*" id="fA" onchange="load('A',this)"><div id="lA"><div style="font-size:16px;opacity:.45;margin-bottom:3px;">♪</div><div class="lt">Нажми или перетащи MP3/WAV</div></div></div>
+  <div class="lz" id="lzA">
+    <input type="file" accept="audio/*" id="fA" onchange="load('A',this)">
+    <div id="lA">
+      <div style="font-size:11px;opacity:.5;margin-bottom:2px;">DECK A</div>
+      <div class="lt" id="tnA">⟳ Загрузка трека...</div>
+    </div>
+  </div>
   <div class="wf" id="wA"><div class="lt" style="font-size:10px;">загрузи трек</div></div>
   <div class="jw"><div class="jog" id="jA"><div class="jr"></div><div class="jg"></div><div class="jg2"></div><div class="jcr"></div><div class="jdot"></div><div class="jmk" id="mA"></div></div></div>
   <div class="tp">
@@ -202,7 +208,13 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;heigh
 <!-- DECK B -->
 <div class="dk db" id="dkB">
   <div class="dh"><span class="did">DECK B</span><span class="bpmt" id="bB" onclick="bPop('B')">— BPM</span></div>
-  <div class="lz" id="lzB"><input type="file" accept="audio/*" id="fB" onchange="load('B',this)"><div id="lB"><div style="font-size:16px;opacity:.45;margin-bottom:3px;">♪</div><div class="lt">Нажми или перетащи MP3/WAV</div></div></div>
+  <div class="lz" id="lzB">
+    <input type="file" accept="audio/*" id="fB" onchange="load('B',this)">
+    <div id="lB">
+      <div style="font-size:11px;opacity:.5;margin-bottom:2px;">DECK B</div>
+      <div class="lt" id="tnB">⟳ Загрузка трека...</div>
+    </div>
+  </div>
   <div class="wf" id="wB"><div class="lt" style="font-size:10px;">загрузи трек</div></div>
   <div class="jw"><div class="jog" id="jB"><div class="jr"></div><div class="jg"></div><div class="jg2"></div><div class="jcr"></div><div class="jdot"></div><div class="jmk" id="mB"></div></div></div>
   <div class="tp">
@@ -307,7 +319,7 @@ function load(k, inp) {
   const file = inp.files[0]; if (!file) return;
   resume();
   const ll = document.getElementById('l' + k);
-  ll.innerHTML = '<div style="font-size:13px;opacity:.5;">⟳</div><div class="lt">Загрузка...</div>';
+  ll.innerHTML = '<div style="font-size:11px;opacity:.5;margin-bottom:2px;">DECK '+k+'</div><div class="lt">⟳ Загрузка...</div>';
   const reader = new FileReader();
   reader.onload = e => {
     AC.decodeAudioData(e.target.result, buf => {
@@ -315,13 +327,41 @@ function load(k, inp) {
       if (d.playing) { killSrc(k); cancelAnimationFrame(d.raf); d.playing = false; }
       d.buf = buf; d.pos = 0; d.cuePos = 0;
       d.bpm = guessBPM(buf); updBPM(k);
-      ll.innerHTML = '<div class="tn">▶ ' + file.name.replace(/\.[^.]+$/, '').slice(0, 24) + '</div>';
+      const name = file.name.replace(/\.[^.]+$/, '').slice(0, 24);
+      ll.innerHTML = '<div class="tn">▶ ' + name + '</div>';
+      const tn = document.getElementById('tn' + k);
+      if (tn) tn.textContent = name;
       drawWF(k, buf);
       setPBtn(k, false);
-      status('Deck ' + k + ' готов');
+      status('Deck ' + k + ' готов: ' + name);
     }, () => { ll.innerHTML = '<div class="lt" style="color:#f55">Ошибка декодирования</div>'; });
   };
   reader.readAsArrayBuffer(file);
+}
+
+// Auto-load tracks from URL (files must be in same folder as index.html)
+function autoLoad(k, url, displayName) {
+  const ll = document.getElementById('l' + k);
+  if (ll) ll.innerHTML = '<div style="font-size:11px;opacity:.5;margin-bottom:2px;">DECK '+k+'</div><div class="lt">⟳ Загрузка...</div>';
+  fetch(url)
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); })
+    .then(buf => AC.decodeAudioData(buf))
+    .then(buf => {
+      const d = D[k];
+      d.buf = buf; d.pos = 0; d.cuePos = 0;
+      d.bpm = guessBPM(buf); updBPM(k);
+      if (ll) ll.innerHTML = '<div class="tn">▶ ' + displayName + '</div>';
+      const tn = document.getElementById('tn' + k);
+      if (tn) tn.textContent = displayName;
+      drawWF(k, buf);
+      setPBtn(k, false);
+      status('Deck ' + k + ' готов: ' + displayName);
+    })
+    .catch(() => {
+      // Fallback: show manual load option if file not found
+      if (ll) ll.innerHTML = '<div style="font-size:11px;opacity:.5;margin-bottom:2px;">DECK '+k+'</div><div class="lt">♪ Нажми чтобы загрузить трек</div>';
+      status('Deck ' + k + ': нажми на зону чтобы загрузить трек');
+    });
 }
 
 // ── BPM ESTIMATE ─────────────────────────────────────────────
@@ -735,56 +775,21 @@ document.getElementById('mv').addEventListener('input', function() {
   requestAnimationFrame(vu);
 })();
 
-// ── JOG SCRATCH ──────────────────────────────────────────────
+// ── JOG — click only (no scratch) ───────────────────────────
 ['A','B'].forEach(k => {
   const jog = document.getElementById('j' + k);
-  let la = null, st2 = null, mouseDown = false;
+  jog.addEventListener('click', () => play(k));
+  jog.style.cursor = 'pointer';
+});
 
-  const ang = (e, el) => {
-    const r=el.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2;
-    const t = e.touches ? e.touches[0] : e;
-    return Math.atan2(t.clientY-cy, t.clientX-cx) * 180/Math.PI;
-  };
-
-  const onMove = (e, a) => {
-    if (la !== null) {
-      let df = a - la;
-      if (df > 180) df -= 360;
-      if (df < -180) df += 360;
-      const d = D[k];
-      if (d.src && d.playing) {
-        d.src.playbackRate.value = Math.max(0, d.rate + df * 0.06);
-        clearTimeout(st2);
-        st2 = setTimeout(() => { if(d.src) d.src.playbackRate.value = d.rate; }, 180);
-      }
-    }
-    la = a;
-  };
-
-  // TOUCH
-  jog.addEventListener('touchstart', e => { e.preventDefault(); la=ang(e,jog); }, {passive:false});
-  jog.addEventListener('touchmove',  e => { e.preventDefault(); onMove(e, ang(e,jog)); }, {passive:false});
-  jog.addEventListener('touchend',   () => { la=null; });
-
-  // MOUSE — capture so we keep tracking even outside element
-  jog.addEventListener('mousedown', e => {
-    e.preventDefault();
-    mouseDown = true;
-    la = ang(e, jog);
-    jog.style.cursor = 'grabbing';
-    const onMM = e => { if (!mouseDown) return; onMove(e, ang(e, jog)); };
-    const onMU = () => {
-      mouseDown = false; la = null;
-      jog.style.cursor = 'grab';
-      document.removeEventListener('mousemove', onMM);
-      document.removeEventListener('mouseup', onMU);
-    };
-    document.addEventListener('mousemove', onMM);
-    document.addEventListener('mouseup', onMU);
-  });
-
-  // Click = play/pause only if not dragged
-  jog.addEventListener('click', () => { if (!mouseDown) play(k); });
+// ── AUTO-LOAD TRACKS ON PAGE START ───────────────────────────
+// Tracks must be in the same folder as index.html
+// Named track1.mp3 and track2.mp3
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    autoLoad('A', 'track1.mp3', 'Track 1');
+    autoLoad('B', 'track2.mp3', 'Track 2');
+  }, 300);
 });
 
 // ── DRAG & DROP ──────────────────────────────────────────────
