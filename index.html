@@ -276,5 +276,245 @@ function scratch(){
 cv.addEventListener('click',scratch);
 cv.addEventListener('touchend',function(e){e.preventDefault();scratch();},{passive:false});
 </script>
+
+
+<!-- ══ СЕКЦИЯ ПУЛЬТ ══ -->
+<div style="background:#050010;border-top:1px solid rgba(155,0,255,.12);padding:40px 20px;">
+
+  <!-- Заголовок -->
+  <span style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#FF0080;margin-bottom:8px;display:block;">▶ бесплатно · прямо здесь</span>
+  <h2 style="font-family:Arial Black,sans-serif;font-weight:900;font-size:min(7vw,28px);letter-spacing:1px;color:#f0e8ff;margin-bottom:8px;">Попробуй <span style="background:linear-gradient(90deg,#9B00FF,#FF0080);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">диджеинг</span></h2>
+  <p style="font-size:12px;color:rgba(240,232,255,.4);line-height:1.65;margin-bottom:24px;">Твои первые 60 секунд за пультом. Загрузи свой трек или используй наш.</p>
+
+  <!-- ПУЛЬТ -->
+  <div style="background:#07000f;border:1px solid rgba(155,0,255,.2);border-radius:16px;padding:16px;margin-bottom:20px;">
+
+    <!-- DECK A -->
+    <div style="margin-bottom:12px;">
+      <div style="font-size:8px;font-weight:700;letter-spacing:2px;color:#9B00FF;margin-bottom:8px;">DECK A</div>
+      <div id="wfA" style="height:28px;background:rgba(155,0,255,.05);border-radius:6px;margin-bottom:8px;position:relative;overflow:hidden;">
+        <canvas id="wfCanvA" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">
+        <button onclick="goHome('A')" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(155,0,255,.25);background:rgba(155,0,255,.08);color:rgba(240,232,255,.5);font-size:10px;cursor:pointer;">⏮</button>
+        <button onclick="tapCue('A')" id="cueA" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(155,0,255,.25);background:rgba(155,0,255,.08);color:rgba(240,232,255,.5);font-size:8px;font-weight:700;cursor:pointer;">CUE</button>
+        <button onclick="tPlay('A')" id="playA" style="width:44px;height:44px;border-radius:50%;border:none;background:#9B00FF;color:#fff;font-size:16px;cursor:pointer;">▶</button>
+        <button onmousedown="pbStart('A',-1)" onmouseup="pbStop('A')" ontouchstart="event.preventDefault();pbStart('A',-1)" ontouchend="event.preventDefault();pbStop('A')" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(155,0,255,.25);background:rgba(155,0,255,.08);color:rgba(240,232,255,.5);font-size:12px;cursor:pointer;">«</button>
+        <button onmousedown="pbStart('A',1)" onmouseup="pbStop('A')" ontouchstart="event.preventDefault();pbStart('A',1)" ontouchend="event.preventDefault();pbStop('A')" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(155,0,255,.25);background:rgba(155,0,255,.08);color:rgba(240,232,255,.5);font-size:12px;cursor:pointer;">»</button>
+        <button onclick="syncD('A')" style="flex:1;height:32px;border-radius:16px;border:1px solid rgba(155,0,255,.35);background:rgba(155,0,255,.08);color:#9B00FF;font-size:10px;font-weight:700;cursor:pointer;">SYNC</button>
+      </div>
+      <div id="tnA" style="font-size:10px;color:rgba(240,232,255,.35);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Загрузка...</div>
+      <label style="display:block;width:100%;padding:8px;background:rgba(155,0,255,.06);border:1px dashed rgba(155,0,255,.3);border-radius:8px;font-size:10px;color:rgba(155,0,255,.7);text-align:center;cursor:pointer;">
+        + Загрузить трек A
+        <input type="file" accept="audio/*" onchange="loadFile('A',this)" style="display:none;">
+      </label>
+    </div>
+
+    <!-- CROSSFADER -->
+    <div style="padding:12px 0;border-top:1px solid rgba(155,0,255,.1);border-bottom:1px solid rgba(155,0,255,.1);margin-bottom:12px;">
+      <div style="font-size:8px;color:rgba(240,232,255,.3);letter-spacing:1px;text-align:center;margin-bottom:6px;">CROSSFADER</div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:9px;font-weight:700;color:#9B00FF;">A</span>
+        <input type="range" id="xf" min="0" max="100" value="50" oninput="xfMove(this.value)" style="flex:1;height:6px;cursor:pointer;accent-color:#9B00FF;">
+        <span style="font-size:9px;font-weight:700;color:#FF0080;">B</span>
+      </div>
+    </div>
+
+    <!-- DECK B -->
+    <div>
+      <div style="font-size:8px;font-weight:700;letter-spacing:2px;color:#FF0080;margin-bottom:8px;">DECK B</div>
+      <div id="wfB" style="height:28px;background:rgba(255,0,128,.05);border-radius:6px;margin-bottom:8px;position:relative;overflow:hidden;">
+        <canvas id="wfCanvB" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">
+        <button onclick="goHome('B')" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,0,128,.25);background:rgba(255,0,128,.08);color:rgba(240,232,255,.5);font-size:10px;cursor:pointer;">⏮</button>
+        <button onclick="tapCue('B')" id="cueB" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,0,128,.25);background:rgba(255,0,128,.08);color:rgba(240,232,255,.5);font-size:8px;font-weight:700;cursor:pointer;">CUE</button>
+        <button onclick="tPlay('B')" id="playB" style="width:44px;height:44px;border-radius:50%;border:none;background:#FF0080;color:#fff;font-size:16px;cursor:pointer;">▶</button>
+        <button onmousedown="pbStart('B',-1)" onmouseup="pbStop('B')" ontouchstart="event.preventDefault();pbStart('B',-1)" ontouchend="event.preventDefault();pbStop('B')" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,0,128,.25);background:rgba(255,0,128,.08);color:rgba(240,232,255,.5);font-size:12px;cursor:pointer;">«</button>
+        <button onmousedown="pbStart('B',1)" onmouseup="pbStop('B')" ontouchstart="event.preventDefault();pbStart('B',1)" ontouchend="event.preventDefault();pbStop('B')" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,0,128,.25);background:rgba(255,0,128,.08);color:rgba(240,232,255,.5);font-size:12px;cursor:pointer;">»</button>
+        <button onclick="syncD('B')" style="flex:1;height:32px;border-radius:16px;border:1px solid rgba(255,0,128,.35);background:rgba(255,0,128,.08);color:#FF0080;font-size:10px;font-weight:700;cursor:pointer;">SYNC</button>
+      </div>
+      <div id="tnB" style="font-size:10px;color:rgba(240,232,255,.35);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Загрузка...</div>
+      <label style="display:block;width:100%;padding:8px;background:rgba(255,0,128,.06);border:1px dashed rgba(255,0,128,.3);border-radius:8px;font-size:10px;color:rgba(255,0,128,.7);text-align:center;cursor:pointer;">
+        + Загрузить трек B
+        <input type="file" accept="audio/*" onchange="loadFile('B',this)" style="display:none;">
+      </label>
+    </div>
+  </div>
+
+  <!-- ИНСТРУКЦИЯ -->
+  <button onclick="document.getElementById('inst').style.display=document.getElementById('inst').style.display==='none'?'block':'none'" style="width:100%;padding:12px;background:transparent;color:rgba(240,232,255,.5);border:1px solid rgba(155,0,255,.25);border-radius:40px;font-size:13px;cursor:pointer;margin-bottom:8px;">
+    📖 Как пользоваться пультом?
+  </button>
+  <div id="inst" style="display:none;background:#0d0020;border:1px solid rgba(155,0,255,.2);border-radius:14px;padding:16px;">
+    <div style="font-family:Arial Black,sans-serif;font-size:1rem;letter-spacing:1px;margin-bottom:12px;">Сделай первый микс 🎧</div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;gap:10px;"><div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#9B00FF,#FF0080);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">1</div><div><b style="display:block;font-size:12px;margin-bottom:2px;">Нажми Play на Deck A</b><span style="font-size:11px;color:rgba(240,232,255,.45);">Трек загружен — просто запусти</span></div></div>
+      <div style="display:flex;gap:10px;"><div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#9B00FF,#FF0080);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">2</div><div><b style="display:block;font-size:12px;margin-bottom:2px;">Нажми Play на Deck B</b><span style="font-size:11px;color:rgba(240,232,255,.45);">Запусти второй трек</span></div></div>
+      <div style="display:flex;gap:10px;"><div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#9B00FF,#FF0080);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">3</div><div><b style="display:block;font-size:12px;margin-bottom:2px;">Нажми SYNC на Deck B</b><span style="font-size:11px;color:rgba(240,232,255,.45);">Темп выровняется автоматически</span></div></div>
+      <div style="display:flex;gap:10px;"><div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#9B00FF,#FF0080);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">4</div><div><b style="display:block;font-size:12px;margin-bottom:2px;">Потяни кроссфейдер</b><span style="font-size:11px;color:rgba(240,232,255,.45);">Влево — Deck A, вправо — Deck B</span></div></div>
+    </div>
+  </div>
+</div>
+<script>
+// ══ AUDIO ENGINE ══
+var AC = null;
+function getAC() {
+  if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
+  if (AC.state === 'suspended') AC.resume();
+  return AC;
+}
+
+var masterGain, D = {};
+
+function initAudio() {
+  var ac = getAC();
+  masterGain = ac.createGain(); masterGain.gain.value = 0.85; masterGain.connect(ac.destination);
+  ['A','B'].forEach(function(k) {
+    var cg = ac.createGain(); cg.gain.value = 1; cg.connect(masterGain);
+    D[k] = {buf:null,src:null,playing:false,pos:0,rate:1,cuePos:0,bpm:null,cg:cg};
+  });
+}
+
+function warmAC() { getAC(); if (!masterGain) initAudio(); }
+document.addEventListener('click', warmAC, {once:true});
+document.addEventListener('touchstart', warmAC, {once:true});
+
+function loadFile(k, inp) {
+  warmAC();
+  var file = inp.files[0]; if (!file) return;
+  setName(k, '⟳ ' + file.name.slice(0,22));
+  var r = new FileReader();
+  r.onload = function(e) {
+    AC.decodeAudioData(e.target.result, function(buf) {
+      var d = D[k];
+      if (d.playing) { killSrc(k); d.playing = false; }
+      d.buf = buf; d.pos = 0; d.cuePos = 0;
+      d.bpm = guessBPM(buf);
+      setName(k, file.name.replace(/\.[^.]+$/,'').slice(0,24));
+      drawWF(k, buf);
+      setPlay(k, false);
+    });
+  };
+  r.readAsArrayBuffer(file);
+}
+
+function autoLoad(k, url, name) {
+  warmAC();
+  setName(k, '⟳ загрузка...');
+  fetch(url).then(function(r){return r.arrayBuffer();}).then(function(buf){
+    return AC.decodeAudioData(buf);
+  }).then(function(buf){
+    var d = D[k];
+    d.buf = buf; d.pos = 0; d.cuePos = 0;
+    d.bpm = guessBPM(buf);
+    setName(k, name);
+    drawWF(k, buf);
+    setPlay(k, false);
+  }).catch(function(){ setName(k, 'Загрузи трек ↑'); });
+}
+
+function setName(k, n) {
+  var el = document.getElementById('tn'+k); if(el) el.textContent = n;
+}
+
+function guessBPM(buf) {
+  try {
+    var ch=buf.getChannelData(0),sr=buf.sampleRate,step=Math.floor(sr*.01),rms=[];
+    for(var i=0;i<ch.length-step;i+=step){var s=0;for(var j=0;j<step;j++)s+=ch[i+j]*ch[i+j];rms.push(Math.sqrt(s/step));}
+    var thr=rms.reduce(function(a,b){return a+b;},0)/rms.length*1.3,beats=[],last=-100;
+    for(var i=1;i<rms.length;i++)if(rms[i]>thr&&rms[i]>rms[i-1]&&i-last>30){beats.push(i*step/sr);last=i;}
+    if(beats.length<8)return null;
+    var ints=beats.slice(1,40).map(function(b,i){return b-beats[i];});
+    var bpm=Math.round(60/(ints.reduce(function(a,b){return a+b;},0)/ints.length));
+    while(bpm<80)bpm*=2; while(bpm>200)bpm/=2; return bpm;
+  } catch(e){return null;}
+}
+
+function drawWF(k, buf) {
+  var canv = document.getElementById('wfCanv'+k); if(!canv) return;
+  var wrap = document.getElementById('wf'+k);
+  canv.width = wrap.offsetWidth || 300; canv.height = 28;
+  var ctx = canv.getContext('2d');
+  var ch = buf.getChannelData(0), bars = 60, step = Math.floor(ch.length/bars);
+  var col = k==='A' ? 'rgba(155,0,255,0.6)' : 'rgba(255,0,128,0.6)';
+  ctx.fillStyle = col;
+  for(var i=0;i<bars;i++){
+    var mx=0; for(var j=0;j<step;j++) mx=Math.max(mx,Math.abs(ch[i*step+j]||0));
+    var bh=Math.max(2,mx*24); ctx.fillRect(i*(canv.width/bars)+0.5,(28-bh)/2,Math.max(1,(canv.width/bars)-1),bh);
+  }
+}
+
+function killSrc(k) {
+  var d=D[k]; if(d.src){try{d.src.onended=null;d.src.stop();}catch(e){}d.src=null;}
+}
+
+function startFrom(k, offset) {
+  var d=D[k]; if(!d.buf)return;
+  killSrc(k); d.playing=true; d.pos=offset;
+  var ac=getAC();
+  var src=ac.createBufferSource(); src.buffer=d.buf; src.playbackRate.value=d.rate;
+  src.connect(d.cg); d.src=src; d.startAC=ac.currentTime-offset; src.start(0,offset);
+  src.onended=function(){if(d.playing){d.playing=false;d.pos=0;d.src=null;setPlay(k,false);}};
+  setPlay(k,true);
+}
+
+function tPlay(k) {
+  warmAC(); var d=D[k]; if(!d.buf){alert('Загрузи трек!');return;}
+  if(d.playing){
+    var p=d.src&&d.startAC?AC.currentTime-d.startAC:d.pos;
+    killSrc(k); d.playing=false; d.pos=Math.max(0,Math.min(p,d.buf.duration-.01)); setPlay(k,false);
+  } else { startFrom(k,d.pos); }
+}
+
+function tapCue(k) {
+  warmAC(); var d=D[k]; if(!d.buf)return;
+  if(!d.playing){ d.cuePos=d.pos; startFrom(k,d.cuePos); }
+  else{ killSrc(k); d.playing=false; d.pos=d.cuePos; setPlay(k,false); }
+}
+
+function goHome(k) {
+  var d=D[k]; killSrc(k); d.playing=false; d.pos=0; d.cuePos=0; setPlay(k,false);
+}
+
+function setPlay(k,on) {
+  var b=document.getElementById('play'+k); if(!b)return;
+  b.textContent=on?'⏸':'▶';
+  b.style.background=on?(k==='A'?'linear-gradient(135deg,#7700cc,#9B00FF)':'linear-gradient(135deg,#cc0066,#FF0080)'):(k==='A'?'#9B00FF':'#FF0080');
+}
+
+var pbTimers = {};
+function pbStart(k,dir) {
+  var d=D[k]; if(!d.buf||!d.playing)return;
+  if(d.src) d.src.playbackRate.value=d.rate*(1+dir*0.04);
+}
+function pbStop(k) {
+  var d=D[k]; if(d.src) d.src.playbackRate.value=d.rate;
+}
+
+function syncD(k) {
+  var o=k==='A'?'B':'A';
+  if(!D[o].bpm||!D[k].bpm)return;
+  var tBPM=D[o].bpm*D[o].rate;
+  D[k].rate=tBPM/D[k].bpm;
+  if(D[k].src) D[k].src.playbackRate.value=D[k].rate;
+}
+
+function xfMove(v) {
+  if(!masterGain)return;
+  var p=v/100;
+  if(D.A&&D.A.cg) D.A.cg.gain.value=Math.cos(p*Math.PI/2);
+  if(D.B&&D.B.cg) D.B.cg.gain.value=Math.sin(p*Math.PI/2);
+}
+
+// Автозагрузка треков
+window.addEventListener('load', function(){
+  setTimeout(function(){
+    autoLoad('A','track1.mp3','Track 1');
+    autoLoad('B','track2.mp3','Track 2');
+  }, 600);
+});
+</script>
+
 </body>
 </html>
