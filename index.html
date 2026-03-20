@@ -149,28 +149,28 @@ body{background:#07000f;color:#f0e8ff;font-family:Arial,sans-serif;overflow-x:hi
       <div class="mc-img" style="background-image:url('WZDQ.jpg')"></div>
       <div class="mc-grad"></div>
       <div class="mc-arrow">↗</div>
-      <div class="mc-name"><h3>WZDQ</h3><div class="mc-badge">🏆 Чемпион России</div></div>
+      <div class="mc-name"><h3>WZDQ</h3></div>
     </div>
     <div class="mc" data-i="1">
       <div class="mc-ph">🎵</div>
       <div class="mc-img" style="background-image:url('Sunshine.png')"></div>
       <div class="mc-grad"></div>
       <div class="mc-arrow">↗</div>
-      <div class="mc-name"><h3>SUNSHINE</h3><div class="mc-badge">🎤 Soda Luv</div></div>
+      <div class="mc-name"><h3>SUNSHINE</h3></div>
     </div>
     <div class="mc" data-i="2">
       <div class="mc-ph">🎚️</div>
       <div class="mc-img" style="background-image:url('PACIFISTIC.jpg')"></div>
       <div class="mc-grad"></div>
       <div class="mc-arrow">↗</div>
-      <div class="mc-name"><h3>PACIFISTIC</h3><div class="mc-badge">📻 BBC Radio 1</div></div>
+      <div class="mc-name"><h3>PACIFISTIC</h3></div>
     </div>
     <div class="mc" data-i="3">
       <div class="mc-ph">🎶</div>
       <div class="mc-img" style="background-image:url('SMOOTHIES.JPG')"></div>
       <div class="mc-grad"></div>
       <div class="mc-arrow">↗</div>
-      <div class="mc-name"><h3>SMOOTHIES</h3><div class="mc-badge">🎛️ 5 лет на сцене</div></div>
+      <div class="mc-name"><h3>SMOOTHIES</h3></div>
     </div>
   </div>
 </div>
@@ -183,7 +183,7 @@ body{background:#07000f;color:#f0e8ff;font-family:Arial,sans-serif;overflow-x:hi
     <div class="ov-fact" id="ovFact"></div>
     <div class="ov-line"></div>
     <div class="ov-desc" id="ovDesc"></div>
-    <div class="ov-tags" id="ovTags"></div>
+    <div class="ov-tags" id="ovTags" style="display:none"></div>
     <button class="ov-enroll" onclick="alert('Форма записи!')">Записаться на пробное</button>
     <button class="ov-back" onclick="closeMentor()">← Назад к наставникам</button>
   </div>
@@ -203,7 +203,7 @@ function openMentor(i) {
   document.getElementById('ovName').textContent = m.name;
   document.getElementById('ovFact').innerHTML = m.fact;
   document.getElementById('ovDesc').textContent = m.desc;
-  document.getElementById('ovTags').innerHTML = m.tags.map(function(t){return '<span class="ov-tag">'+t+'</span>';}).join('');
+  document.getElementById('ovTags').innerHTML = '';
   document.getElementById('ov').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
