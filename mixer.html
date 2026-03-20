@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>DJ Place — Пульт</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{--p:#9B00FF;--pk:#FF0080;}
+html,body{background:#07000f;color:#f0e8ff;font-family:Arial,sans-serif;overflow-x:hidden;}
+
+/* ── PORTRAIT — кнопка открыть ── */
+.portrait-view{display:flex;flex-direction:column;padding:32px 20px;text-align:center;}
+.p-tag{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--pk);margin-bottom:8px;}
+.p-h2{font-family:Arial Black,sans-serif;font-size:24px;font-weight:900;color:#fff;margin-bottom:6px;}
+.p-h2 span{background:linear-gradient(90deg,var(--p),var(--pk));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.p-sub{font-size:13px;color:rgba(240,232,255,.4);line-height:1.6;margin-bottom:28px;}
+
+.preview-wrap{position:relative;border-radius:16px;overflow:hidden;margin-bottom:20px;border:1px solid rgba(155,0,255,.15);}
+.preview-blur{background:#050010;padding:20px 16px;filter:blur(2px);opacity:.45;display:flex;gap:12px;align-items:center;justify-content:center;}
+.pb-jog{width:70px;height:70px;border-radius:50%;background:#0c0c18;border:1.5px solid rgba(155,0,255,.3);}
+.pb-center{width:48px;height:70px;background:#0a0018;border:1px solid rgba(155,0,255,.15);border-radius:10px;}
+.pb-jog2{width:70px;height:70px;border-radius:50%;background:#0c0c18;border:1.5px solid rgba(255,0,128,.3);}
+.preview-overlay{position:absolute;inset:0;background:rgba(7,0,15,.65);display:flex;align-items:center;justify-content:center;}
+.open-btn{background:linear-gradient(90deg,var(--p),var(--pk));color:#fff;border:none;padding:14px 32px;border-radius:50px;font-family:Arial Black,sans-serif;font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 6px 24px rgba(155,0,255,.4);}
+
+.rotate-hint{font-size:10px;color:rgba(155,0,255,.5);letter-spacing:1.5px;text-transform:uppercase;display:flex;align-items:center;justify-content:center;gap:8px;}
+.rotate-icon{font-size:18px;animation:rotHint 2s ease-in-out infinite;}
+@keyframes rotHint{0%,100%{transform:rotate(0deg)}50%{transform:rotate(-90deg)}}
+
+/* ── LANDSCAPE FULLSCREEN ── */
+.landscape-view{display:none;position:fixed;inset:0;background:#07000f;z-index:100;padding:8px 10px;}
+
+.mixer-grid{display:grid;grid-template-columns:1fr 100px 1fr;gap:8px;height:100%;align-items:stretch;}
+
+/* DECK */
+.deck{background:#0d001e;border-radius:14px;padding:10px;display:flex;flex-direction:column;gap:8px;}
+.deck-a{border:1px solid rgba(155,0,255,.25);}
+.deck-b{border:1px solid rgba(255,0,128,.25);}
+.dlabel{font-size:8px;font-weight:700;letter-spacing:2px;}
+.da .dlabel{color:var(--p);}
+.db .dlabel{color:var(--pk);}
+
+.deck-main{display:flex;gap:10px;align-items:center;flex:1;}
+
+/* JOG */
+.jog-wrap{position:relative;flex-shrink:0;}
+.jog-glow{position:absolute;inset:-8px;border-radius:50%;animation:gp 3s ease-in-out infinite;pointer-events:none;}
+.da .jog-glow{background:radial-gradient(circle,rgba(155,0,255,.2),transparent 70%);}
+.db .jog-glow{background:radial-gradient(circle,rgba(255,0,128,.2),transparent 70%);}
+@keyframes gp{0%,100%{opacity:.4;transform:scale(.97)}50%{opacity:.8;transform:scale(1.03)}}
+.jog-marker{position:absolute;top:4px;left:50%;transform:translateX(-50%);width:3px;height:11px;background:linear-gradient(180deg,#FF0080,#aa0040);border-radius:2px;z-index:3;box-shadow:0 0 6px rgba(255,0,128,.7);}
+
+/* DECK RIGHT */
+.deck-right{flex:1;display:flex;flex-direction:column;gap:6px;}
+.track-name{font-size:9px;color:rgba(240,232,255,.4);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.waveform{height:22px;border-radius:4px;display:flex;align-items:center;padding:0 4px;gap:1px;cursor:pointer;position:relative;overflow:hidden;}
+.da .waveform{background:rgba(155,0,255,.06);}
+.db .waveform{background:rgba(255,0,128,.06);}
+.wfbar{border-radius:1px;flex-shrink:0;}
+.da .wfbar{background:rgba(155,0,255,.55);}
+.db .wfbar{background:rgba(255,0,128,.55);}
+.wf-playhead{position:absolute;top:0;bottom:0;width:1px;background:rgba(255,255,255,.4);pointer-events:none;}
+
+.deck-btns{display:flex;gap:4px;align-items:center;}
+.dbtn{border-radius:50%;border:1px solid;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
+.da .dbtn{background:rgba(155,0,255,.08);border-color:rgba(155,0,255,.25);color:rgba(240,232,255,.45);}
+.db .dbtn{background:rgba(255,0,128,.08);border-color:rgba(255,0,128,.25);color:rgba(240,232,255,.45);}
+.dbtn-sm{width:26px;height:26px;font-size:9px;}
+.dbtn-play{width:36px;height:36px;font-size:13px;border:none;}
+.da .dbtn-play{background:var(--p);}
+.db .dbtn-play{background:var(--pk);}
+.dbtn-cue{font-size:7px;font-weight:700;}
+.dbtn-sync{flex:1;height:26px;border-radius:13px;font-size:8px;font-weight:700;letter-spacing:.5px;}
+.da .dbtn-sync{background:rgba(155,0,255,.08);border-color:rgba(155,0,255,.3);color:var(--p);}
+.db .dbtn-sync{background:rgba(255,0,128,.08);border-color:rgba(255,0,128,.3);color:var(--pk);}
+
+.pitch-row{display:flex;align-items:center;gap:6px;}
+.pitch-label{font-size:7px;color:rgba(240,232,255,.3);letter-spacing:1px;width:30px;}
+.pitch-val{font-size:9px;font-weight:700;width:34px;text-align:right;}
+.da .pitch-val{color:var(--p);}
+.db .pitch-val{color:var(--pk);}
+input[type=range].pitch{flex:1;height:4px;cursor:pointer;}
+.da input[type=range].pitch{accent-color:var(--p);}
+.db input[type=range].pitch{accent-color:var(--pk);}
+
+.load-btn{padding:5px 8px;border-radius:8px;font-size:9px;cursor:pointer;text-align:center;position:relative;overflow:hidden;}
+.da .load-btn{background:rgba(155,0,255,.07);border:1px dashed rgba(155,0,255,.3);color:rgba(155,0,255,.7);}
+.db .load-btn{background:rgba(255,0,128,.07);border:1px dashed rgba(255,0,128,.3);color:rgba(255,0,128,.7);}
+.load-btn input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;}
+
+/* ── ЦЕНТР МИКСЕР ── */
+.center{background:#060015;border:1px solid rgba(155,0,255,.18);border-radius:12px;padding:8px 6px;display:flex;flex-direction:column;gap:6px;justify-content:space-between;}
+
+.c-section{display:flex;flex-direction:column;gap:4px;}
+.c-label{font-size:6px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(240,232,255,.2);text-align:center;}
+
+/* Кнопки назначения канала */
+.ch-assign{display:grid;grid-template-columns:1fr 1fr;gap:3px;}
+.ch-btn{padding:4px 2px;border-radius:5px;font-size:7px;font-weight:700;letter-spacing:.5px;text-align:center;cursor:pointer;border:1px solid;transition:all .15s;}
+.ch-btn.a-off{background:rgba(155,0,255,.06);border-color:rgba(155,0,255,.2);color:rgba(155,0,255,.4);}
+.ch-btn.a-on{background:rgba(155,0,255,.25);border-color:rgba(155,0,255,.6);color:rgba(200,150,255,1);}
+.ch-btn.b-off{background:rgba(255,0,128,.06);border-color:rgba(255,0,128,.2);color:rgba(255,0,128,.4);}
+.ch-btn.b-on{background:rgba(255,0,128,.25);border-color:rgba(255,0,128,.6);color:rgba(255,150,180,1);}
+
+/* FX кнопки */
+.fx-btns{display:grid;grid-template-columns:1fr 1fr;gap:3px;}
+.fx-btn{padding:5px 2px;border-radius:5px;font-size:7px;text-align:center;cursor:pointer;border:1px solid rgba(155,0,255,.15);background:rgba(155,0,255,.05);color:rgba(240,232,255,.3);transition:all .15s;}
+.fx-btn.active{background:rgba(155,0,255,.2);border-color:rgba(155,0,255,.5);color:rgba(200,150,255,.9);}
+
+/* Ручки */
+.knob-row{display:flex;justify-content:space-around;align-items:center;}
+.knob-wrap{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.knob{width:28px;height:28px;border-radius:50%;background:#0d0020;border:1px solid rgba(155,0,255,.2);position:relative;cursor:pointer;}
+.knob-dot{position:absolute;width:3px;height:3px;background:var(--p);border-radius:50%;top:4px;left:50%;transform:translateX(-50%);}
+.knob-label{font-size:6px;color:rgba(240,232,255,.25);letter-spacing:.5px;}
+
+/* Фильтр */
+.filter-row{display:flex;flex-direction:column;gap:3px;}
+input[type=range].filter{width:100%;height:4px;cursor:pointer;accent-color:var(--p);}
+
+/* XFader */
+.xf-wrap{display:flex;flex-direction:column;gap:3px;}
+.xf-labels{display:flex;justify-content:space-between;}
+.xf-lab{font-size:8px;font-weight:700;}
+.xf-lab.a{color:var(--p);}
+.xf-lab.b{color:var(--pk);}
+input[type=range].xf{width:100%;height:6px;cursor:pointer;accent-color:var(--p);}
+</style>
+</head>
+<body>
+
+<!-- PORTRAIT VIEW -->
+<div class="portrait-view" id="portraitView">
+  <div class="p-tag">▶ попробуй диджеинг</div>
+  <h2 class="p-h2">Попробуй <span>диджеинг</span></h2>
+  <p class="p-sub">Загрузи свои треки и сведи их прямо сейчас. Переверни телефон для полного пульта.</p>
+
+  <div class="preview-wrap">
+    <div class="preview-blur">
+      <div class="pb-jog"></div>
+      <div class="pb-center"></div>
+      <div class="pb-jog2"></div>
+    </div>
+    <div class="preview-overlay">
+      <button class="open-btn" onclick="openMixer()">▶ Открыть пульт</button>
+    </div>
+  </div>
+
+  <div class="rotate-hint">
+    <span class="rotate-icon">📱</span>
+    <span>Переверни телефон для лучшего опыта</span>
+  </div>
+</div>
+
+<!-- LANDSCAPE FULLSCREEN MIXER -->
+<div class="landscape-view" id="landscapeView">
+  <div class="mixer-grid">
+
+    <!-- ══ DECK A ══ -->
+    <div class="deck deck-a da">
+      <div class="dlabel">DECK A</div>
+      <div class="deck-main">
+        <!-- JOG -->
+        <div class="jog-wrap">
+          <div class="jog-glow"></div>
+          <canvas id="jogA" width="110" height="110" style="border-radius:50%;display:block;position:relative;z-index:2;cursor:pointer;"></canvas>
+          <div class="jog-marker"></div>
+        </div>
+        <!-- RIGHT -->
+        <div class="deck-right">
+          <div class="track-name" id="tnA">Загрузи трек ↓</div>
+          <div class="waveform" id="wfA">
+            <canvas id="wfCanvA" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+            <div class="wf-playhead" id="phA" style="left:0%"></div>
+          </div>
+          <div class="deck-btns">
+            <div class="dbtn dbtn-sm" onclick="goHome('A')">⏮</div>
+            <div class="dbtn dbtn-sm dbtn-cue" onclick="tapCue('A')">CUE</div>
+            <div class="dbtn dbtn-play" id="playA" onclick="tPlay('A')">▶</div>
+            <div class="dbtn dbtn-sm" onmousedown="pbS('A',-1)" onmouseup="pbE('A')" ontouchstart="event.preventDefault();pbS('A',-1)" ontouchend="event.preventDefault();pbE('A')">«</div>
+            <div class="dbtn dbtn-sm" onmousedown="pbS('A',1)" onmouseup="pbE('A')" ontouchstart="event.preventDefault();pbS('A',1)" ontouchend="event.preventDefault();pbE('A')">»</div>
+            <div class="dbtn dbtn-sync" onclick="syncD('A')">SYNC</div>
+          </div>
+          <div class="pitch-row">
+            <span class="pitch-label">PITCH</span>
+            <input type="range" class="pitch" min="-8" max="8" value="0" step="0.1" oninput="setPitch('A',this.value)" id="pitchA">
+            <span class="pitch-val" id="pvA">0.0%</span>
+          </div>
+          <div class="load-btn">
+            + Загрузить трек A
+            <input type="file" accept="audio/*" onchange="loadFile('A',this)">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ ЦЕНТР МИКСЕР ══ -->
+    <div class="center">
+
+      <!-- EQ / FX Label -->
+      <div class="c-section">
+        <div class="c-label">назначить эффект</div>
+        <div class="ch-assign">
+          <div class="ch-btn a-off" id="fxToA" onclick="toggleFxTo('A')">A</div>
+          <div class="ch-btn b-off" id="fxToB" onclick="toggleFxTo('B')">B</div>
+        </div>
+      </div>
+
+      <!-- FX кнопки -->
+      <div class="c-section">
+        <div class="c-label">эффект</div>
+        <div class="fx-btns">
+          <div class="fx-btn" id="fxEcho" onclick="toggleFX('echo')">ECHO</div>
+          <div class="fx-btn" id="fxRev" onclick="toggleFX('reverb')">REV</div>
+          <div class="fx-btn" id="fxRoll" onclick="toggleFX('roll')">ROLL</div>
+          <div class="fx-btn" id="fxFlng" onclick="toggleFX('flanger')">FLNG</div>
+        </div>
+      </div>
+
+      <!-- ФИЛЬТР -->
+      <div class="c-section">
+        <div class="c-label">filter</div>
+        <div class="ch-assign" style="margin-bottom:3px;">
+          <div class="ch-btn a-off" id="filtToA" onclick="toggleFiltTo('A')">A</div>
+          <div class="ch-btn b-off" id="filtToB" onclick="toggleFiltTo('B')">B</div>
+        </div>
+        <div class="filter-row">
+          <input type="range" class="filter" min="0" max="100" value="50" id="filterKnob" oninput="setFilter(this.value)">
+          <div style="font-size:7px;color:rgba(240,232,255,.2);display:flex;justify-content:space-between;"><span>LPF</span><span>OFF</span><span>HPF</span></div>
+        </div>
+      </div>
+
+      <!-- EQ ручки -->
+      <div class="c-section">
+        <div class="c-label">gain</div>
+        <div class="knob-row">
+          <div class="knob-wrap">
+            <div class="knob" id="kHI" data-val="50" onclick="adjKnob('HI')"><div class="knob-dot" id="dHI"></div></div>
+            <div class="knob-label">HI</div>
+          </div>
+          <div class="knob-wrap">
+            <div class="knob" id="kMD" data-val="50" onclick="adjKnob('MD')"><div class="knob-dot" id="dMD"></div></div>
+            <div class="knob-label">MID</div>
+          </div>
+          <div class="knob-wrap">
+            <div class="knob" id="kLO" data-val="50" onclick="adjKnob('LO')"><div class="knob-dot" id="dLO"></div></div>
+            <div class="knob-label">LO</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CROSSFADER -->
+      <div class="c-section xf-wrap">
+        <div class="xf-labels">
+          <span class="xf-lab a">A</span>
+          <div class="c-label">crossfader</div>
+          <span class="xf-lab b">B</span>
+        </div>
+        <input type="range" class="xf" min="0" max="100" value="50" id="xf" oninput="xfMove(this.value)">
+      </div>
+
+    </div>
+
+    <!-- ══ DECK B ══ -->
+    <div class="deck deck-b db">
+      <div class="dlabel">DECK B</div>
+      <div class="deck-main">
+        <div class="jog-wrap">
+          <div class="jog-glow"></div>
+          <canvas id="jogB" width="110" height="110" style="border-radius:50%;display:block;position:relative;z-index:2;cursor:pointer;"></canvas>
+          <div class="jog-marker"></div>
+        </div>
+        <div class="deck-right">
+          <div class="track-name" id="tnB">Загрузи трек ↓</div>
+          <div class="waveform" id="wfB">
+            <canvas id="wfCanvB" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+            <div class="wf-playhead" id="phB" style="left:0%"></div>
+          </div>
+          <div class="deck-btns">
+            <div class="dbtn dbtn-sm" onclick="goHome('B')">⏮</div>
+            <div class="dbtn dbtn-sm dbtn-cue" onclick="tapCue('B')">CUE</div>
+            <div class="dbtn dbtn-play" id="playB" onclick="tPlay('B')">▶</div>
+            <div class="dbtn dbtn-sm" onmousedown="pbS('B',-1)" onmouseup="pbE('B')" ontouchstart="event.preventDefault();pbS('B',-1)" ontouchend="event.preventDefault();pbE('B')">«</div>
+            <div class="dbtn dbtn-sm" onmousedown="pbS('B',1)" onmouseup="pbE('B')" ontouchstart="event.preventDefault();pbS('B',1)" ontouchend="event.preventDefault();pbE('B')">»</div>
+            <div class="dbtn dbtn-sync" onclick="syncD('B')">SYNC</div>
+          </div>
+          <div class="pitch-row">
+            <span class="pitch-label">PITCH</span>
+            <input type="range" class="pitch" min="-8" max="8" value="0" step="0.1" oninput="setPitch('B',this.value)" id="pitchB">
+            <span class="pitch-val" id="pvB">0.0%</span>
+          </div>
+          <div class="load-btn">
+            + Загрузить трек B
+            <input type="file" accept="audio/*" onchange="loadFile('B',this)">
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ══ LAYOUT ══
+function checkOrientation(){
+  var ls = window.innerWidth > window.innerHeight;
+  document.getElementById('portraitView').style.display = ls ? 'none' : 'flex';
+  document.getElementById('landscapeView').style.display = ls ? 'flex' : 'none';
+  if(ls){ initJogs(); drawAllWF(); }
+}
+function openMixer(){
+  if(screen.orientation && screen.orientation.lock){
+    screen.orientation.lock('landscape').catch(function(){});
+  }
+  document.getElementById('portraitView').style.display='none';
+  document.getElementById('landscapeView').style.display='flex';
+  initJogs(); drawAllWF();
+}
+window.addEventListener('resize', checkOrientation);
+window.addEventListener('orientationchange', function(){ setTimeout(checkOrientation,200); });
+window.addEventListener('load', function(){ checkOrientation(); autoLoad(); });
+
+// ══ AUDIO ══
+var AC=null, masterGain, D={};
+function getAC(){
+  if(!AC) AC=new(window.AudioContext||window.webkitAudioContext)();
+  if(AC.state==='suspended') AC.resume();
+  return AC;
+}
+function initAudio(){
+  var ac=getAC();
+  masterGain=ac.createGain(); masterGain.gain.value=0.85; masterGain.connect(ac.destination);
+  ['A','B'].forEach(function(k){
+    var cg=ac.createGain(); cg.gain.value=1;
+    var filt=ac.createBiquadFilter(); filt.type='allpass'; filt.frequency.value=22000;
+    filt.connect(cg); cg.connect(masterGain);
+    D[k]={buf:null,src:null,playing:false,pos:0,rate:1,cuePos:0,bpm:null,cg:cg,filt:filt,startAC:0};
+  });
+}
+['click','touchstart'].forEach(function(ev){
+  document.addEventListener(ev,function(){getAC();if(!masterGain)initAudio();},{once:true,passive:true});
+});
+
+function loadFile(k,inp){
+  if(!masterGain)initAudio();
+  var f=inp.files[0]; if(!f)return;
+  setTN(k,'⟳ '+f.name.slice(0,22));
+  var r=new FileReader();
+  r.onload=function(e){
+    getAC().decodeAudioData(e.target.result,function(buf){
+      var d=D[k];
+      if(d.playing){killSrc(k);d.playing=false;}
+      d.buf=buf; d.pos=0; d.cuePos=0; d.bpm=guessBPM(buf);
+      setTN(k,f.name.replace(/\.[^.]+$/,'').slice(0,26));
+      drawWF(k,buf); setPlay(k,false);
+    });
+  };
+  r.readAsArrayBuffer(f);
+}
+
+function autoLoad(){
+  if(!masterGain)initAudio();
+  ['A','B'].forEach(function(k,i){
+    var url = i===0?'track1.mp3':'track2.mp3';
+    setTN(k,'⟳ загрузка...');
+    fetch(url).then(function(r){return r.arrayBuffer();})
+      .then(function(ab){return getAC().decodeAudioData(ab);})
+      .then(function(buf){
+        var d=D[k]; d.buf=buf; d.pos=0; d.cuePos=0; d.bpm=guessBPM(buf);
+        setTN(k,'Track '+(i+1));
+        drawWF(k,buf); setPlay(k,false);
+      }).catch(function(){ setTN(k,'Загрузи трек ↓'); });
+  });
+}
+
+function setTN(k,n){var el=document.getElementById('tn'+k);if(el)el.textContent=n;}
+
+function guessBPM(buf){
+  try{
+    var ch=buf.getChannelData(0),sr=buf.sampleRate,step=Math.floor(sr*.01),rms=[];
+    for(var i=0;i<ch.length-step;i+=step){var s=0;for(var j=0;j<step;j++)s+=ch[i+j]*ch[i+j];rms.push(Math.sqrt(s/step));}
+    var thr=rms.reduce(function(a,b){return a+b;})/rms.length*1.3,beats=[],last=-100;
+    for(var i=1;i<rms.length;i++)if(rms[i]>thr&&rms[i]>rms[i-1]&&i-last>30){beats.push(i*step/sr);last=i;}
+    if(beats.length<8)return null;
+    var ints=beats.slice(1,40).map(function(b,i){return b-beats[i];});
+    var bpm=Math.round(60/(ints.reduce(function(a,b){return a+b;})/ints.length));
+    while(bpm<80)bpm*=2; while(bpm>200)bpm/=2; return bpm;
+  }catch(e){return null;}
+}
+
+function drawWF(k,buf){
+  var canv=document.getElementById('wfCanv'+k); if(!canv)return;
+  var wrap=document.getElementById('wf'+k);
+  canv.width=wrap.offsetWidth||200; canv.height=wrap.offsetHeight||22;
+  var ctx=canv.getContext('2d');
+  var ch=buf.getChannelData(0),bars=80,step=Math.floor(ch.length/bars);
+  var col=k==='A'?'rgba(155,0,255,0.6)':'rgba(255,0,128,0.6)';
+  ctx.fillStyle=col;
+  for(var i=0;i<bars;i++){
+    var mx=0;for(var j=0;j<step;j++)mx=Math.max(mx,Math.abs(ch[i*step+j]||0));
+    var bh=Math.max(2,mx*(canv.height-2));
+    ctx.fillRect(i*(canv.width/bars)+.5,(canv.height-bh)/2,Math.max(1,(canv.width/bars)-1),bh);
+  }
+}
+function drawAllWF(){['A','B'].forEach(function(k){if(D[k]&&D[k].buf)drawWF(k,D[k].buf);});}
+
+function killSrc(k){var d=D[k];if(d.src){try{d.src.onended=null;d.src.stop();}catch(e){}d.src=null;}}
+
+function startFrom(k,offset){
+  var d=D[k];if(!d.buf)return;
+  killSrc(k); d.playing=true; d.pos=offset;
+  var ac=getAC(),src=ac.createBufferSource();
+  src.buffer=d.buf; src.playbackRate.value=d.rate;
+  src.connect(d.filt); d.src=src; d.startAC=ac.currentTime-offset;
+  src.start(0,Math.max(0,offset));
+  src.onended=function(){if(d.playing){d.playing=false;d.pos=0;d.src=null;setPlay(k,false);}};
+  setPlay(k,true);
+}
+
+function tPlay(k){
+  if(!masterGain)initAudio();
+  var d=D[k];if(!d.buf){alert('Загрузи трек!');return;}
+  if(d.playing){
+    var p=d.src?AC.currentTime-d.startAC:d.pos;
+    killSrc(k);d.playing=false;d.pos=Math.max(0,Math.min(p,d.buf.duration-.01));setPlay(k,false);
+  }else{startFrom(k,d.pos);}
+}
+
+function tapCue(k){
+  if(!masterGain)initAudio();
+  var d=D[k];if(!d.buf)return;
+  if(!d.playing){d.cuePos=d.pos;startFrom(k,d.cuePos);}
+  else{killSrc(k);d.playing=false;d.pos=d.cuePos;setPlay(k,false);}
+}
+
+function goHome(k){var d=D[k];killSrc(k);d.playing=false;d.pos=0;d.cuePos=0;setPlay(k,false);}
+
+function setPlay(k,on){
+  var b=document.getElementById('play'+k);if(!b)return;
+  b.innerHTML=on?'⏸':'▶';
+  b.style.background=on?(k==='A'?'#7700cc':'#cc0066'):(k==='A'?'var(--p)':'var(--pk)');
+}
+
+function setPitch(k,v){
+  document.getElementById('pv'+k).textContent=(v>0?'+':'')+parseFloat(v).toFixed(1)+'%';
+  D[k].rate=1+parseFloat(v)/100;
+  if(D[k].src) D[k].src.playbackRate.value=D[k].rate;
+}
+
+function pbS(k,dir){var d=D[k];if(d.src)d.src.playbackRate.value=d.rate*(1+dir*0.06);}
+function pbE(k){var d=D[k];if(d.src)d.src.playbackRate.value=d.rate;}
+
+function syncD(k){
+  var o=k==='A'?'B':'A';
+  if(!D[o].bpm||!D[k].bpm)return;
+  var tBPM=D[o].bpm*D[o].rate;
+  D[k].rate=tBPM/D[k].bpm;
+  if(D[k].src)D[k].src.playbackRate.value=D[k].rate;
+  var pct=(D[k].rate-1)*100;
+  document.getElementById('pitch'+k).value=pct.toFixed(1);
+  document.getElementById('pv'+k).textContent=(pct>0?'+':'')+pct.toFixed(1)+'%';
+}
+
+function xfMove(v){
+  if(!masterGain)return;
+  var p=v/100;
+  if(D.A&&D.A.cg)D.A.cg.gain.value=Math.cos(p*Math.PI/2);
+  if(D.B&&D.B.cg)D.B.cg.gain.value=Math.sin(p*Math.PI/2);
+}
+
+// ══ FX ASSIGN ══
+var fxTarget={A:false,B:false};
+var filtTarget={A:false,B:false};
+var activeFX=null;
+
+function toggleFxTo(k){
+  fxTarget[k]=!fxTarget[k];
+  var el=document.getElementById('fxTo'+k);
+  el.className='ch-btn '+(fxTarget[k]?(k==='A'?'a-on':'b-on'):(k==='A'?'a-off':'b-off'));
+  applyFX();
+}
+
+function toggleFiltTo(k){
+  filtTarget[k]=!filtTarget[k];
+  var el=document.getElementById('filtTo'+k);
+  el.className='ch-btn '+(filtTarget[k]?(k==='A'?'a-on':'b-on'):(k==='A'?'a-off':'b-off'));
+  setFilter(document.getElementById('filterKnob').value);
+}
+
+function toggleFX(name){
+  var btn=document.getElementById('fx'+name.charAt(0).toUpperCase()+name.slice(1));
+  if(!btn)return;
+  if(activeFX===name){activeFX=null;btn.classList.remove('active');}
+  else{
+    document.querySelectorAll('.fx-btn').forEach(function(b){b.classList.remove('active');});
+    activeFX=name; btn.classList.add('active');
+  }
+  applyFX();
+}
+
+function applyFX(){
+  if(!masterGain)return;
+  ['A','B'].forEach(function(k){
+    var d=D[k]; if(!d)return;
+    if(fxTarget[k]&&activeFX){
+      // Простая демонстрация через distortion
+      if(activeFX==='roll'){
+        d.cg.gain.value=0.5+0.5*Math.sin(Date.now()/100);
+      }
+    }
+  });
+}
+
+function setFilter(v){
+  if(!masterGain)return;
+  var val=parseFloat(v);
+  ['A','B'].forEach(function(k){
+    var d=D[k];if(!d||!filtTarget[k])return;
+    if(val<48){
+      d.filt.type='lowpass';
+      d.filt.frequency.value=200+val*80;
+    }else if(val>52){
+      d.filt.type='highpass';
+      d.filt.frequency.value=100+(val-52)*300;
+    }else{
+      d.filt.type='allpass';
+      d.filt.frequency.value=22000;
+    }
+  });
+}
+
+// ══ ДЖОГИ ══
+var jogsInited=false;
+function initJogs(){
+  if(jogsInited)return; jogsInited=true;
+  ['A','B'].forEach(function(k){drawJog(k,0);});
+  jogLoop();
+  // Скрэтч
+  ['A','B'].forEach(function(k){
+    var cv=document.getElementById('jog'+k);
+    if(!cv)return;
+    cv.addEventListener('click',function(){scratch(k);});
+    cv.addEventListener('touchend',function(e){e.preventDefault();scratch(k);},{passive:false});
+  });
+}
+
+var jogAngles={A:0,B:0}, jogSpeeds={A:0,B:0}, jogLast=null;
+function jogLoop(ts){
+  if(!jogLast)jogLast=ts||0;
+  var dt=Math.min((ts||0)-jogLast,50); jogLast=ts||0;
+  ['A','B'].forEach(function(k){
+    var targetSpd=D[k]&&D[k].playing?0.35:0.08;
+    jogSpeeds[k]+=(targetSpd-jogSpeeds[k])*.05;
+    jogAngles[k]=(jogAngles[k]+jogSpeeds[k]*(dt/16))%360;
+    drawJog(k,jogAngles[k]);
+    // Playhead
+    if(D[k]&&D[k].playing&&D[k].buf&&D[k].src){
+      var pos=AC?AC.currentTime-D[k].startAC:0;
+      var pct=Math.min(pos/D[k].buf.duration*100,100);
+      var ph=document.getElementById('ph'+k);
+      if(ph)ph.style.left=pct+'%';
+    }
+  });
+  requestAnimationFrame(jogLoop);
+}
+
+function drawJog(k,a){
+  var cv=document.getElementById('jog'+k); if(!cv)return;
+  var ctx=cv.getContext('2d');
+  var W=110,CX=55,CY=55,R=54;
+  ctx.clearRect(0,0,W,W);
+  var col=k==='A'?'rgba(155,0,255,.28)':'rgba(255,0,128,.28)';
+  var col2=k==='A'?'#2a2a3a':'#2a2030';
+  var dot=k==='A'?'#9B00FF':'#FF0080';
+  var og=ctx.createRadialGradient(CX-5,CY-6,35,CX,CY,R);
+  og.addColorStop(0,'#1c1c1c');og.addColorStop(.5,'#0f0f0f');og.addColorStop(1,'#050505');
+  ctx.beginPath();ctx.arc(CX,CY,R,0,Math.PI*2);ctx.fillStyle=og;ctx.fill();
+  ctx.beginPath();ctx.arc(CX,CY,R,0,Math.PI*2);ctx.strokeStyle=col;ctx.lineWidth=1.5;ctx.stroke();
+  for(var i=0;i<22;i++){
+    var ba=(i/22)*Math.PI*2,bx=CX+Math.cos(ba)*45,by=CY+Math.sin(ba)*45;
+    var bg=ctx.createRadialGradient(bx-1.5,by-1.5,0,bx,by,6);
+    bg.addColorStop(0,'#333');bg.addColorStop(1,'#0a0a0a');
+    ctx.beginPath();ctx.arc(bx,by,6,0,Math.PI*2);ctx.fillStyle=bg;ctx.fill();
+  }
+  var pg=ctx.createRadialGradient(CX,CY,0,CX,CY,37);
+  pg.addColorStop(0,'#141414');pg.addColorStop(1,'#060606');
+  ctx.beginPath();ctx.arc(CX,CY,37,0,Math.PI*2);ctx.fillStyle=pg;ctx.fill();
+  ctx.save();ctx.translate(CX,CY);ctx.rotate(a*Math.PI/180);
+  ctx.beginPath();ctx.arc(0,0,30,0,Math.PI*2);ctx.fillStyle='#080808';ctx.fill();
+  for(var j=0;j<90;j++){
+    var sa=(j/90)*Math.PI*2;
+    if(sa>5.95||sa<0.38)continue;
+    ctx.save();ctx.rotate(sa);ctx.fillStyle='rgba(34,34,34,.9)';ctx.fillRect(23,-.9,4.5,1.8);ctx.restore();
+  }
+  ctx.save();ctx.rotate(.19);
+  ctx.beginPath();ctx.moveTo(22,-3);ctx.lineTo(28,0);ctx.lineTo(22,3);ctx.fillStyle='#FF2020';ctx.fill();
+  ctx.restore();ctx.restore();
+  var hg=ctx.createRadialGradient(CX-3,CY-3,0,CX,CY,12);
+  hg.addColorStop(0,'#80d0ee');hg.addColorStop(.5,'#4ab8de');hg.addColorStop(1,'#186880');
+  ctx.beginPath();ctx.arc(CX,CY,12,0,Math.PI*2);ctx.fillStyle=hg;ctx.fill();
+  ctx.font='bold 5px Arial';ctx.fillStyle='rgba(255,255,255,.6)';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('vinyl',CX,CY);
+}
+
+function scratch(k){
+  if(!masterGain)initAudio();
+  try{
+    var ac=getAC(),buf=ac.createBuffer(1,Math.floor(ac.sampleRate*.2),ac.sampleRate),d=buf.getChannelData(0);
+    for(var i=0;i<d.length;i++){var t=i/ac.sampleRate,env=Math.pow(Math.sin(Math.PI*t/.2),.4)*Math.pow(1-t/.2,.3);d[i]=((Math.random()*2-1)*.35+Math.sin(2*Math.PI*100*t)*.6)*env*.8;}
+    var ws=ac.createWaveShaper(),c=new Float32Array(256);
+    for(var j=0;j<256;j++){var x=(j*2)/256-1;c[j]=(3.14+200)*x/(3.14+200*Math.abs(x));}
+    ws.curve=c;var src=ac.createBufferSource();src.buffer=buf;src.connect(ws);ws.connect(ac.destination);src.start();
+  }catch(e){}
+  var seq=[-0.8,-1,-.7,-.2,.3,.7,1.1,.8,.35],si=0;
+  var st=setInterval(function(){si<seq.length?jogSpeeds[k]=seq[si++]:(jogSpeeds[k]=.35,clearInterval(st));},38);
+}
+</script>
+</body>
+</html>
