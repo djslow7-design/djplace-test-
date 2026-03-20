@@ -2,132 +2,65 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>DJ Place — Preview</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>DJ Place</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+*{margin:0;padding:0;box-sizing:border-box;}
 :root{--p:#9B00FF;--pk:#FF0080;}
-html,body{background:#07000f;color:#f0e8ff;font-family:Arial,sans-serif;overflow-x:hidden;}
-
-/* ── TICKER ── */
+body{background:#07000f;color:#f0e8ff;font-family:Arial,sans-serif;overflow-x:hidden;}
 .ticker{background:#9B00FF;display:flex;align-items:center;overflow:hidden;white-space:nowrap;height:32px;}
-.ticker-static{flex-shrink:0;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff;padding:0 12px;border-right:1px solid rgba(255,255,255,.25);height:100%;display:flex;align-items:center;background:#7B00CC;}
-.ticker-scroll{flex:1;overflow:hidden;}
-.ticker-inner{display:inline-flex;animation:tick 22s linear infinite;}
-@keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ts{flex-shrink:0;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff;padding:0 12px;border-right:1px solid rgba(255,255,255,.25);height:100%;display:flex;align-items:center;background:#7B00CC;}
+.tscroll{flex:1;overflow:hidden;}
+.tinner{display:inline-flex;animation:tick 22s linear infinite;}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 .ti{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.9);padding:0 12px;}
-.td{color:rgba(255,255,255,.3);}
-
-/* ── NAV ── */
 .nav{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;}
-.nav-logo{font-family:Arial Black,sans-serif;font-size:1.1rem;letter-spacing:4px;background:linear-gradient(90deg,var(--p),var(--pk));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.nav-cta{background:linear-gradient(135deg,var(--p),var(--pk));color:#fff;border:none;padding:9px 20px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;}
-
-/* ── HERO ── */
+.logo{font-family:Arial Black,sans-serif;font-size:1.1rem;letter-spacing:4px;background:linear-gradient(90deg,var(--p),var(--pk));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.nav-btn{background:linear-gradient(135deg,var(--p),var(--pk));color:#fff;border:none;padding:9px 20px;border-radius:20px;font-size:12px;font-weight:700;cursor:pointer;}
 .hero{padding:4px 20px 36px;position:relative;overflow:hidden;text-align:center;}
 .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 90% 70% at 50% 55%,rgba(155,0,255,.13),transparent 70%);pointer-events:none;}
 .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(155,0,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(155,0,255,.04) 1px,transparent 1px);background-size:44px 44px;pointer-events:none;}
-.hero-z{position:relative;z-index:1;}
-
+.hz{position:relative;z-index:1;}
 .eyebrow{display:inline-flex;align-items:center;gap:5px;border:1px solid rgba(155,0,255,.35);color:rgba(155,0,255,.8);font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:.32rem .9rem;border-radius:14px;background:rgba(155,0,255,.06);margin-bottom:16px;}
-
-/* JOG */
 .jog-wrap{position:relative;width:210px;height:210px;margin:0 auto 20px;}
 .jog-glow{position:absolute;inset:-14px;border-radius:50%;background:radial-gradient(circle,rgba(155,0,255,.22),rgba(255,0,128,.09) 45%,transparent 70%);animation:gp 3s ease-in-out infinite;pointer-events:none;}
 @keyframes gp{0%,100%{opacity:.4;transform:scale(.97)}50%{opacity:.85;transform:scale(1.04)}}
 .jog-marker{position:absolute;top:6px;left:50%;transform:translateX(-50%);width:5px;height:17px;background:linear-gradient(180deg,#FF0080,#aa0040);border-radius:3px;z-index:3;box-shadow:0 0 8px rgba(255,0,128,.85);}
-#jogCanvas{border-radius:50%;display:block;position:relative;z-index:2;}
-
+#jog{border-radius:50%;display:block;position:relative;z-index:2;cursor:pointer;}
 .hero-logo{font-family:Arial Black,sans-serif;font-weight:900;font-size:min(18vw,70px);letter-spacing:3px;line-height:.9;margin-bottom:14px;}
 .dj{display:block;color:#fff;}
 .place{display:block;background:linear-gradient(90deg,var(--p),var(--pk));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-
 .hero-h1{font-size:min(4.5vw,18px);font-weight:700;color:#f0e8ff;line-height:1.55;margin-bottom:8px;}
 .hero-p{font-size:min(3.5vw,14px);color:rgba(240,232,255,.42);line-height:1.7;margin-bottom:24px;}
-
-.hero-btns{display:flex;flex-direction:column;gap:10px;margin-bottom:26px;}
-.btn-primary{
-  width:100%;padding:16px;
-  background:linear-gradient(90deg,var(--p),var(--pk));
-  color:#fff;border:none;border-radius:50px;
-  font-family:Arial Black,sans-serif;
-  font-size:15px;font-weight:900;letter-spacing:.5px;
-  cursor:pointer;
-  box-shadow:0 6px 28px rgba(155,0,255,.4);
-}
-.btn-secondary{
-  width:100%;padding:15px;
-  background:rgba(155,0,255,.09);
-  color:#f0e8ff;
-  border:1.5px solid rgba(155,0,255,.45);
-  border-radius:50px;
-  font-family:Arial,sans-serif;
-  font-size:14px;font-weight:600;
-  cursor:pointer;
-}
-
+.btns{display:flex;flex-direction:column;gap:10px;margin-bottom:26px;}
+.btn1{width:100%;padding:16px;background:linear-gradient(90deg,var(--p),var(--pk));color:#fff;border:none;border-radius:50px;font-family:Arial Black,sans-serif;font-size:15px;font-weight:900;cursor:pointer;box-shadow:0 6px 28px rgba(155,0,255,.4);}
+.btn2{width:100%;padding:15px;background:rgba(155,0,255,.09);color:#f0e8ff;border:1.5px solid rgba(155,0,255,.45);border-radius:50px;font-size:14px;font-weight:600;cursor:pointer;}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;border-top:1px solid rgba(155,0,255,.13);padding-top:20px;}
 .stat{text-align:center;}
-.stat-n{font-family:Arial Black,sans-serif;font-size:min(7vw,28px);background:linear-gradient(135deg,var(--p),var(--pk));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.stat-l{font-size:9px;color:rgba(240,232,255,.3);letter-spacing:1.5px;text-transform:uppercase;margin-top:3px;}
-
-/* ── TICKER 2 ── */
+.sn{font-family:Arial Black,sans-serif;font-size:min(7vw,28px);background:linear-gradient(135deg,var(--p),var(--pk));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.sl{font-size:9px;color:rgba(240,232,255,.3);letter-spacing:1.5px;text-transform:uppercase;margin-top:3px;}
 .ticker2{border-top:1px solid rgba(155,0,255,.15);overflow:hidden;white-space:nowrap;height:30px;display:flex;align-items:center;}
-.ticker2-inner{display:inline-flex;animation:tick2 20s linear infinite;}
-@keyframes tick2{0%{transform:translateX(-50%)}100%{transform:translateX(0)}}
+.t2inner{display:inline-flex;animation:tick2 20s linear infinite;}
+@keyframes tick2{from{transform:translateX(-50%)}to{transform:translateX(0)}}
 .ti2{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:0 14px;color:rgba(155,0,255,.6);}
-
-/* ── НАСТАВНИКИ ── */
 .mentors{padding:36px 16px;}
 .sec-tag{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--pk);margin-bottom:7px;display:block;}
 .sec-h2{font-family:Arial Black,sans-serif;font-weight:900;font-size:min(7vw,28px);letter-spacing:1px;color:#f0e8ff;margin-bottom:7px;}
 .sec-sub{font-size:12px;color:rgba(240,232,255,.4);line-height:1.65;margin-bottom:18px;}
-
 .mgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.mc{
-  border-radius:14px;overflow:hidden;position:relative;
-  aspect-ratio:.82;background:#0d0018;
-  border:1px solid rgba(155,0,255,.15);
-  cursor:pointer;
-  transition:transform .12s;
-}
-.mc:active{transform:scale(.94);}
+.mc{border-radius:14px;overflow:hidden;position:relative;aspect-ratio:.82;background:#0d0018;border:1px solid rgba(155,0,255,.15);cursor:pointer;user-select:none;-webkit-user-select:none;}
 .mc-ph{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:52px;color:rgba(155,0,255,.12);z-index:0;}
 .mc-img{position:absolute;inset:0;background-size:cover;background-position:top center;z-index:1;}
 .mc-grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,0,15,.95) 0%,rgba(7,0,15,.1) 55%,transparent 75%);z-index:2;}
 .mc-name{position:absolute;bottom:10px;left:10px;right:10px;z-index:3;}
 .mc-name h3{font-family:Arial Black,sans-serif;font-size:min(4vw,16px);letter-spacing:2px;color:#fff;text-shadow:0 2px 12px #000;}
 .mc-badge{font-size:9px;color:rgba(255,0,128,.9);font-weight:700;margin-top:3px;}
-.mc-arrow{
-  position:absolute;top:10px;right:10px;z-index:3;
-  width:26px;height:26px;border-radius:50%;
-  background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.15);
-  display:flex;align-items:center;justify-content:center;
-  font-size:12px;color:rgba(255,255,255,.5);
-}
-
-/* ── FULLSCREEN OVERLAY ── */
-.ov{
-  position:fixed;inset:0;z-index:999;
-  background:#07000f;
-  transform:translateY(100%);
-  transition:transform .45s cubic-bezier(.25,.46,.45,.94);
-  display:flex;flex-direction:column;
-  overflow:hidden;
-}
+.mc-arrow{position:absolute;top:10px;right:10px;z-index:3;width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:12px;color:rgba(255,255,255,.5);}
+.ov{position:fixed;inset:0;z-index:999;background:#07000f;transform:translateY(100%);transition:transform .42s cubic-bezier(.25,.46,.45,.94);display:flex;flex-direction:column;overflow:hidden;}
 .ov.open{transform:translateY(0);}
-
-.ov-swipe{
-  position:absolute;top:10px;left:50%;transform:translateX(-50%);
-  width:44px;height:5px;background:rgba(255,255,255,.2);border-radius:3px;z-index:5;
-}
-.ov-photo{
-  width:100%;height:55vh;min-height:240px;
-  background-size:cover;background-position:top center;
-  position:relative;flex-shrink:0;
-}
+.ov-swipe{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:44px;height:5px;background:rgba(255,255,255,.2);border-radius:3px;z-index:5;}
+.ov-photo{width:100%;height:55vh;min-height:240px;background-size:cover;background-position:top center;position:relative;flex-shrink:0;}
 .ov-photo-grad{position:absolute;inset:0;background:linear-gradient(to top,#07000f 0%,rgba(7,0,15,.1) 55%,transparent 80%);}
-
 .ov-body{flex:1;padding:0 22px 24px;overflow-y:auto;-webkit-overflow-scrolling:touch;margin-top:-32px;position:relative;}
 .ov-name{font-family:Arial Black,sans-serif;font-size:min(10vw,38px);letter-spacing:3px;color:#fff;margin-bottom:6px;}
 .ov-fact{font-size:13px;color:var(--pk);font-weight:700;line-height:1.6;margin-bottom:14px;}
@@ -135,134 +68,104 @@ html,body{background:#07000f;color:#f0e8ff;font-family:Arial,sans-serif;overflow
 .ov-desc{font-size:14px;color:rgba(240,232,255,.6);line-height:1.75;margin-bottom:20px;}
 .ov-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:26px;}
 .ov-tag{font-size:10px;padding:5px 12px;border-radius:16px;background:rgba(155,0,255,.1);border:1px solid rgba(155,0,255,.22);color:rgba(240,232,255,.55);}
-.ov-enroll{
-  width:100%;padding:17px;
-  background:linear-gradient(90deg,var(--p),var(--pk));
-  color:#fff;border:none;border-radius:50px;
-  font-family:Arial Black,sans-serif;
-  font-size:15px;font-weight:900;
-  cursor:pointer;margin-bottom:12px;
-  box-shadow:0 6px 28px rgba(155,0,255,.4);
-}
-.ov-back{
-  width:100%;padding:15px;
-  background:rgba(155,0,255,.08);
-  color:rgba(240,232,255,.6);
-  border:1.5px solid rgba(155,0,255,.25);
-  border-radius:50px;
-  font-family:Arial,sans-serif;
-  font-size:14px;font-weight:600;
-  cursor:pointer;
-}
+.ov-enroll{width:100%;padding:17px;background:linear-gradient(90deg,var(--p),var(--pk));color:#fff;border:none;border-radius:50px;font-family:Arial Black,sans-serif;font-size:15px;font-weight:900;cursor:pointer;margin-bottom:12px;box-shadow:0 6px 28px rgba(155,0,255,.4);}
+.ov-back{width:100%;padding:15px;background:rgba(155,0,255,.08);color:rgba(240,232,255,.6);border:1.5px solid rgba(155,0,255,.25);border-radius:50px;font-size:14px;font-weight:600;cursor:pointer;}
 </style>
 </head>
 <body>
 
-<!-- ВЕРХНЯЯ БЕГУЩАЯ СТРОКА -->
 <div class="ticker">
-  <div class="ticker-static">НАСТАВНИКИ</div>
-  <div class="ticker-scroll"><div class="ticker-inner">
-    <span class="ti">Чемпион DJ баттлов</span><span class="td">·</span>
-    <span class="ti">1.4 млн стримов</span><span class="td">·</span>
-    <span class="ti">Штатный диджей Soda Luv</span><span class="td">·</span>
-    <span class="ti">BBC Radio 1 · Kiss FM</span><span class="td">·</span>
-    <span class="ti">Гастроли по всей России</span><span class="td">·</span>
-    <span class="ti">Rinse FM · plusvibe</span><span class="td">·</span>
-    <span class="ti">Чемпион DJ баттлов</span><span class="td">·</span>
-    <span class="ti">1.4 млн стримов</span><span class="td">·</span>
-    <span class="ti">Штатный диджей Soda Luv</span><span class="td">·</span>
-    <span class="ti">BBC Radio 1 · Kiss FM</span><span class="td">·</span>
-    <span class="ti">Гастроли по всей России</span><span class="td">·</span>
-    <span class="ti">Rinse FM · plusvibe</span><span class="td">·</span>
+  <div class="ts">НАСТАВНИКИ</div>
+  <div class="tscroll"><div class="tinner">
+    <span class="ti">Чемпион DJ баттлов</span><span style="color:rgba(255,255,255,.3)">·</span>
+    <span class="ti">1.4 млн стримов</span><span style="color:rgba(255,255,255,.3)">·</span>
+    <span class="ti">Штатный диджей Soda Luv</span><span style="color:rgba(255,255,255,.3)">·</span>
+    <span class="ti">BBC Radio 1 · Kiss FM</span><span style="color:rgba(255,255,255,.3)">·</span>
+    <span class="ti">Гастроли по всей России</span><span style="color:rgba(255,255,255,.3)">·</span>
+    <span class="ti">Чемпион DJ баттлов</span><span style="color:rgba(255,255,255,.3)">·</span>
+    <span class="ti">1.4 млн стримов</span><span style="color:rgba(255,255,255,.3)">·</span>
+    <span class="ti">Штатный диджей Soda Luv</span><span style="color:rgba(255,255,255,.3)">·</span>
+    <span class="ti">BBC Radio 1 · Kiss FM</span><span style="color:rgba(255,255,255,.3)">·</span>
+    <span class="ti">Гастроли по всей России</span><span style="color:rgba(255,255,255,.3)">·</span>
   </div></div>
 </div>
 
-<!-- NAV -->
 <div class="nav">
-  <div class="nav-logo">DJ PLACE</div>
-  <button class="nav-cta" onclick="openForm()">Записаться</button>
+  <div class="logo">DJ PLACE</div>
+  <button class="nav-btn" onclick="alert('Форма записи!')">Записаться</button>
 </div>
 
-<!-- HERO -->
 <div class="hero">
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
-  <div class="hero-z">
+  <div class="hz">
     <div class="eyebrow">▶ Петербург · с 2016</div>
-
     <div class="jog-wrap">
       <div class="jog-glow"></div>
-      <canvas id="jogCanvas" width="210" height="210"></canvas>
+      <canvas id="jog" width="210" height="210"></canvas>
       <div class="jog-marker"></div>
     </div>
-
     <div class="hero-logo">
       <span class="dj">DJ</span>
       <span class="place">PLACE</span>
     </div>
     <div class="hero-h1">Лучшие диджеи Петербурга<br>начинали здесь. Твоя очередь.</div>
     <p class="hero-p">Профессиональная техника, топовые наставники и бесплатная практика между уроками.</p>
-
-    <div class="hero-btns">
-      <button class="btn-primary" onclick="openForm()">Записаться на пробный урок</button>
-      <button class="btn-secondary">Попробовать пульт ↓</button>
+    <div class="btns">
+      <button class="btn1" onclick="alert('Форма записи!')">Записаться на пробный урок</button>
+      <button class="btn2">Попробовать пульт ↓</button>
     </div>
-
     <div class="stats">
-      <div class="stat"><div class="stat-n">500+</div><div class="stat-l">Выпускников</div></div>
-      <div class="stat"><div class="stat-n">10+</div><div class="stat-l">Лет опыта</div></div>
-      <div class="stat"><div class="stat-n">3</div><div class="stat-l">Вида техники</div></div>
-      <div class="stat"><div class="stat-n">СПб</div><div class="stat-l">Центр города</div></div>
+      <div class="stat"><div class="sn">500+</div><div class="sl">Выпускников</div></div>
+      <div class="stat"><div class="sn">10+</div><div class="sl">Лет опыта</div></div>
+      <div class="stat"><div class="sn">3</div><div class="sl">Вида техники</div></div>
+      <div class="stat"><div class="sn">СПб</div><div class="sl">Центр города</div></div>
     </div>
   </div>
 </div>
 
-<!-- НИЖНЯЯ СТРОКА -->
-<div class="ticker2"><div class="ticker2-inner">
-  <span class="ti2">DJ Place</span><span class="td">·</span>
-  <span class="ti2">с 2016 года</span><span class="td">·</span>
-  <span class="ti2">Pioneer CDJ Nexus</span><span class="td">·</span>
-  <span class="ti2">Бесплатная практика</span><span class="td">·</span>
-  <span class="ti2">Живые наставники</span><span class="td">·</span>
-  <span class="ti2">Центр Петербурга</span><span class="td">·</span>
-  <span class="ti2">Все виды техники</span><span class="td">·</span>
-  <span class="ti2">DJ Place</span><span class="td">·</span>
-  <span class="ti2">с 2016 года</span><span class="td">·</span>
-  <span class="ti2">Pioneer CDJ Nexus</span><span class="td">·</span>
-  <span class="ti2">Бесплатная практика</span><span class="td">·</span>
-  <span class="ti2">Живые наставники</span><span class="td">·</span>
-  <span class="ti2">Центр Петербурга</span><span class="td">·</span>
-  <span class="ti2">Все виды техники</span><span class="td">·</span>
+<div class="ticker2"><div class="t2inner">
+  <span class="ti2">DJ Place</span><span style="color:rgba(155,0,255,.25)">·</span>
+  <span class="ti2">с 2016 года</span><span style="color:rgba(155,0,255,.25)">·</span>
+  <span class="ti2">Pioneer CDJ Nexus</span><span style="color:rgba(155,0,255,.25)">·</span>
+  <span class="ti2">Бесплатная практика</span><span style="color:rgba(155,0,255,.25)">·</span>
+  <span class="ti2">Живые наставники</span><span style="color:rgba(155,0,255,.25)">·</span>
+  <span class="ti2">Центр Петербурга</span><span style="color:rgba(155,0,255,.25)">·</span>
+  <span class="ti2">DJ Place</span><span style="color:rgba(155,0,255,.25)">·</span>
+  <span class="ti2">с 2016 года</span><span style="color:rgba(155,0,255,.25)">·</span>
+  <span class="ti2">Pioneer CDJ Nexus</span><span style="color:rgba(155,0,255,.25)">·</span>
+  <span class="ti2">Бесплатная практика</span><span style="color:rgba(155,0,255,.25)">·</span>
+  <span class="ti2">Живые наставники</span><span style="color:rgba(155,0,255,.25)">·</span>
+  <span class="ti2">Центр Петербурга</span><span style="color:rgba(155,0,255,.25)">·</span>
 </div></div>
 
-<!-- НАСТАВНИКИ -->
 <div class="mentors">
   <span class="sec-tag">▶ наставники</span>
   <h2 class="sec-h2">Кто тебя учит</h2>
-  <p class="sec-sub">Действующие артисты — выступают прямо сейчас. Нажми на фото.</p>
+  <p class="sec-sub">Действующие артисты. Нажми на фото.</p>
   <div class="mgrid">
-    <div class="mc" id="mc0">
+    <div class="mc" data-i="0">
       <div class="mc-ph">🎧</div>
       <div class="mc-img" style="background-image:url('WZDQ.jpg')"></div>
       <div class="mc-grad"></div>
       <div class="mc-arrow">↗</div>
       <div class="mc-name"><h3>WZDQ</h3><div class="mc-badge">🏆 Чемпион России</div></div>
     </div>
-    <div class="mc" id="mc1">
+    <div class="mc" data-i="1">
       <div class="mc-ph">🎵</div>
       <div class="mc-img" style="background-image:url('Sunshine.png')"></div>
       <div class="mc-grad"></div>
       <div class="mc-arrow">↗</div>
       <div class="mc-name"><h3>SUNSHINE</h3><div class="mc-badge">🎤 Soda Luv</div></div>
     </div>
-    <div class="mc" id="mc2">
+    <div class="mc" data-i="2">
       <div class="mc-ph">🎚️</div>
       <div class="mc-img" style="background-image:url('PACIFISTIC.jpg')"></div>
       <div class="mc-grad"></div>
       <div class="mc-arrow">↗</div>
       <div class="mc-name"><h3>PACIFISTIC</h3><div class="mc-badge">📻 BBC Radio 1</div></div>
     </div>
-    <div class="mc" id="mc3">
+    <div class="mc" data-i="3">
       <div class="mc-ph">🎶</div>
       <div class="mc-img" style="background-image:url('SMOOTHIES.JPG')"></div>
       <div class="mc-grad"></div>
@@ -272,187 +175,106 @@ html,body{background:#07000f;color:#f0e8ff;font-family:Arial,sans-serif;overflow
   </div>
 </div>
 
-<!-- OVERLAY НАСТАВНИК -->
 <div class="ov" id="ov">
-  <div class="ov-swipe" id="swipeHandle"></div>
-  <div class="ov-photo" id="ovPhoto">
-    <div class="ov-photo-grad"></div>
-  </div>
+  <div class="ov-swipe"></div>
+  <div class="ov-photo" id="ovPhoto"><div class="ov-photo-grad"></div></div>
   <div class="ov-body">
     <div class="ov-name" id="ovName"></div>
     <div class="ov-fact" id="ovFact"></div>
     <div class="ov-line"></div>
     <div class="ov-desc" id="ovDesc"></div>
     <div class="ov-tags" id="ovTags"></div>
-    <button class="ov-enroll" onclick="openForm()">Записаться на пробное</button>
+    <button class="ov-enroll" onclick="alert('Форма записи!')">Записаться на пробное</button>
     <button class="ov-back" onclick="closeMentor()">← Назад к наставникам</button>
   </div>
 </div>
 
 <script>
-// ── ДАННЫЕ ──
-const mentors = [
-  {
-    name:'WZDQ',
-    fact:'🏆 Чемпион Лиги Диджеев РФ · 2024\n1.4 млн стримов · Гастроли по России',
-    desc:'Диджей и продюсер из Петербурга. Основатель проекта 6HRS. Специализируется на баттловом диджеинге и скретче. Поддержка VK Music и Яндекс Музыки.',
-    tags:['UKG','House','Scratch','Battle DJ','6HRS'],
-    img:'WZDQ.jpg'
-  },
-  {
-    name:'SUNSHINE',
-    fact:'🎤 Штатный диджей Soda Luv\nEvent-менеджер · Продюсер',
-    desc:'Концертный диджей федерального уровня. Десятки городов по всей России. Делил сцену с артистами от мейнстрима до андеграунда.',
-    tags:['Hip-Hop','R&B','Широкий профиль','Гастроли по РФ'],
-    img:'Sunshine.png'
-  },
-  {
-    name:'PACIFISTIC',
-    fact:'📻 BBC Radio 1 · Kiss FM · Rinse FM\nРезидент лейбла plusvibe',
-    desc:'Звучал на ведущих британских радиостанциях. Организовал 5+ лет собственных ивентов с международными артистами. Релизы на Garage Shared и plusvibe.',
-    tags:['UK Bass','Garage','Электронная','Организатор'],
-    img:'PACIFISTIC.jpg'
-  },
-  {
-    name:'SMOOTHIES',
-    fact:'🎛️ 5 лет на сцене · Санкт-Петербург',
-    desc:'Прошёл путь от локальных площадок до лучших клубов и фестивалей Петербурга. Работал на площадках от горнолыжных курортов до крупных фестивалей.',
-    tags:['UK Garage','Liquid DnB','Electro Punk'],
-    img:'SMOOTHIES.JPG'
-  }
+var M = [
+  {name:'WZDQ',fact:'🏆 Чемпион Лиги Диджеев РФ · 2024<br>1.4 млн стримов · Гастроли по России',desc:'Диджей и продюсер из Петербурга. Основатель проекта 6HRS. Специализируется на баттловом диджеинге и скретче. Поддержка VK Music и Яндекс Музыки.',tags:['UKG','House','Scratch','Battle DJ'],img:'WZDQ.jpg'},
+  {name:'SUNSHINE',fact:'🎤 Штатный диджей Soda Luv<br>Event-менеджер · Продюсер',desc:'Концертный диджей федерального уровня. Десятки городов по всей России. Делил сцену с артистами от мейнстрима до андеграунда.',tags:['Hip-Hop','R&B','Широкий профиль'],img:'Sunshine.png'},
+  {name:'PACIFISTIC',fact:'📻 BBC Radio 1 · Kiss FM · Rinse FM<br>Резидент лейбла plusvibe',desc:'Звучал на ведущих британских радиостанциях. Организовал 5+ лет собственных ивентов с международными артистами.',tags:['UK Bass','Garage','Организатор'],img:'PACIFISTIC.jpg'},
+  {name:'SMOOTHIES',fact:'🎛️ 5 лет на сцене · Санкт-Петербург',desc:'Прошёл путь от локальных площадок до лучших клубов и фестивалей Петербурга.',tags:['UK Garage','Liquid DnB','Electro Punk'],img:'SMOOTHIES.JPG'}
 ];
 
 function openMentor(i) {
-  const m = mentors[i];
-  const ov = document.getElementById('ov');
-  document.getElementById('ovPhoto').style.backgroundImage = `url('${m.img}')`;
+  var m = M[i];
+  document.getElementById('ovPhoto').style.backgroundImage = "url('"+m.img+"')";
   document.getElementById('ovName').textContent = m.name;
-  document.getElementById('ovFact').innerHTML = m.fact.replace('\n','<br>');
+  document.getElementById('ovFact').innerHTML = m.fact;
   document.getElementById('ovDesc').textContent = m.desc;
-  document.getElementById('ovTags').innerHTML = m.tags.map(t=>`<span class="ov-tag">${t}</span>`).join('');
-  ov.classList.add('open');
+  document.getElementById('ovTags').innerHTML = m.tags.map(function(t){return '<span class="ov-tag">'+t+'</span>';}).join('');
+  document.getElementById('ov').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
-
 function closeMentor() {
   document.getElementById('ov').classList.remove('open');
   document.body.style.overflow = '';
 }
 
-// Свайп вниз для закрытия
-let startY = 0;
-const ov = document.getElementById('ov');
-ov.addEventListener('touchstart', e => { startY = e.touches[0].clientY; }, {passive:true});
-ov.addEventListener('touchend', e => {
-  if (e.changedTouches[0].clientY - startY > 90) closeMentor();
-}, {passive:true});
+// Свайп вниз
+var sy = 0;
+document.getElementById('ov').addEventListener('touchstart',function(e){sy=e.touches[0].clientY;},{passive:true});
+document.getElementById('ov').addEventListener('touchend',function(e){if(e.changedTouches[0].clientY-sy>80)closeMentor();},{passive:true});
 
-function openForm() {
-  alert('Форма записи будет здесь!');
+// Карточки
+document.querySelectorAll('.mc').forEach(function(card){
+  var i = parseInt(card.getAttribute('data-i'));
+  card.addEventListener('click', function(e){ e.stopPropagation(); openMentor(i); });
+  card.addEventListener('touchend', function(e){ e.preventDefault(); e.stopPropagation(); openMentor(i); }, {passive:false});
+});
+
+// Джог
+var cv = document.getElementById('jog');
+var ctx = cv.getContext('2d');
+var W=210, CX=105, CY=105, R=103;
+var ang=0, spd=0.38, cur=0.38, lt=null;
+
+function draw(a){
+  ctx.clearRect(0,0,W,W);
+  var og=ctx.createRadialGradient(CX-7,CY-9,70,CX,CY,R);
+  og.addColorStop(0,'#1c1c1c');og.addColorStop(.5,'#0f0f0f');og.addColorStop(1,'#050505');
+  ctx.beginPath();ctx.arc(CX,CY,R,0,Math.PI*2);ctx.fillStyle=og;ctx.fill();
+  ctx.beginPath();ctx.arc(CX,CY,R,0,Math.PI*2);ctx.strokeStyle='rgba(155,0,255,.28)';ctx.lineWidth=2;ctx.stroke();
+  for(var i=0;i<26;i++){var ba=(i/26)*Math.PI*2,bx=CX+Math.cos(ba)*87,by=CY+Math.sin(ba)*87,bg=ctx.createRadialGradient(bx-2,by-2,0,bx,by,8);bg.addColorStop(0,'#3a3a3a');bg.addColorStop(1,'#0a0a0a');ctx.beginPath();ctx.arc(bx,by,8,0,Math.PI*2);ctx.fillStyle=bg;ctx.fill();}
+  var pg=ctx.createRadialGradient(CX,CY,0,CX,CY,76);pg.addColorStop(0,'#141414');pg.addColorStop(1,'#060606');
+  ctx.beginPath();ctx.arc(CX,CY,76,0,Math.PI*2);ctx.fillStyle=pg;ctx.fill();
+  ctx.save();ctx.translate(CX,CY);ctx.rotate(a*Math.PI/180);
+  ctx.beginPath();ctx.arc(0,0,62,0,Math.PI*2);ctx.fillStyle='#080808';ctx.fill();
+  for(var j=0;j<108;j++){var sa=(j/108)*Math.PI*2;if(sa>5.95||sa<0.38)continue;ctx.save();ctx.rotate(sa);ctx.fillStyle='rgba(36,36,36,.92)';ctx.fillRect(50,-1.2,5.5,2.4);ctx.restore();}
+  ctx.save();ctx.rotate(.19);ctx.beginPath();ctx.moveTo(48,-3.5);ctx.lineTo(57,0);ctx.lineTo(48,3.5);ctx.fillStyle='#FF2020';ctx.fill();ctx.restore();
+  ctx.restore();
+  var hg=ctx.createRadialGradient(CX-5,CY-6,0,CX,CY,18);hg.addColorStop(0,'#80d0ee');hg.addColorStop(.5,'#4ab8de');hg.addColorStop(1,'#186880');
+  ctx.beginPath();ctx.arc(CX,CY,18,0,Math.PI*2);ctx.fillStyle=hg;ctx.fill();
+  ctx.strokeStyle='rgba(255,255,255,.2)';ctx.lineWidth=1.5;ctx.stroke();
+  ctx.font='bold 7px Arial';ctx.fillStyle='rgba(255,255,255,.65)';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('vinyl',CX,CY);
 }
 
-// ── ДЖОГ ──
-const cv = document.getElementById('jogCanvas');
-const ctx = cv.getContext('2d');
-const W = 210, cx = 105, cy = 105, R = 103;
-let angle = 0, last = null;
-
-function drawJog(a) {
-  ctx.clearRect(0, 0, W, W);
-
-  // Внешний обод тёмный
-  const og = ctx.createRadialGradient(cx-7, cy-9, 70, cx, cy, R);
-  og.addColorStop(0, '#1c1c1c');
-  og.addColorStop(0.5, '#0f0f0f');
-  og.addColorStop(1, '#050505');
-  ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI*2);
-  ctx.fillStyle = og; ctx.fill();
-
-  // Фиолетовый ореол
-  ctx.beginPath(); ctx.arc(cx, cy, R, 0, Math.PI*2);
-  ctx.strokeStyle = 'rgba(155,0,255,0.28)'; ctx.lineWidth = 2; ctx.stroke();
-
-  // Шарики
-  for (let i = 0; i < 26; i++) {
-    const ba = (i / 26) * Math.PI * 2;
-    const bx = cx + Math.cos(ba) * 87, by = cy + Math.sin(ba) * 87;
-    const bg = ctx.createRadialGradient(bx-2, by-2, 0, bx, by, 8);
-    bg.addColorStop(0, '#3a3a3a'); bg.addColorStop(1, '#0a0a0a');
-    ctx.beginPath(); ctx.arc(bx, by, 8, 0, Math.PI*2);
-    ctx.fillStyle = bg; ctx.fill();
-    ctx.beginPath(); ctx.arc(bx-2, by-2, 2.5, 0, Math.PI*2);
-    ctx.fillStyle = 'rgba(255,255,255,0.08)'; ctx.fill();
-  }
-
-  // Платтер
-  const pg = ctx.createRadialGradient(cx, cy, 0, cx, cy, 76);
-  pg.addColorStop(0, '#141414'); pg.addColorStop(1, '#060606');
-  ctx.beginPath(); ctx.arc(cx, cy, 76, 0, Math.PI*2);
-  ctx.fillStyle = pg; ctx.fill();
-
-  // ВРАЩЕНИЕ
-  ctx.save(); ctx.translate(cx, cy); ctx.rotate(a * Math.PI / 180);
-
-  ctx.beginPath(); ctx.arc(0, 0, 62, 0, Math.PI*2);
-  ctx.fillStyle = '#080808'; ctx.fill();
-
-  // Стробы
-  for (let i = 0; i < 108; i++) {
-    const sa = (i / 108) * Math.PI * 2;
-    if (sa > 5.95 || sa < 0.38) continue;
-    ctx.save(); ctx.rotate(sa);
-    ctx.fillStyle = 'rgba(36,36,36,0.92)';
-    ctx.fillRect(50, -1.2, 5.5, 2.4);
-    ctx.restore();
-  }
-  for (let i = 0; i < 82; i++) {
-    const sa = (i / 82) * Math.PI * 2;
-    if (sa > 5.95 || sa < 0.38) continue;
-    ctx.save(); ctx.rotate(sa);
-    ctx.fillStyle = 'rgba(26,26,26,0.88)';
-    ctx.fillRect(41, -0.9, 4.5, 1.8);
-    ctx.restore();
-  }
-
-  // Красный маркер
-  ctx.save(); ctx.rotate(0.19);
-  ctx.beginPath(); ctx.moveTo(48, -3.5); ctx.lineTo(57, 0); ctx.lineTo(48, 3.5);
-  ctx.fillStyle = '#FF2020'; ctx.fill();
-  ctx.restore();
-
-  ctx.restore();
-
-  // Хаб — синий
-  const hg = ctx.createRadialGradient(cx-5, cy-6, 0, cx, cy, 18);
-  hg.addColorStop(0, '#80d0ee'); hg.addColorStop(0.5, '#4ab8de'); hg.addColorStop(1, '#186880');
-  ctx.beginPath(); ctx.arc(cx, cy, 18, 0, Math.PI*2);
-  ctx.fillStyle = hg; ctx.fill();
-  ctx.strokeStyle = 'rgba(255,255,255,0.2)'; ctx.lineWidth = 1.5; ctx.stroke();
-  [13, 8].forEach(r => {
-    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI*2);
-    ctx.strokeStyle = 'rgba(255,255,255,0.14)'; ctx.lineWidth = 1; ctx.stroke();
-  });
-  ctx.font = 'bold 7px Arial'; ctx.fillStyle = 'rgba(255,255,255,0.65)';
-  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-  ctx.fillText('vinyl', cx, cy);
-}
-
-// Запускаем — ждём когда страница полностью загружена
-function startJog() {
-  function loop(ts) {
-    if (!last) last = ts;
-    const dt = Math.min(ts - last, 50); last = ts;
-    angle = (angle + 0.38 * (dt / 16)) % 360;
-    drawJog(angle);
-    requestAnimationFrame(loop);
-  }
+function loop(ts){
+  if(!lt)lt=ts;
+  var dt=Math.min(ts-lt,50);lt=ts;
+  ang=(ang+cur*(dt/16))%360;
+  cur+=(spd-cur)*.05;
+  draw(ang);
   requestAnimationFrame(loop);
 }
-if (document.readyState === 'complete') {
-  startJog();
-} else {
-  window.addEventListener('load', startJog);
+requestAnimationFrame(loop);
+
+function scratch(){
+  try{
+    var ac=new(window.AudioContext||window.webkitAudioContext)();
+    if(ac.state==='suspended')ac.resume();
+    var buf=ac.createBuffer(1,Math.floor(ac.sampleRate*.22),ac.sampleRate),d=buf.getChannelData(0);
+    for(var i=0;i<d.length;i++){var t=i/ac.sampleRate,env=Math.pow(Math.sin(Math.PI*t/.22),.4)*Math.pow(1-t/.22,.3);d[i]=((Math.random()*2-1)*.35+Math.sin(2*Math.PI*100*t)*.6)*env*.8;}
+    var ws=ac.createWaveShaper(),c=new Float32Array(256);
+    for(var j=0;j<256;j++){var x=(j*2)/256-1;c[j]=(3.14+200)*x/(3.14+200*Math.abs(x));}
+    ws.curve=c;var src=ac.createBufferSource();src.buffer=buf;src.connect(ws);ws.connect(ac.destination);src.start();
+  }catch(e){}
+  var seq=[-0.8,-1,-.7,-.2,.3,.7,1.1,.8,.38],si=0;
+  var st=setInterval(function(){si<seq.length?cur=seq[si++]:(cur=spd,clearInterval(st));},38);
 }
+cv.addEventListener('click',scratch);
+cv.addEventListener('touchend',function(e){e.preventDefault();scratch();},{passive:false});
 </script>
 </body>
 </html>
