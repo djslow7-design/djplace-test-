@@ -148,28 +148,24 @@ body{background:#07000f;color:#f0e8ff;font-family:Arial,sans-serif;overflow-x:hi
       <div class="mc-ph">🎧</div>
       <div class="mc-img" style="background-image:url('WZDQ.jpg')"></div>
       <div class="mc-grad"></div>
-      <div class="mc-arrow">↗</div>
       <div class="mc-name"><h3>WZDQ</h3></div>
     </div>
     <div class="mc" data-i="1">
       <div class="mc-ph">🎵</div>
       <div class="mc-img" style="background-image:url('Sunshine.png')"></div>
       <div class="mc-grad"></div>
-      <div class="mc-arrow">↗</div>
       <div class="mc-name"><h3>SUNSHINE</h3></div>
     </div>
     <div class="mc" data-i="2">
       <div class="mc-ph">🎚️</div>
       <div class="mc-img" style="background-image:url('PACIFISTIC.jpg')"></div>
       <div class="mc-grad"></div>
-      <div class="mc-arrow">↗</div>
       <div class="mc-name"><h3>PACIFISTIC</h3></div>
     </div>
     <div class="mc" data-i="3">
       <div class="mc-ph">🎶</div>
       <div class="mc-img" style="background-image:url('SMOOTHIES.JPG')"></div>
       <div class="mc-grad"></div>
-      <div class="mc-arrow">↗</div>
       <div class="mc-name"><h3>SMOOTHIES</h3></div>
     </div>
   </div>
@@ -217,11 +213,20 @@ var sy = 0;
 document.getElementById('ov').addEventListener('touchstart',function(e){sy=e.touches[0].clientY;},{passive:true});
 document.getElementById('ov').addEventListener('touchend',function(e){if(e.changedTouches[0].clientY-sy>80)closeMentor();},{passive:true});
 
-// Карточки
+// Карточки — открываем только если это тап, не скролл
 document.querySelectorAll('.mc').forEach(function(card){
   var i = parseInt(card.getAttribute('data-i'));
+  var touchStartY = 0, touchStartX = 0;
+  card.addEventListener('touchstart', function(e){
+    touchStartY = e.touches[0].clientY;
+    touchStartX = e.touches[0].clientX;
+  }, {passive:true});
+  card.addEventListener('touchend', function(e){
+    var dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
+    var dx = Math.abs(e.changedTouches[0].clientX - touchStartX);
+    if(dy < 10 && dx < 10){ e.preventDefault(); openMentor(i); }
+  }, {passive:false});
   card.addEventListener('click', function(e){ e.stopPropagation(); openMentor(i); });
-  card.addEventListener('touchend', function(e){ e.preventDefault(); e.stopPropagation(); openMentor(i); }, {passive:false});
 });
 
 // Джог
