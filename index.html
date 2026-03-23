@@ -430,12 +430,13 @@ cv.addEventListener('touchend',function(e){e.preventDefault();scratch();},{passi
       <div id="tnA" class="mx-tn">Загрузка...</div>
 
       <div class="mx-transport">
+        <button class="mx-tbtn mx-tbtn-a" onclick="goHome('A')" style="font-size:12px;">⏮</button>
         <button class="mx-tbtn mx-tbtn-a" onclick="tapCue('A')" id="cueA" style="font-size:8px;">CUE</button>
-        <button class="mx-tbtn mx-tbtn-a" style="font-size:14px;"
+        <button class="mx-play mx-play-a" onclick="tPlay('A')" id="playA">▶</button>
+        <button class="mx-tbtn mx-tbtn-a" style="font-size:13px;"
           onmousedown="pbStart('A',-1)" onmouseup="pbStop('A')" onmouseleave="pbStop('A')"
           ontouchstart="event.preventDefault();pbStart('A',-1)" ontouchend="event.preventDefault();pbStop('A')">«</button>
-        <button class="mx-play mx-play-a" onclick="tPlay('A')" id="playA">▶</button>
-        <button class="mx-tbtn mx-tbtn-a" style="font-size:14px;"
+        <button class="mx-tbtn mx-tbtn-a" style="font-size:13px;"
           onmousedown="pbStart('A',1)" onmouseup="pbStop('A')" onmouseleave="pbStop('A')"
           ontouchstart="event.preventDefault();pbStart('A',1)" ontouchend="event.preventDefault();pbStop('A')">»</button>
         <button class="mx-sync mx-sync-a" onclick="syncD('A')">SYNC</button>
@@ -456,7 +457,7 @@ cv.addEventListener('touchend',function(e){e.preventDefault();scratch();},{passi
           <span style="color:rgba(155,0,255,.6);">A</span>
           <span style="color:rgba(255,0,128,.6);">B</span>
         </div>
-        <input type="range" id="xf" min="0" max="100" value="50" oninput="xfMove(this.value);xfSync(this.value)" style="width:100%;margin-top:6px;height:4px;accent-color:#9B00FF;cursor:pointer;">
+        
       </div>
 
       <div style="display:flex;flex-direction:column;gap:5px;width:100%;">
@@ -487,12 +488,13 @@ cv.addEventListener('touchend',function(e){e.preventDefault();scratch();},{passi
       <div id="tnB" class="mx-tn">Загрузка...</div>
 
       <div class="mx-transport">
+        <button class="mx-tbtn mx-tbtn-b" onclick="goHome('B')" style="font-size:12px;">⏮</button>
         <button class="mx-tbtn mx-tbtn-b" onclick="tapCue('B')" id="cueB" style="font-size:8px;">CUE</button>
-        <button class="mx-tbtn mx-tbtn-b" style="font-size:14px;"
+        <button class="mx-play mx-play-b" onclick="tPlay('B')" id="playB">▶</button>
+        <button class="mx-tbtn mx-tbtn-b" style="font-size:13px;"
           onmousedown="pbStart('B',-1)" onmouseup="pbStop('B')" onmouseleave="pbStop('B')"
           ontouchstart="event.preventDefault();pbStart('B',-1)" ontouchend="event.preventDefault();pbStop('B')">«</button>
-        <button class="mx-play mx-play-b" onclick="tPlay('B')" id="playB">▶</button>
-        <button class="mx-tbtn mx-tbtn-b" style="font-size:14px;"
+        <button class="mx-tbtn mx-tbtn-b" style="font-size:13px;"
           onmousedown="pbStart('B',1)" onmouseup="pbStop('B')" onmouseleave="pbStop('B')"
           ontouchstart="event.preventDefault();pbStart('B',1)" ontouchend="event.preventDefault();pbStop('B')">»</button>
         <button class="mx-sync mx-sync-b" onclick="syncD('B')">SYNC</button>
@@ -522,159 +524,236 @@ cv.addEventListener('touchend',function(e){e.preventDefault();scratch();},{passi
 </div>
 
 <script>
-// ── JOG VISUAL SPIN + SCRATCH ────────────────────────────────
-(function(){
-  var jogAngles = {A:0, B:0};
-  var jogRAF = {A:null, B:null};
-  var scratchActive = {A:false, B:false};
-  var scratchLastAngle = {A:0, B:0};
-  var scratchLastRate = {A:1, B:1};
+// ══ MIXER ENGINE ══════════════════════════════════════════════
 
-  function getAngleFromEvent(jog, touch) {
-    var r = jog.getBoundingClientRect();
-    var cx = r.left + r.width/2, cy = r.top + r.height/2;
-    return Math.atan2(touch.clientY - cy, touch.clientX - cx) * 180 / Math.PI;
-  }
+var jogAngles = {A:0, B:0};
+var jogRAF    = {A:null, B:null};
+var wfRAF     = {A:null, B:null};
+var scratchActive = {A:false, B:false};
+var scratchLastAng = {A:0, B:0};
+var xfVal = 50;
 
-  function spinJog(k) {
-    if (!D[k] || !D[k].playing || scratchActive[k]) return;
-    jogAngles[k] = (jogAngles[k] + 1.1 * (D[k].rate||1)) % 360;
-    var mark = document.getElementById('jogMark'+k);
-    if (mark) mark.style.transform = 'translateX(-50%) rotate('+jogAngles[k]+'deg)';
-    jogRAF[k] = requestAnimationFrame(function(){ spinJog(k); });
-  }
-
-  function startSpin(k) {
-    cancelAnimationFrame(jogRAF[k]);
-    spinJog(k);
-  }
-
-  // Перехватываем setPlay чтобы запускать/останавливать вращение
-  var origSetPlay = window.setPlay;
-  window.setPlay = function(k, on) {
-    if (origSetPlay) origSetPlay(k, on);
-    var b = document.getElementById('play'+k);
-    if (b) {
-      b.textContent = on ? '⏸' : '▶';
-      b.style.background = on
-        ? (k==='A' ? 'radial-gradient(circle at 38% 35%,#bf5fff,#5500aa)' : 'radial-gradient(circle at 38% 35%,#ff6aad,#aa0055)')
-        : (k==='A' ? 'radial-gradient(circle at 38% 35%,#bf5fff,#7700cc)' : 'radial-gradient(circle at 38% 35%,#ff6aad,#cc0066)');
-    }
-    if (on) startSpin(k);
-    else cancelAnimationFrame(jogRAF[k]);
-    // обновить BPM бейдж
-    if (D[k] && D[k].bpm) {
-      var badge = document.getElementById('bpmBadge'+k);
-      if (badge) badge.textContent = Math.round(D[k].bpm * (D[k].rate||1)) + ' BPM';
-    }
-  };
-
-  // SCRATCH — touch по джогу
+// ── AUDIO CHAIN: добавляем EQ фильтры ────────────────────────
+var origInitAudio = window.initAudio;
+window.initAudio = function() {
+  if (origInitAudio) origInitAudio();
+  var ac = getAC();
   ['A','B'].forEach(function(k){
-    var jog = document.getElementById('jogWrap'+k);
-    if (!jog) return;
-
-    jog.addEventListener('touchstart', function(e){
-      e.preventDefault();
-      warmAC();
-      var touch = e.touches[0];
-      scratchActive[k] = true;
-      scratchLastAngle[k] = getAngleFromEvent(jog, touch);
-      if (D[k] && D[k].src) scratchLastRate[k] = D[k].rate || 1;
-      cancelAnimationFrame(jogRAF[k]);
-    }, {passive:false});
-
-    jog.addEventListener('touchmove', function(e){
-      e.preventDefault();
-      if (!scratchActive[k]) return;
-      var touch = e.touches[0];
-      var newAngle = getAngleFromEvent(jog, touch);
-      var delta = newAngle - scratchLastAngle[k];
-      if (delta > 180) delta -= 360;
-      if (delta < -180) delta += 360;
-      scratchLastAngle[k] = newAngle;
-      // Крутим метку
-      jogAngles[k] = (jogAngles[k] + delta) % 360;
-      var mark = document.getElementById('jogMark'+k);
-      if (mark) mark.style.transform = 'translateX(-50%) rotate('+jogAngles[k]+'deg)';
-      // Скрэтч — меняем скорость воспроизведения
-      if (D[k] && D[k].src) {
-        var scratchRate = delta * 0.08;
-        D[k].src.playbackRate.value = Math.max(-4, Math.min(4, scratchRate));
-      }
-    }, {passive:false});
-
-    jog.addEventListener('touchend', function(e){
-      e.preventDefault();
-      scratchActive[k] = false;
-      // Возвращаем нормальную скорость
-      if (D[k] && D[k].src) D[k].src.playbackRate.value = D[k].rate || 1;
-      if (D[k] && D[k].playing) startSpin(k);
-    }, {passive:false});
+    var d = D[k]; if (!d) return;
+    var hi  = ac.createBiquadFilter(); hi.type='highshelf'; hi.frequency.value=10000; hi.gain.value=0;
+    var mid = ac.createBiquadFilter(); mid.type='peaking';  mid.frequency.value=1000;  mid.Q.value=1; mid.gain.value=0;
+    var low = ac.createBiquadFilter(); low.type='lowshelf'; low.frequency.value=200;   low.gain.value=0;
+    var flt = ac.createBiquadFilter(); flt.type='allpass';  flt.frequency.value=1000;
+    // chain: src → hi → mid → low → flt → cg → master
+    hi.connect(mid); mid.connect(low); low.connect(flt); flt.connect(d.cg);
+    d.hi=hi; d.mid=mid; d.low=low; d.flt=flt; d.eqReady=true;
   });
-})();
+};
 
-// ── CROSSFADER VISUAL SYNC ───────────────────────────────────
-function xfSync(v) {
-  var thumb = document.getElementById('xfThumb');
-  if (!thumb) return;
-  var pct = (v / 100) * 100;
-  thumb.style.left = 'calc('+pct+'% - 11px)';
+// Патч startFrom — пускаем через EQ если готово
+var origStartFrom = window.startFrom;
+window.startFrom = function(k, offset) {
+  var d = D[k]; if (!d || !d.buf) return;
+  if (d.src) { try{d.src.onended=null;d.src.stop();}catch(e){} d.src=null; }
+  d.playing=true; d.pos=offset;
+  var ac=getAC();
+  var src=ac.createBufferSource(); src.buffer=d.buf; src.playbackRate.value=d.rate||1;
+  if (d.eqReady) src.connect(d.hi); else src.connect(d.cg);
+  d.src=src; d.startAC=ac.currentTime-offset; src.start(0,offset);
+  src.onended=function(){if(d.playing){d.playing=false;d.pos=0;d.src=null;setPlay(k,false);}};
+  setPlay(k,true);
+};
+
+// ── BPM BADGE ────────────────────────────────────────────────
+var origSetPlay = window.setPlay;
+window.setPlay = function(k, on) {
+  // обновляем кнопку play
+  var b = document.getElementById('play'+k);
+  if (b) {
+    b.textContent = on ? '⏸' : '▶';
+    b.style.background = on
+      ? (k==='A' ? 'radial-gradient(circle at 38% 35%,#bf5fff,#5500aa)' : 'radial-gradient(circle at 38% 35%,#ff6aad,#aa0055)')
+      : (k==='A' ? 'radial-gradient(circle at 38% 35%,#bf5fff,#7700cc)' : 'radial-gradient(circle at 38% 35%,#ff6aad,#cc0066)');
+  }
+  // BPM бейдж
+  var badge = document.getElementById('bpmBadge'+k);
+  if (badge && D[k] && D[k].bpm) badge.textContent = Math.round(D[k].bpm*(D[k].rate||1))+' BPM';
+  // джог
+  if (on) startJogSpin(k); else { cancelAnimationFrame(jogRAF[k]); }
+  // waveform playhead
+  if (on) startWFLoop(k); else cancelAnimationFrame(wfRAF[k]);
+};
+
+// хук на setName чтобы тоже обновлять BPM после загрузки
+var origSetName = window.setName;
+window.setName = function(k, n) {
+  var el = document.getElementById('tn'+k); if(el) el.textContent = n;
+  var badge = document.getElementById('bpmBadge'+k);
+  if (badge && D[k] && D[k].bpm) badge.textContent = Math.round(D[k].bpm)+' BPM';
+};
+
+// ── JOG SPIN ─────────────────────────────────────────────────
+function startJogSpin(k) {
+  cancelAnimationFrame(jogRAF[k]);
+  (function spin(){
+    if (!D[k] || !D[k].playing || scratchActive[k]) return;
+    jogAngles[k] = (jogAngles[k] + 1.1*(D[k].rate||1)) % 360;
+    var m = document.getElementById('jogMark'+k);
+    if (m) { m.style.transform='translateX(-50%) rotate('+jogAngles[k]+'deg)'; m.style.transformOrigin='50% 69px'; }
+    jogRAF[k] = requestAnimationFrame(spin);
+  })();
 }
 
-// ── EQ PANEL TOGGLE ──────────────────────────────────────────
-function toggleEQ() {
-  var p = document.getElementById('eqPanel');
-  if (p) p.classList.toggle('open');
+// ── WAVEFORM PLAYHEAD ─────────────────────────────────────────
+function startWFLoop(k) {
+  cancelAnimationFrame(wfRAF[k]);
+  (function loop(){
+    if (!D[k] || !D[k].playing) return;
+    drawWFWithHead(k);
+    wfRAF[k] = requestAnimationFrame(loop);
+  })();
 }
 
-// ── FX TOGGLE (простой вкл/выкл) ─────────────────────────────
-function fxToggle(name, btn) {
-  btn.classList.toggle('on');
+function drawWFWithHead(k) {
+  var canv = document.getElementById('wfCanv'+k); if (!canv) return;
+  var d = D[k]; if (!d.buf) return;
+  var w = canv.width, h = canv.height;
+  var ctx = canv.getContext('2d');
+  // перерисовываем вейвформ
+  var ch = d.buf.getChannelData(0), bars=60, step=Math.floor(ch.length/bars);
+  var col = k==='A'?'rgba(155,0,255,0.5)':'rgba(255,0,128,0.5)';
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle=col;
+  for(var i=0;i<bars;i++){
+    var mx=0; for(var j=0;j<step;j++) mx=Math.max(mx,Math.abs(ch[i*step+j]||0));
+    var bh=Math.max(2,mx*(h-4)); ctx.fillRect(i*(w/bars)+0.5,(h-bh)/2,Math.max(1,(w/bars)-1.5),bh);
+  }
+  // playhead
+  var pos = d.src && d.startAC ? (getAC().currentTime - d.startAC) : d.pos;
+  var px = (pos / d.buf.duration) * w;
+  ctx.fillStyle='rgba(255,255,255,0.9)';
+  ctx.fillRect(px-1, 0, 2, h);
 }
 
-// ── EQ KNOBS ─────────────────────────────────────────────────
-document.querySelectorAll('.mx-knob').forEach(function(el){
-  var sy, sa = 0;
-  var dn = function(e) {
-    warmAC();
-    e.preventDefault();
-    sy = e.touches ? e.touches[0].clientY : e.clientY;
-    sa = parseFloat(el.dataset.angle)||0;
-    document.addEventListener('mousemove', mv, {passive:false});
-    document.addEventListener('touchmove', mv, {passive:false});
-    document.addEventListener('mouseup', up);
-    document.addEventListener('touchend', up);
-  };
-  var mv = function(e) {
-    e.preventDefault();
-    var y = e.touches ? e.touches[0].clientY : e.clientY;
-    var a = Math.max(-135, Math.min(135, sa + (sy-y)*2));
-    el.dataset.angle = a;
-    var tick = el.querySelector('.mx-knob-tick');
-    if (tick) tick.style.transform = 'translateX(-50%) rotate('+a+'deg)';
-    // Применяем к аудио
-    var k = el.dataset.dk, b = el.dataset.b;
-    if (D[k]) {
-      var n = a/135;
-      if (b==='hi'  && D[k].hi)  D[k].hi.gain.value  = n*15;
-      if (b==='mid' && D[k].mid) D[k].mid.gain.value = n*12;
-      if (b==='low' && D[k].low) D[k].low.gain.value = n*15;
-    }
-  };
-  var up = function() {
-    document.removeEventListener('mousemove', mv);
-    document.removeEventListener('touchmove', mv);
-    document.removeEventListener('mouseup', up);
-    document.removeEventListener('touchend', up);
-  };
-  el.addEventListener('mousedown', dn);
-  el.addEventListener('touchstart', dn, {passive:false});
+// ── WAVEFORM SCRUB (тап/драг по wf) ──────────────────────────
+['A','B'].forEach(function(k){
+  var wf = document.getElementById('wf'+k); if (!wf) return;
+  function seek(e) {
+    var d = D[k]; if (!d || !d.buf) return;
+    var r = wf.getBoundingClientRect();
+    var x = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
+    var pct = Math.max(0, Math.min(1, x / r.width));
+    var newPos = pct * d.buf.duration;
+    if (d.playing) { startFrom(k, newPos); } else { d.pos=newPos; drawWFWithHead(k); }
+  }
+  wf.addEventListener('touchstart', function(e){ e.preventDefault(); seek(e); }, {passive:false});
+  wf.addEventListener('touchmove',  function(e){ e.preventDefault(); seek(e); }, {passive:false});
+  wf.addEventListener('mousedown',  seek);
+  wf.addEventListener('mousemove',  function(e){ if(e.buttons===1) seek(e); });
 });
 
-// Автозагрузка
+// ── SCRATCH ───────────────────────────────────────────────────
+['A','B'].forEach(function(k){
+  var jog = document.getElementById('jogWrap'+k); if (!jog) return;
+  function getAng(touch) {
+    var r=jog.getBoundingClientRect();
+    return Math.atan2(touch.clientY-(r.top+r.height/2), touch.clientX-(r.left+r.width/2))*180/Math.PI;
+  }
+  jog.addEventListener('touchstart', function(e){
+    e.preventDefault(); warmAC();
+    scratchActive[k]=true;
+    scratchLastAng[k]=getAng(e.touches[0]);
+    cancelAnimationFrame(jogRAF[k]);
+  }, {passive:false});
+  jog.addEventListener('touchmove', function(e){
+    e.preventDefault(); if(!scratchActive[k]) return;
+    var ang=getAng(e.touches[0]);
+    var delta=ang-scratchLastAng[k];
+    if(delta>180)delta-=360; if(delta<-180)delta+=360;
+    scratchLastAng[k]=ang;
+    // крутим метку
+    jogAngles[k]=(jogAngles[k]+delta)%360;
+    var m=document.getElementById('jogMark'+k);
+    if(m){m.style.transform='translateX(-50%) rotate('+jogAngles[k]+'deg)';m.style.transformOrigin='50% 69px';}
+    // скрэтч аудио
+    if(D[k]&&D[k].src) D[k].src.playbackRate.value=Math.max(-4,Math.min(4,delta*0.1));
+  }, {passive:false});
+  jog.addEventListener('touchend', function(e){
+    e.preventDefault(); scratchActive[k]=false;
+    if(D[k]&&D[k].src) D[k].src.playbackRate.value=D[k].rate||1;
+    if(D[k]&&D[k].playing) startJogSpin(k);
+  }, {passive:false});
+});
+
+// ── XFADER TOUCH ─────────────────────────────────────────────
+(function(){
+  var track = document.getElementById('xfTrack');
+  var thumb = document.getElementById('xfThumb');
+  if (!track||!thumb) return;
+  var dragging=false;
+  function move(e) {
+    if(!dragging) return;
+    var r=track.getBoundingClientRect();
+    var x=(e.touches?e.touches[0].clientX:e.clientX)-r.left;
+    var v=Math.max(0,Math.min(100,x/r.width*100));
+    xfVal=v;
+    thumb.style.left='calc('+v+'% - 11px)';
+    xfMove(v);
+  }
+  track.addEventListener('mousedown', function(e){dragging=true;move(e);});
+  track.addEventListener('touchstart', function(e){e.preventDefault();dragging=true;move(e);},{passive:false});
+  document.addEventListener('mousemove', move);
+  document.addEventListener('touchmove', function(e){if(dragging)move(e);},{passive:false});
+  document.addEventListener('mouseup', function(){dragging=false;});
+  document.addEventListener('touchend', function(){dragging=false;});
+})();
+
+// ── EQ PANEL ─────────────────────────────────────────────────
+function toggleEQ() {
+  var p=document.getElementById('eqPanel'); if(p) p.classList.toggle('open');
+}
+function fxToggle(name,btn){ btn.classList.toggle('on'); }
+
+document.querySelectorAll('.mx-knob').forEach(function(el){
+  var sy, sa=0;
+  var dn=function(e){
+    warmAC(); e.preventDefault();
+    sy=e.touches?e.touches[0].clientY:e.clientY;
+    sa=parseFloat(el.dataset.angle)||0;
+    document.addEventListener('mousemove',mv,{passive:false});
+    document.addEventListener('touchmove',mv,{passive:false});
+    document.addEventListener('mouseup',up);
+    document.addEventListener('touchend',up);
+  };
+  var mv=function(e){
+    e.preventDefault();
+    var y=e.touches?e.touches[0].clientY:e.clientY;
+    var a=Math.max(-135,Math.min(135,sa+(sy-y)*2));
+    el.dataset.angle=a;
+    var tick=el.querySelector('.mx-knob-tick');
+    if(tick) tick.style.transform='translateX(-50%) rotate('+a+'deg)';
+    var k=el.dataset.dk, b=el.dataset.b;
+    if(D[k]&&D[k].eqReady){
+      var n=a/135;
+      if(b==='hi')  D[k].hi.gain.value=n*15;
+      if(b==='mid') D[k].mid.gain.value=n*12;
+      if(b==='low') D[k].low.gain.value=n*15;
+    }
+  };
+  var up=function(){
+    document.removeEventListener('mousemove',mv);
+    document.removeEventListener('touchmove',mv);
+    document.removeEventListener('mouseup',up);
+    document.removeEventListener('touchend',up);
+  };
+  el.addEventListener('mousedown',dn);
+  el.addEventListener('touchstart',dn,{passive:false});
+});
+
+// ── АВТОЗАГРУЗКА ─────────────────────────────────────────────
 window.addEventListener('load', function(){
   setTimeout(function(){
+    warmAC();
     if(typeof autoLoad==='function'){
       autoLoad('A','track1.mp3','Track 1');
       autoLoad('B','track2.mp3','Track 2');
@@ -702,7 +781,22 @@ function initAudio() {
   });
 }
 
-function warmAC() { getAC(); if (!masterGain) initAudio(); }
+function warmAC() {
+  getAC();
+  if (!masterGain) {
+    initAudio();
+    // добавляем EQ фильтры после инициализации аудио
+    var ac = getAC();
+    ['A','B'].forEach(function(k){
+      var d = D[k]; if (!d || d.eqReady) return;
+      var hi  = ac.createBiquadFilter(); hi.type='highshelf'; hi.frequency.value=10000; hi.gain.value=0;
+      var mid = ac.createBiquadFilter(); mid.type='peaking';  mid.frequency.value=1000; mid.Q.value=1; mid.gain.value=0;
+      var low = ac.createBiquadFilter(); low.type='lowshelf'; low.frequency.value=200;  low.gain.value=0;
+      hi.connect(mid); mid.connect(low); low.connect(d.cg);
+      d.hi=hi; d.mid=mid; d.low=low; d.eqReady=true;
+    });
+  }
+}
 document.addEventListener('click', warmAC, {once:true});
 document.addEventListener('touchstart', warmAC, {once:true});
 
@@ -779,8 +873,9 @@ function startFrom(k, offset) {
   var d=D[k]; if(!d.buf)return;
   killSrc(k); d.playing=true; d.pos=offset;
   var ac=getAC();
-  var src=ac.createBufferSource(); src.buffer=d.buf; src.playbackRate.value=d.rate;
-  src.connect(d.cg); d.src=src; d.startAC=ac.currentTime-offset; src.start(0,offset);
+  var src=ac.createBufferSource(); src.buffer=d.buf; src.playbackRate.value=d.rate||1;
+  if(d.eqReady) src.connect(d.hi); else src.connect(d.cg);
+  d.src=src; d.startAC=ac.currentTime-offset; src.start(0,offset);
   src.onended=function(){if(d.playing){d.playing=false;d.pos=0;d.src=null;setPlay(k,false);}};
   setPlay(k,true);
 }
