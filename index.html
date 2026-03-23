@@ -515,6 +515,173 @@ window.addEventListener('load', function(){
   }, 600);
 });
 </script>
+<style>
+/* ── COURSES ─────────────────────────────────────────────── */
+.courses{padding:48px 16px 64px;background:var(--dark);}
+.courses__label{color:var(--p);font-size:10px;letter-spacing:3px;text-transform:uppercase;margin:0 0 8px;}
+.courses__title{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:2px;color:var(--text);margin:0 0 28px;}
+.courses__grid{display:flex;flex-direction:column;gap:12px;}
 
+/* карточка */
+.course-card{background:var(--card);border-radius:14px;padding:22px 18px 18px;position:relative;}
+.course-card--base{border:1.5px solid var(--p);}
+.course-card--pro{border:1.5px solid var(--pk);}
+
+/* бейдж */
+.course-card__badge{position:absolute;top:-11px;left:16px;background:var(--p);color:#fff;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:4px 12px;border-radius:20px;}
+
+/* шапка */
+.course-card__tag{font-size:9px;text-transform:uppercase;letter-spacing:2.5px;margin-bottom:5px;}
+.course-card--base .course-card__tag{color:rgba(155,0,255,.7);}
+.course-card--pro  .course-card__tag{color:rgba(255,0,128,.7);}
+
+.course-card__row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
+.course-card__name{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:2px;color:var(--text);line-height:1;margin:0;}
+.course-card__price{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;color:var(--text);line-height:1;}
+.course-card__currency{font-size:11px;margin-top:2px;text-align:right;}
+.course-card--base .course-card__currency{color:rgba(155,0,255,.7);}
+.course-card--pro  .course-card__currency{color:rgba(255,0,128,.7);}
+
+/* подзаголовок */
+.course-card__sub{font-size:13px;color:var(--muted);font-style:italic;margin:0 0 14px;line-height:1.5;}
+
+/* список */
+.course-card__divider{border:none;border-top:1px solid;margin:0 0 12px;}
+.course-card--base .course-card__divider{border-color:rgba(155,0,255,.2);}
+.course-card--pro  .course-card__divider{border-color:rgba(255,0,128,.2);}
+
+.course-card__list{list-style:none;padding:0;margin:0 0 12px;}
+.course-card__list li{font-size:12px;color:var(--muted);padding:3px 0;}
+.course-card__list li::before{content:"→ ";color:rgba(240,232,255,.2);}
+
+/* разворот */
+.course-card__details{display:none;padding-top:14px;margin-bottom:12px;}
+.course-card--base .course-card__details{border-top:1px solid rgba(155,0,255,.2);}
+.course-card--pro  .course-card__details{border-top:1px solid rgba(255,0,128,.2);}
+.course-card__details-block{margin-bottom:12px;}
+.course-card__details-block:last-child{margin-bottom:0;}
+.course-card__details-label{font-size:9px;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;}
+.course-card--base .course-card__details-label{color:var(--p);}
+.course-card--pro  .course-card__details-label{color:var(--pk);}
+.course-card__details-text{font-size:12px;color:var(--muted);line-height:1.6;}
+
+/* кнопки */
+.course-card__btn-more{width:100%;padding:10px;background:transparent;border-radius:8px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;margin-bottom:10px;font-family:'Outfit',sans-serif;transition:background .15s;}
+.course-card--base .course-card__btn-more{border:1px solid rgba(155,0,255,.3);color:rgba(155,0,255,.8);}
+.course-card--pro  .course-card__btn-more{border:1px solid rgba(255,0,128,.3);color:rgba(255,0,128,.8);}
+.course-card--base .course-card__btn-more:active{background:rgba(155,0,255,.1);}
+.course-card--pro  .course-card__btn-more:active{background:rgba(255,0,128,.1);}
+
+.course-card__btn-cta{width:100%;padding:13px;border:none;border-radius:8px;color:#fff;font-size:13px;font-weight:800;letter-spacing:1px;text-transform:uppercase;cursor:pointer;font-family:'Outfit',sans-serif;transition:opacity .15s;}
+.course-card--base .course-card__btn-cta{background:linear-gradient(135deg,#9B00FF,#FF0080);}
+.course-card--pro  .course-card__btn-cta{background:linear-gradient(135deg,#FF0080,#9B00FF);}
+.course-card__btn-cta:active{opacity:.85;}
+
+/* разовое */
+.courses__razovoe{text-align:center;padding:12px 16px;border-radius:10px;background:linear-gradient(var(--dark),var(--dark)) padding-box,linear-gradient(90deg,var(--p),var(--pk)) border-box;border:1px solid transparent;}
+.courses__razovoe p{font-size:12px;color:var(--muted);margin:0;font-family:'Outfit',sans-serif;}
+.courses__razovoe a{color:rgba(240,232,255,.7);text-decoration:none;cursor:pointer;}
+.courses__razovoe a:active{color:#fff;}
+/* ── END COURSES ─────────────────────────────────────────── */
+</style>
+
+<section class="courses" id="courses">
+  <p class="courses__label">▶ выбери свой путь</p>
+  <h2 class="courses__title">Курсы</h2>
+
+  <div class="courses__grid">
+
+    <!-- БАЗА -->
+    <div class="course-card course-card--base">
+      <span class="course-card__badge">🔥 Хит продаж</span>
+
+      <p class="course-card__tag">12 занятий · 3 месяца</p>
+      <div class="course-card__row">
+        <h3 class="course-card__name">База</h3>
+        <div>
+          <div class="course-card__price">45 000</div>
+          <div class="course-card__currency">₽ · рассрочка без переплат</div>
+        </div>
+      </div>
+
+      <p class="course-card__sub">Хочешь быть на сцене — а не на танцполе?</p>
+      <hr class="course-card__divider">
+      <ul class="course-card__list">
+        <li>Играешь на Pioneer CDJ с первого занятия</li>
+        <li>Индивидуально — преподаватель только с тобой</li>
+        <li>Бесплатные тренировки на время курса</li>
+      </ul>
+
+      <div class="course-card__details" id="base-details">
+        <div class="course-card__details-block">
+          <p class="course-card__details-label">Как проходит</p>
+          <p class="course-card__details-text">Преподаватель объясняет — ты сразу отрабатываешь. 80% времени ты за пультом.</p>
+        </div>
+        <div class="course-card__details-block">
+          <p class="course-card__details-label">Результат</p>
+          <p class="course-card__details-text">Уверенно встанешь за любой аппарат и сыграешь свой первый сет.</p>
+        </div>
+        <div class="course-card__details-block">
+          <p class="course-card__details-label">Оборудование</p>
+          <p class="course-card__details-text">Pioneer CDJ Nexus, DJM, винил, контроллеры — всё в студии.</p>
+        </div>
+      </div>
+
+      <button class="course-card__btn-more" id="base-btn"
+        onclick="(function(){var d=document.getElementById('base-details');var b=document.getElementById('base-btn');var open=d.style.display==='block';d.style.display=open?'none':'block';b.textContent=open?'Подробнее о курсе ↓':'Скрыть ↑';})()">
+        Подробнее о курсе ↓
+      </button>
+      <button class="course-card__btn-cta" onclick="openModal && openModal('База')">
+        Записаться на пробное
+      </button>
+    </div>
+
+    <!-- PRO -->
+    <div class="course-card course-card--pro">
+
+      <p class="course-card__tag">5 занятий · индивидуально</p>
+      <div class="course-card__row">
+        <h3 class="course-card__name">PRO</h3>
+        <div>
+          <div class="course-card__price">20 000</div>
+          <div class="course-card__currency">₽ · рассрочка без переплат</div>
+        </div>
+      </div>
+
+      <p class="course-card__sub">Уже играешь — выходи на следующий уровень</p>
+      <hr class="course-card__divider">
+      <ul class="course-card__list">
+        <li>Один на один с действующим артистом</li>
+        <li>Программа под твой запрос</li>
+        <li>Бесплатные тренировки + обратная связь</li>
+      </ul>
+
+      <div class="course-card__details" id="pro-details">
+        <div class="course-card__details-block">
+          <p class="course-card__details-label">Как проходит</p>
+          <p class="course-card__details-text">Говоришь что хочешь прокачать. Наставник открывает свои фишки — те самые которые привели его на большую сцену.</p>
+        </div>
+        <div class="course-card__details-block">
+          <p class="course-card__details-label">Оборудование</p>
+          <p class="course-card__details-text">Pioneer CDJ Nexus, DJM, винил, контроллеры — всё в студии.</p>
+        </div>
+      </div>
+
+      <button class="course-card__btn-more" id="pro-btn"
+        onclick="(function(){var d=document.getElementById('pro-details');var b=document.getElementById('pro-btn');var open=d.style.display==='block';d.style.display=open?'none':'block';b.textContent=open?'Подробнее о курсе ↓':'Скрыть ↑';})()">
+        Подробнее о курсе ↓
+      </button>
+      <button class="course-card__btn-cta" onclick="openModal && openModal('PRO')">
+        Записаться на пробное
+      </button>
+    </div>
+
+  </div>
+
+  <div class="courses__razovoe" style="margin-top:14px;">
+    <p>Занятия без абонемента — <a onclick="openModal && openModal('Разовое')">4 000₽/занятие →</a></p>
+  </div>
+
+</section>
 </body>
 </html>
