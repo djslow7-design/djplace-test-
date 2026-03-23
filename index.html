@@ -3,7 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>DJ Place</title>
+<title>DJ Place — Школа диджеинга в Санкт-Петербурге</title>
+<meta name="description" content="Школа диджеинга DJ Place в Санкт-Петербурге с 2016 года. Обучение на Pioneer CDJ, живые наставники — действующие артисты. Запишись на бесплатное пробное занятие.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{--p:#9B00FF;--pk:#FF0080;}
@@ -92,7 +95,7 @@ body{background:#07000f;color:#f0e8ff;font-family:Arial,sans-serif;overflow-x:hi
 
 <div class="nav">
   <div class="logo">DJ PLACE</div>
-  <button class="nav-btn" onclick="alert('Форма записи!')">Записаться</button>
+  <button class="nav-btn" onclick="openModal()">Записаться</button>
 </div>
 
 <div class="hero">
@@ -112,7 +115,7 @@ body{background:#07000f;color:#f0e8ff;font-family:Arial,sans-serif;overflow-x:hi
     <div class="hero-h1">Лучшие диджеи Петербурга<br>начинали здесь. Твоя очередь.</div>
     <p class="hero-p">Профессиональная техника, топовые наставники и бесплатная практика между уроками.</p>
     <div class="btns">
-      <button class="btn1" onclick="alert('Форма записи!')">Записаться на пробный урок</button>
+      <button class="btn1" onclick="openModal()">Записаться на пробный урок</button>
       <button class="btn2">Попробовать пульт ↓</button>
     </div>
     <div class="stats">
@@ -180,7 +183,7 @@ body{background:#07000f;color:#f0e8ff;font-family:Arial,sans-serif;overflow-x:hi
     <div class="ov-line"></div>
     <div class="ov-desc" id="ovDesc"></div>
     <div class="ov-tags" id="ovTags" style="display:none"></div>
-    <button class="ov-enroll" onclick="alert('Форма записи!')">Записаться на пробное</button>
+    <button class="ov-enroll" onclick="openModal()">Записаться на пробное</button>
     <button class="ov-back" onclick="closeMentor()">← Назад к наставникам</button>
   </div>
 </div>
@@ -688,5 +691,295 @@ window.addEventListener('load', function(){
   </div>
 
 </section>
+
+<!-- ══ СТУДИЯ ══ -->
+<style>
+.studio{padding:48px 0 0;background:#07000f;overflow:hidden;}
+.studio__head{padding:0 16px 24px;}
+.studio__photo{position:relative;width:100%;aspect-ratio:4/3;overflow:hidden;}
+.studio__photo img{width:100%;height:100%;object-fit:cover;display:block;}
+.studio__photo-grad{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 30%,#07000f 100%);}
+.studio__gear{padding:0 16px 48px;margin-top:-2px;}
+.studio__gear-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:rgba(240,232,255,.3);margin-bottom:16px;}
+.studio__gear-list{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.studio__gear-item{background:#0d001c;border:1px solid rgba(155,0,255,.12);border-radius:12px;padding:14px 12px;display:flex;align-items:flex-start;gap:10px;}
+.studio__gear-icon{font-size:20px;flex-shrink:0;margin-top:1px;}
+.studio__gear-name{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;color:#f0e8ff;line-height:1.1;margin-bottom:3px;}
+.studio__gear-desc{font-size:10px;color:rgba(240,232,255,.35);line-height:1.4;}
+</style>
+
+<section class="studio" id="studio">
+  <div class="studio__head">
+    <span style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#FF0080;display:block;margin-bottom:7px;">▶ где ты будешь учиться</span>
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:min(8vw,32px);letter-spacing:1px;color:#f0e8ff;margin:0 0 8px;">Студия</h2>
+    <p style="font-size:12px;color:rgba(240,232,255,.4);line-height:1.65;margin:0;">Центр Петербурга, ул. Оружейника Фёдорова 2. Звукоизолированные кабинеты, проф. аппарат.</p>
+  </div>
+  <div class="studio__photo">
+    <img src="Фото_студии.png" alt="Студия DJ Place">
+    <div class="studio__photo-grad"></div>
+  </div>
+  <div class="studio__gear">
+    <div class="studio__gear-title">Оборудование</div>
+    <div class="studio__gear-list">
+      <div class="studio__gear-item">
+        <div class="studio__gear-icon">💿</div>
+        <div><div class="studio__gear-name">Pioneer CDJ Nexus</div><div class="studio__gear-desc">Профессиональный CDJ — стандарт клубной сцены</div></div>
+      </div>
+      <div class="studio__gear-item">
+        <div class="studio__gear-icon">🎚️</div>
+        <div><div class="studio__gear-name">Pioneer DJM</div><div class="studio__gear-desc">Микшер со встроенными эффектами и фильтрами</div></div>
+      </div>
+      <div class="studio__gear-item">
+        <div class="studio__gear-icon">🎵</div>
+        <div><div class="studio__gear-name">Винильный сетап</div><div class="studio__gear-desc">Technics 1210 — для тех, кто хочет скретч и олдскул</div></div>
+      </div>
+      <div class="studio__gear-item">
+        <div class="studio__gear-icon">🎛️</div>
+        <div><div class="studio__gear-name">Контроллеры</div><div class="studio__gear-desc">DDJ для старта и отработки навыков</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ОТЗЫВЫ ══ -->
+<style>
+.reviews{padding:40px 0 48px;background:linear-gradient(180deg,#07000f 0%,#0a000f 100%);border-top:1px solid rgba(155,0,255,.1);}
+.reviews__head{padding:0 16px 20px;}
+.reviews__scroll{display:flex;gap:12px;padding:4px 16px 4px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.reviews__scroll::-webkit-scrollbar{display:none;}
+.rv{flex-shrink:0;width:75vw;max-width:280px;background:#0d001c;border:1px solid rgba(155,0,255,.14);border-radius:14px;padding:18px 16px;}
+.rv__stars{font-size:13px;letter-spacing:2px;margin-bottom:10px;}
+.rv__text{font-size:13px;color:rgba(240,232,255,.65);line-height:1.7;margin-bottom:14px;font-family:'Outfit',sans-serif;}
+.rv__author{display:flex;align-items:center;gap:10px;}
+.rv__avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--p),var(--pk));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;font-family:'Outfit',sans-serif;flex-shrink:0;}
+.rv__name{font-size:12px;font-weight:700;color:#f0e8ff;font-family:'Outfit',sans-serif;}
+.rv__course{font-size:10px;color:rgba(240,232,255,.35);margin-top:1px;}
+</style>
+
+<section class="reviews" id="reviews">
+  <div class="reviews__head">
+    <span style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#FF0080;display:block;margin-bottom:7px;">▶ говорят выпускники</span>
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:min(8vw,32px);letter-spacing:1px;color:#f0e8ff;margin:0;">Отзывы</h2>
+  </div>
+  <div class="reviews__scroll">
+    <div class="rv">
+      <div class="rv__stars">★★★★★</div>
+      <p class="rv__text">Думал, что диджеинг это сложно и долго. После первого занятия уже сводил два трека. Наставник объясняет так, что всё понятно даже без музыкального образования.</p>
+      <div class="rv__author">
+        <div class="rv__avatar">А</div>
+        <div><div class="rv__name">Антон, 23 года</div><div class="rv__course">Курс «База»</div></div>
+      </div>
+    </div>
+    <div class="rv">
+      <div class="rv__stars">★★★★★</div>
+      <p class="rv__text">Уже год играю на клубных вечеринках. Начинал с нуля в DJ Place. Самое важное — тут учат не кнопки нажимать, а слышать музыку и работать с толпой.</p>
+      <div class="rv__author">
+        <div class="rv__avatar">М</div>
+        <div><div class="rv__name">Миша, 27 лет</div><div class="rv__course">Курс «База» → «PRO»</div></div>
+      </div>
+    </div>
+    <div class="rv">
+      <div class="rv__stars">★★★★★</div>
+      <p class="rv__text">Брала курс PRO — хотела добавить техники. WZDQ разобрал мои слабые места и показал приёмы которые реально используют на сцене. Уже применяю на выступлениях.</p>
+      <div class="rv__author">
+        <div class="rv__avatar">К</div>
+        <div><div class="rv__name">Катя, 25 лет</div><div class="rv__course">Курс «PRO»</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FAQ ══ -->
+<style>
+.faq{padding:40px 16px 48px;background:#07000f;border-top:1px solid rgba(155,0,255,.1);}
+.faq__list{margin-top:20px;display:flex;flex-direction:column;gap:8px;}
+.faq__item{background:#0d001c;border:1px solid rgba(155,0,255,.14);border-radius:12px;overflow:hidden;}
+.faq__q{width:100%;background:none;border:none;color:#f0e8ff;text-align:left;padding:16px;font-size:13px;font-weight:700;font-family:'Outfit',sans-serif;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;line-height:1.4;}
+.faq__q-icon{flex-shrink:0;width:20px;height:20px;border-radius:50%;background:rgba(155,0,255,.12);border:1px solid rgba(155,0,255,.25);display:flex;align-items:center;justify-content:center;font-size:11px;color:rgba(155,0,255,.8);transition:transform .25s;}
+.faq__item.open .faq__q-icon{transform:rotate(45deg);}
+.faq__a{max-height:0;overflow:hidden;transition:max-height .3s ease;padding:0 16px;}
+.faq__item.open .faq__a{max-height:200px;}
+.faq__a-inner{padding-bottom:16px;font-size:12px;color:rgba(240,232,255,.5);line-height:1.75;font-family:'Outfit',sans-serif;border-top:1px solid rgba(155,0,255,.1);padding-top:12px;}
+</style>
+
+<section class="faq" id="faq">
+  <span style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#FF0080;display:block;margin-bottom:7px;">▶ вопросы</span>
+  <h2 style="font-family:'Bebas Neue',sans-serif;font-size:min(8vw,32px);letter-spacing:1px;color:#f0e8ff;margin:0;">FAQ</h2>
+  <div class="faq__list">
+    <div class="faq__item">
+      <button class="faq__q" onclick="toggleFaq(this)">
+        Нужен ли музыкальный опыт?
+        <span class="faq__q-icon">+</span>
+      </button>
+      <div class="faq__a"><div class="faq__a-inner">Нет. Большинство учеников приходят без опыта. Курс «База» построен с нуля — ты встаёшь за аппарат с первого занятия и сразу слышишь результат.</div></div>
+    </div>
+    <div class="faq__item">
+      <button class="faq__q" onclick="toggleFaq(this)">
+        Что такое пробное занятие?
+        <span class="faq__q-icon">+</span>
+      </button>
+      <div class="faq__a"><div class="faq__a-inner">60 минут в студии один на один с преподавателем. Ты пробуешь технику, задаёшь вопросы. Это бесплатно и ни к чему не обязывает.</div></div>
+    </div>
+    <div class="faq__item">
+      <button class="faq__q" onclick="toggleFaq(this)">
+        Есть ли рассрочка?
+        <span class="faq__q-icon">+</span>
+      </button>
+      <div class="faq__a"><div class="faq__a-inner">Да. Для курсов «База» и «PRO» доступна рассрочка без переплат и банковских процентов. Уточним детали при записи.</div></div>
+    </div>
+    <div class="faq__item">
+      <button class="faq__q" onclick="toggleFaq(this)">
+        Могу ли я практиковаться между уроками?
+        <span class="faq__q-icon">+</span>
+      </button>
+      <div class="faq__a"><div class="faq__a-inner">Да. Студия открыта для бесплатных тренировок в течение всего курса. Это ключевое преимущество — ты закрепляешь материал, а не ждёшь следующего урока.</div></div>
+    </div>
+    <div class="faq__item">
+      <button class="faq__q" onclick="toggleFaq(this)">
+        Можно начать в любое время?
+        <span class="faq__q-icon">+</span>
+      </button>
+      <div class="faq__a"><div class="faq__a-inner">Да, набор идёт постоянно. Всё обучение индивидуальное, поэтому график подстраивается под тебя. Запишись на пробное — и обсудим расписание.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA ══ -->
+<style>
+.cta-final{padding:60px 20px;background:#07000f;text-align:center;border-top:1px solid rgba(155,0,255,.1);position:relative;overflow:hidden;}
+.cta-final__bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% 100%,rgba(155,0,255,.18),transparent 70%);pointer-events:none;}
+.cta-final__tag{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--pk);display:block;margin-bottom:16px;position:relative;}
+.cta-final__h{font-family:'Bebas Neue',sans-serif;font-size:min(14vw,54px);letter-spacing:2px;line-height:.95;color:#fff;margin-bottom:8px;position:relative;}
+.cta-final__h span{background:linear-gradient(90deg,var(--p),var(--pk));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.cta-final__sub{font-size:13px;color:rgba(240,232,255,.4);line-height:1.65;margin-bottom:32px;position:relative;font-family:'Outfit',sans-serif;}
+.cta-final__btn{display:block;width:100%;max-width:340px;margin:0 auto 12px;padding:18px;background:linear-gradient(90deg,var(--p),var(--pk));color:#fff;border:none;border-radius:50px;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;cursor:pointer;box-shadow:0 8px 32px rgba(155,0,255,.45);position:relative;}
+.cta-final__link{display:block;font-size:12px;color:rgba(240,232,255,.35);margin-top:8px;position:relative;font-family:'Outfit',sans-serif;}
+</style>
+
+<section class="cta-final" id="cta">
+  <div class="cta-final__bg"></div>
+  <span class="cta-final__tag">▶ DJ Place · Санкт-Петербург · с 2016</span>
+  <h2 class="cta-final__h">ТВОЯ<br><span>СЦЕНА</span><br>ЖДЁТ</h2>
+  <p class="cta-final__sub">Первый шаг — бесплатное пробное занятие.<br>Приходи и встань за аппарат.</p>
+  <button class="cta-final__btn" onclick="openModal()">ЗАПИСАТЬСЯ НА ПРОБНОЕ</button>
+  <span class="cta-final__link">+7 981 879 60 47 · ул. Оружейника Фёдорова 2</span>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer style="background:#040008;border-top:1px solid rgba(155,0,255,.1);padding:24px 20px;text-align:center;">
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:4px;background:linear-gradient(90deg,var(--p),var(--pk));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px;">DJ PLACE</div>
+  <div style="display:flex;justify-content:center;gap:16px;margin-bottom:14px;">
+    <a href="https://www.instagram.com/dj_place/" target="_blank" style="width:36px;height:36px;border-radius:50%;background:rgba(155,0,255,.1);border:1px solid rgba(155,0,255,.25);display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:16px;">📸</a>
+    <a href="https://vk.com/dj_place" target="_blank" style="width:36px;height:36px;border-radius:50%;background:rgba(155,0,255,.1);border:1px solid rgba(155,0,255,.25);display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:16px;">💙</a>
+    <a href="tel:+79818796047" style="width:36px;height:36px;border-radius:50%;background:rgba(155,0,255,.1);border:1px solid rgba(155,0,255,.25);display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:16px;">📞</a>
+  </div>
+  <div style="font-size:11px;color:rgba(240,232,255,.25);line-height:1.8;font-family:'Outfit',sans-serif;">
+    Санкт-Петербург · ул. Оружейника Фёдорова 2<br>
+    +7 981 879 60 47<br>
+    © DJ Place 2016–2025
+  </div>
+</footer>
+
+<!-- ══ ФОРМА ЗАПИСИ ══ -->
+<style>
+.modal-overlay{position:fixed;inset:0;background:rgba(7,0,15,.7);z-index:1000;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(4px);}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal-sheet{position:fixed;bottom:0;left:0;right:0;z-index:1001;background:#0d001c;border-radius:20px 20px 0 0;border-top:1px solid rgba(155,0,255,.3);padding:0 20px 32px;transform:translateY(100%);transition:transform .38s cubic-bezier(.25,.46,.45,.94);max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.modal-sheet.open{transform:translateY(0);}
+.modal-handle{width:44px;height:5px;background:rgba(255,255,255,.15);border-radius:3px;margin:14px auto 20px;}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:#fff;margin-bottom:4px;}
+.modal-sub{font-size:12px;color:rgba(240,232,255,.4);margin-bottom:22px;font-family:'Outfit',sans-serif;}
+.modal-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:rgba(240,232,255,.4);font-weight:700;display:block;margin-bottom:6px;font-family:'Outfit',sans-serif;}
+.modal-input{width:100%;background:#07000f;border:1.5px solid rgba(155,0,255,.25);border-radius:10px;padding:14px 16px;color:#f0e8ff;font-size:15px;font-family:'Outfit',sans-serif;outline:none;margin-bottom:14px;-webkit-appearance:none;}
+.modal-input:focus{border-color:rgba(155,0,255,.6);}
+.modal-input::placeholder{color:rgba(240,232,255,.2);}
+.modal-select{width:100%;background:#07000f;border:1.5px solid rgba(155,0,255,.25);border-radius:10px;padding:14px 16px;color:#f0e8ff;font-size:14px;font-family:'Outfit',sans-serif;outline:none;margin-bottom:20px;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(155,0,255,0.6)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;}
+.modal-select option{background:#0d001c;}
+.modal-submit{width:100%;padding:17px;background:linear-gradient(90deg,var(--p),var(--pk));color:#fff;border:none;border-radius:50px;font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;cursor:pointer;box-shadow:0 6px 28px rgba(155,0,255,.4);margin-bottom:10px;}
+.modal-cancel{width:100%;padding:14px;background:transparent;color:rgba(240,232,255,.4);border:1.5px solid rgba(155,0,255,.2);border-radius:50px;font-size:13px;cursor:pointer;font-family:'Outfit',sans-serif;}
+.modal-success{display:none;text-align:center;padding:20px 0;}
+.modal-success__icon{font-size:48px;margin-bottom:12px;}
+.modal-success__title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:#fff;margin-bottom:8px;}
+.modal-success__text{font-size:13px;color:rgba(240,232,255,.5);line-height:1.65;font-family:'Outfit',sans-serif;}
+</style>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal()"></div>
+<div class="modal-sheet" id="modalSheet">
+  <div class="modal-handle"></div>
+  <div id="modalForm">
+    <div class="modal-title">Записаться</div>
+    <p class="modal-sub">Бесплатное пробное · без обязательств</p>
+    <label class="modal-label">Имя</label>
+    <input class="modal-input" id="formName" type="text" placeholder="Как тебя зовут?" autocomplete="given-name">
+    <label class="modal-label">Телефон</label>
+    <input class="modal-input" id="formPhone" type="tel" placeholder="+7 ___ ___ __ __" autocomplete="tel">
+    <label class="modal-label">Курс</label>
+    <select class="modal-select" id="formCourse">
+      <option value="Пробное">🎧 Бесплатное пробное занятие</option>
+      <option value="База">🔥 База — 12 занятий · 45 000₽</option>
+      <option value="PRO">⚡ PRO — 5 занятий · 20 000₽</option>
+      <option value="Разовое">Разовое занятие — 4 000₽</option>
+    </select>
+    <button class="modal-submit" onclick="submitForm()">ОТПРАВИТЬ ЗАЯВКУ</button>
+    <button class="modal-cancel" onclick="closeModal()">Закрыть</button>
+  </div>
+  <div class="modal-success" id="modalSuccess">
+    <div class="modal-success__icon">🎧</div>
+    <div class="modal-success__title">Заявка отправлена!</div>
+    <p class="modal-success__text">Мы свяжемся с тобой в течение часа.<br>DJ Place ждёт тебя.</p>
+  </div>
+</div>
+
+<script>
+function openModal(course) {
+  if (course) {
+    var sel = document.getElementById('formCourse');
+    for (var i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].value === course) { sel.selectedIndex = i; break; }
+    }
+  }
+  document.getElementById('modalOverlay').classList.add('open');
+  document.getElementById('modalSheet').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.getElementById('modalSheet').classList.remove('open');
+  document.body.style.overflow = '';
+  setTimeout(function(){
+    document.getElementById('modalForm').style.display = '';
+    document.getElementById('modalSuccess').style.display = 'none';
+  }, 400);
+}
+function submitForm() {
+  var name = document.getElementById('formName').value.trim();
+  var phone = document.getElementById('formPhone').value.trim();
+  if (!name || !phone) { alert('Заполни имя и телефон'); return; }
+  var course = document.getElementById('formCourse').value;
+  // TODO: Telegram webhook
+  // fetch('https://api.telegram.org/bot<TOKEN>/sendMessage', {
+  //   method:'POST', headers:{'Content-Type':'application/json'},
+  //   body: JSON.stringify({chat_id:'<CHAT_ID>', text:'📩 DJ Place\nИмя: '+name+'\nТел: '+phone+'\nКурс: '+course})
+  // });
+  document.getElementById('modalForm').style.display = 'none';
+  document.getElementById('modalSuccess').style.display = 'block';
+  setTimeout(closeModal, 2800);
+}
+
+// Свайп вниз для закрытия модала
+(function(){
+  var sh = document.getElementById('modalSheet'), sy = 0;
+  sh.addEventListener('touchstart', function(e){ sy = e.touches[0].clientY; }, {passive:true});
+  sh.addEventListener('touchend', function(e){ if(e.changedTouches[0].clientY - sy > 90) closeModal(); }, {passive:true});
+})();
+
+function toggleFaq(btn) {
+  var item = btn.parentElement;
+  var wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq__item').forEach(function(i){ i.classList.remove('open'); });
+  if (!wasOpen) item.classList.add('open');
+}
+</script>
+
 </body>
 </html>
