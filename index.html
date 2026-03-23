@@ -287,83 +287,401 @@ cv.addEventListener('touchend',function(e){e.preventDefault();scratch();},{passi
 
 
 <!-- ══ СЕКЦИЯ ПУЛЬТ ══ -->
-<div style="background:#050010;border-top:1px solid rgba(155,0,255,.12);padding:40px 20px;">
+<style>
+.mx-wrap{background:#050010;border-top:1px solid rgba(155,0,255,.12);padding:32px 16px 40px;}
+.mx-head{margin-bottom:20px;}
+.mx-tag{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#FF0080;margin-bottom:8px;display:block;}
+.mx-h2{font-family:Arial Black,sans-serif;font-weight:900;font-size:min(7vw,28px);letter-spacing:1px;color:#f0e8ff;margin-bottom:6px;}
+.mx-sub{font-size:12px;color:rgba(240,232,255,.4);line-height:1.65;}
 
-  <!-- Заголовок -->
-  <span style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#FF0080;margin-bottom:8px;display:block;">▶ бесплатно · прямо здесь</span>
-  <h2 style="font-family:Arial Black,sans-serif;font-weight:900;font-size:min(7vw,28px);letter-spacing:1px;color:#f0e8ff;margin-bottom:8px;">Попробуй <span style="background:linear-gradient(90deg,#9B00FF,#FF0080);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">диджеинг</span></h2>
-  <p style="font-size:12px;color:rgba(240,232,255,.4);line-height:1.65;margin-bottom:24px;">Твои первые 60 секунд за пультом. Загрузи свой трек или используй наш.</p>
+/* LANDSCAPE ПУЛЬТ */
+.mx-board{background:#07000f;border:1px solid rgba(155,0,255,.18);border-radius:20px;overflow:hidden;display:flex;height:300px;}
+.mx-deck{flex:1;display:flex;flex-direction:column;align-items:center;padding:12px 10px 10px;position:relative;}
+.mx-deck-a{border-right:1px solid rgba(155,0,255,.1);}
+.mx-deck-label{font-size:7px;font-weight:800;letter-spacing:3px;text-transform:uppercase;width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.mx-deck-label-a{color:#9B00FF;}
+.mx-deck-label-b{color:#FF0080;}
+.mx-bpm-badge{font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;}
+.mx-bpm-a{background:rgba(155,0,255,.15);color:rgba(155,0,255,.9);}
+.mx-bpm-b{background:rgba(255,0,128,.15);color:rgba(255,0,128,.9);}
 
-  <!-- ПУЛЬТ -->
-  <div style="background:#07000f;border:1px solid rgba(155,0,255,.2);border-radius:16px;padding:16px;margin-bottom:20px;">
+/* CDJ JOG */
+.mx-jog{position:relative;width:148px;height:148px;flex-shrink:0;margin-bottom:8px;}
+.mx-jog-outer{position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle at 36% 30%,#2a0050,#0d0020 50%,#040010);
+  border:2.5px solid rgba(155,0,255,.5);
+  box-shadow:
+    0 0 0 4px rgba(155,0,255,.06),
+    0 12px 40px rgba(0,0,0,.95),
+    inset 0 3px 8px rgba(255,255,255,.07),
+    inset 0 -6px 20px rgba(0,0,0,.8);}
+.mx-jog-outer-b{border-color:rgba(255,0,128,.5);
+  box-shadow:0 0 0 4px rgba(255,0,128,.06),0 12px 40px rgba(0,0,0,.95),inset 0 3px 8px rgba(255,255,255,.07),inset 0 -6px 20px rgba(0,0,0,.8);}
+.mx-jog-bumps{position:absolute;inset:0;border-radius:50%;overflow:hidden;}
+.mx-jog-ring1{position:absolute;inset:9px;border-radius:50%;border:1px solid rgba(255,255,255,.04);}
+.mx-jog-ring2{position:absolute;inset:17px;border-radius:50%;border:1px solid rgba(255,255,255,.03);}
+.mx-jog-platter{position:absolute;inset:22px;border-radius:50%;
+  background:radial-gradient(circle at 36% 32%,#3d0070,#0e0022);
+  border:1.5px solid rgba(155,0,255,.35);
+  box-shadow:inset 0 4px 14px rgba(0,0,0,.7),0 3px 16px rgba(155,0,255,.3);}
+.mx-jog-platter-b{background:radial-gradient(circle at 36% 32%,#5a0038,#0e0010);border-color:rgba(255,0,128,.35);box-shadow:inset 0 4px 14px rgba(0,0,0,.7),0 3px 16px rgba(255,0,128,.3);}
+.mx-jog-center{position:absolute;inset:44px;border-radius:50%;
+  background:radial-gradient(circle at 38% 32%,#c060ff,#6600bb);
+  box-shadow:0 0 16px rgba(155,0,255,.85),inset 0 2px 4px rgba(255,255,255,.3),0 3px 8px rgba(0,0,0,.6);}
+.mx-jog-center-b{background:radial-gradient(circle at 38% 32%,#ff6aad,#bb0055);box-shadow:0 0 16px rgba(255,0,128,.85),inset 0 2px 4px rgba(255,255,255,.3),0 3px 8px rgba(0,0,0,.6);}
+.mx-jog-mark{position:absolute;top:5px;left:50%;width:4px;height:14px;
+  background:linear-gradient(to bottom,rgba(255,255,255,1),rgba(255,255,255,.1));
+  border-radius:2px;transform:translateX(-50%);transform-origin:50% 69px;
+  box-shadow:0 0 6px rgba(255,255,255,.4);}
+
+/* WF */
+.mx-wf{width:100%;height:22px;border-radius:6px;margin-bottom:8px;position:relative;overflow:hidden;flex-shrink:0;}
+.mx-wf-a{background:rgba(155,0,255,.05);border:1px solid rgba(155,0,255,.12);}
+.mx-wf-b{background:rgba(255,0,128,.05);border:1px solid rgba(255,0,128,.12);}
+
+/* TRANSPORT — одинаковый порядок на обоих деках */
+.mx-transport{display:flex;gap:5px;align-items:center;width:100%;}
+.mx-tbtn{height:36px;border-radius:10px;font-size:10px;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  flex:1;touch-action:manipulation;
+  box-shadow:0 3px 10px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.06);}
+.mx-tbtn-a{border:1px solid rgba(155,0,255,.25);background:rgba(155,0,255,.09);color:rgba(240,232,255,.6);}
+.mx-tbtn-b{border:1px solid rgba(255,0,128,.25);background:rgba(255,0,128,.09);color:rgba(240,232,255,.6);}
+.mx-tbtn:active{opacity:.7;transform:scale(.95);}
+.mx-play{width:48px;height:48px;border-radius:50%;border:none;color:#fff;
+  font-size:18px;line-height:1;cursor:pointer;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;touch-action:manipulation;}
+.mx-play-a{background:radial-gradient(circle at 38% 35%,#bf5fff,#7700cc);
+  box-shadow:0 5px 22px rgba(155,0,255,.6),inset 0 1px 3px rgba(255,255,255,.2);}
+.mx-play-b{background:radial-gradient(circle at 38% 35%,#ff6aad,#cc0066);
+  box-shadow:0 5px 22px rgba(255,0,128,.6),inset 0 1px 3px rgba(255,255,255,.2);}
+.mx-play:active{transform:scale(.9);}
+.mx-sync{height:36px;border-radius:10px;font-size:9px;font-weight:900;letter-spacing:1px;cursor:pointer;flex:1;touch-action:manipulation;
+  box-shadow:0 3px 10px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.06);}
+.mx-sync-a{background:rgba(155,0,255,.15);border:1px solid rgba(155,0,255,.45);color:#9B00FF;}
+.mx-sync-b{background:rgba(255,0,128,.15);border:1px solid rgba(255,0,128,.45);color:#FF0080;}
+.mx-sync:active{opacity:.7;}
+
+/* CENTER — crossfader + кнопки */
+.mx-center{width:88px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:12px 6px 10px;border-left:1px solid rgba(155,0,255,.08);}
+.mx-center-logo{font-size:6px;letter-spacing:2px;color:rgba(240,232,255,.1);text-transform:uppercase;text-align:center;}
+.mx-xf-wrap{width:100%;}
+.mx-xf-label{font-size:6px;letter-spacing:2px;color:rgba(240,232,255,.2);text-transform:uppercase;text-align:center;margin-bottom:7px;}
+.mx-xf-track{height:6px;border-radius:3px;background:rgba(255,255,255,.05);position:relative;box-shadow:inset 0 2px 5px rgba(0,0,0,.5);}
+.mx-xf-fill{position:absolute;inset:0;border-radius:3px;background:linear-gradient(90deg,rgba(155,0,255,.4),rgba(255,0,128,.4));}
+.mx-xf-thumb{position:absolute;top:50%;left:50%;width:22px;height:22px;border-radius:6px;
+  background:linear-gradient(145deg,#c060ff,#6600bb);
+  transform:translate(-50%,-50%);
+  box-shadow:0 4px 14px rgba(155,0,255,.6),inset 0 1px 3px rgba(255,255,255,.25);}
+.mx-xf-ends{display:flex;justify-content:space-between;margin-top:6px;font-size:9px;font-weight:800;}
+.mx-load-btn{width:100%;height:28px;border-radius:8px;font-size:7px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;text-align:center;line-height:28px;touch-action:manipulation;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04);}
+.mx-load-a{background:rgba(155,0,255,.08);border:1px solid rgba(155,0,255,.2);color:rgba(155,0,255,.7);}
+.mx-load-b{background:rgba(255,0,128,.08);border:1px solid rgba(255,0,128,.2);color:rgba(255,0,128,.7);}
+.mx-eq-btn{width:100%;height:28px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:rgba(240,232,255,.35);font-size:7px;font-weight:800;letter-spacing:1px;cursor:pointer;text-align:center;line-height:28px;text-transform:uppercase;touch-action:manipulation;}
+
+/* TRACK NAMES */
+.mx-tn{font-size:9px;color:rgba(240,232,255,.3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;text-align:center;margin-top:2px;}
+
+/* EQ PANEL */
+.mx-eq-panel{display:none;background:#07000f;border-top:1px solid rgba(155,0,255,.15);padding:14px 16px;}
+.mx-eq-panel.open{display:block;}
+.mx-eq-row{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;align-items:end;}
+.mx-knob-wrap{text-align:center;}
+.mx-klabel{font-size:7px;letter-spacing:1.5px;color:rgba(240,232,255,.3);text-transform:uppercase;margin-bottom:6px;}
+.mx-knob{width:36px;height:36px;border-radius:50%;margin:0 auto;position:relative;cursor:pointer;touch-action:none;
+  background:radial-gradient(circle at 36% 32%,#220044,#060010);
+  border:1.5px solid rgba(155,0,255,.3);
+  box-shadow:0 4px 12px rgba(0,0,0,.6),inset 0 1px 3px rgba(255,255,255,.06);}
+.mx-knob-tick{position:absolute;top:4px;left:50%;width:2px;height:9px;background:#9B00FF;border-radius:1px;transform:translateX(-50%);transform-origin:50% 14px;}
+.mx-fx-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:12px;}
+.mx-fx-btn{height:32px;border-radius:8px;border:1px solid rgba(155,0,255,.18);background:rgba(155,0,255,.06);color:rgba(240,232,255,.4);font-size:8px;font-weight:800;letter-spacing:1px;cursor:pointer;touch-action:manipulation;}
+.mx-fx-btn.on{background:rgba(255,0,128,.18);border-color:rgba(255,0,128,.5);color:#FF0080;}
+.mx-eq-close{width:100%;height:28px;border-radius:8px;background:transparent;border:1px solid rgba(155,0,255,.15);color:rgba(240,232,255,.3);font-size:8px;font-weight:700;letter-spacing:1px;cursor:pointer;text-transform:uppercase;margin-top:10px;touch-action:manipulation;}
+</style>
+
+<div class="mx-wrap" id="mixer">
+  <div class="mx-head">
+    <span class="mx-tag">▶ попробуй прямо сейчас</span>
+    <h2 class="mx-h2">Подиджей <span style="background:linear-gradient(90deg,#9B00FF,#FF0080);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">здесь и сейчас</span></h2>
+    <p class="mx-sub">Загрузи трек — или используй наш. Крути джог, жми play.</p>
+  </div>
+
+  <div class="mx-board">
 
     <!-- DECK A -->
-    <div style="margin-bottom:12px;">
-      <div style="font-size:8px;font-weight:700;letter-spacing:2px;color:#9B00FF;margin-bottom:8px;">DECK A</div>
-      <div id="wfA" style="height:28px;background:rgba(155,0,255,.05);border-radius:6px;margin-bottom:8px;position:relative;overflow:hidden;">
-        <canvas id="wfCanvA" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+    <div class="mx-deck mx-deck-a">
+      <div class="mx-deck-label mx-deck-label-a">
+        <span>DECK A</span>
+        <span class="mx-bpm-badge mx-bpm-a" id="bpmBadgeA">— BPM</span>
       </div>
-      <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">
-        <button onclick="goHome('A')" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(155,0,255,.25);background:rgba(155,0,255,.08);color:rgba(240,232,255,.5);font-size:10px;cursor:pointer;">⏮</button>
-        <button onclick="tapCue('A')" id="cueA" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(155,0,255,.25);background:rgba(155,0,255,.08);color:rgba(240,232,255,.5);font-size:8px;font-weight:700;cursor:pointer;">CUE</button>
-        <button onclick="tPlay('A')" id="playA" style="width:44px;height:44px;border-radius:50%;border:none;background:#9B00FF;color:#fff;font-size:16px;cursor:pointer;">▶</button>
-        <button onmousedown="pbStart('A',-1)" onmouseup="pbStop('A')" ontouchstart="event.preventDefault();pbStart('A',-1)" ontouchend="event.preventDefault();pbStop('A')" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(155,0,255,.25);background:rgba(155,0,255,.08);color:rgba(240,232,255,.5);font-size:12px;cursor:pointer;">«</button>
-        <button onmousedown="pbStart('A',1)" onmouseup="pbStop('A')" ontouchstart="event.preventDefault();pbStart('A',1)" ontouchend="event.preventDefault();pbStop('A')" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(155,0,255,.25);background:rgba(155,0,255,.08);color:rgba(240,232,255,.5);font-size:12px;cursor:pointer;">»</button>
-        <button onclick="syncD('A')" style="flex:1;height:32px;border-radius:16px;border:1px solid rgba(155,0,255,.35);background:rgba(155,0,255,.08);color:#9B00FF;font-size:10px;font-weight:700;cursor:pointer;">SYNC</button>
+
+      <div class="mx-jog" id="jogWrapA" style="touch-action:none;cursor:grab;">
+        <div class="mx-jog-outer"></div>
+        <div class="mx-jog-bumps"></div>
+        <div class="mx-jog-ring1"></div>
+        <div class="mx-jog-ring2"></div>
+        <div class="mx-jog-platter"></div>
+        <div class="mx-jog-center"></div>
+        <div class="mx-jog-mark" id="jogMarkA"></div>
       </div>
-      <div id="tnA" style="font-size:10px;color:rgba(240,232,255,.35);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Загрузка...</div>
-      <label style="display:block;width:100%;padding:8px;background:rgba(155,0,255,.06);border:1px dashed rgba(155,0,255,.3);border-radius:8px;font-size:10px;color:rgba(155,0,255,.7);text-align:center;cursor:pointer;">
-        + Загрузить трек A
-        <input type="file" accept="audio/*" onchange="loadFile('A',this)" style="display:none;">
-      </label>
+
+      <div id="wfA" class="mx-wf mx-wf-a"><canvas id="wfCanvA" style="position:absolute;inset:0;width:100%;height:100%;"></canvas></div>
+      <div id="tnA" class="mx-tn">Загрузка...</div>
+
+      <div class="mx-transport">
+        <button class="mx-tbtn mx-tbtn-a" onclick="tapCue('A')" id="cueA" style="font-size:8px;">CUE</button>
+        <button class="mx-tbtn mx-tbtn-a" style="font-size:14px;"
+          onmousedown="pbStart('A',-1)" onmouseup="pbStop('A')" onmouseleave="pbStop('A')"
+          ontouchstart="event.preventDefault();pbStart('A',-1)" ontouchend="event.preventDefault();pbStop('A')">«</button>
+        <button class="mx-play mx-play-a" onclick="tPlay('A')" id="playA">▶</button>
+        <button class="mx-tbtn mx-tbtn-a" style="font-size:14px;"
+          onmousedown="pbStart('A',1)" onmouseup="pbStop('A')" onmouseleave="pbStop('A')"
+          ontouchstart="event.preventDefault();pbStart('A',1)" ontouchend="event.preventDefault();pbStop('A')">»</button>
+        <button class="mx-sync mx-sync-a" onclick="syncD('A')">SYNC</button>
+      </div>
     </div>
 
-    <!-- CROSSFADER -->
-    <div style="padding:12px 0;border-top:1px solid rgba(155,0,255,.1);border-bottom:1px solid rgba(155,0,255,.1);margin-bottom:12px;">
-      <div style="font-size:8px;color:rgba(240,232,255,.3);letter-spacing:1px;text-align:center;margin-bottom:6px;">CROSSFADER</div>
-      <div style="display:flex;align-items:center;gap:8px;">
-        <span style="font-size:9px;font-weight:700;color:#9B00FF;">A</span>
-        <input type="range" id="xf" min="0" max="100" value="50" oninput="xfMove(this.value)" style="flex:1;height:6px;cursor:pointer;accent-color:#9B00FF;">
-        <span style="font-size:9px;font-weight:700;color:#FF0080;">B</span>
+    <!-- CENTER -->
+    <div class="mx-center">
+      <div class="mx-center-logo">DJ·PLACE</div>
+
+      <div class="mx-xf-wrap">
+        <div class="mx-xf-label">xfader</div>
+        <div class="mx-xf-track" id="xfTrack">
+          <div class="mx-xf-fill"></div>
+          <div class="mx-xf-thumb" id="xfThumb"></div>
+        </div>
+        <div class="mx-xf-ends">
+          <span style="color:rgba(155,0,255,.6);">A</span>
+          <span style="color:rgba(255,0,128,.6);">B</span>
+        </div>
+        <input type="range" id="xf" min="0" max="100" value="50" oninput="xfMove(this.value);xfSync(this.value)" style="width:100%;margin-top:6px;height:4px;accent-color:#9B00FF;cursor:pointer;">
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:5px;width:100%;">
+        <label class="mx-load-btn mx-load-a">+ A<input type="file" accept="audio/*" onchange="loadFile('A',this)" style="display:none;"></label>
+        <label class="mx-load-btn mx-load-b">+ B<input type="file" accept="audio/*" onchange="loadFile('B',this)" style="display:none;"></label>
+        <button class="mx-eq-btn" onclick="toggleEQ()">EQ · FX ↑</button>
       </div>
     </div>
 
     <!-- DECK B -->
-    <div>
-      <div style="font-size:8px;font-weight:700;letter-spacing:2px;color:#FF0080;margin-bottom:8px;">DECK B</div>
-      <div id="wfB" style="height:28px;background:rgba(255,0,128,.05);border-radius:6px;margin-bottom:8px;position:relative;overflow:hidden;">
-        <canvas id="wfCanvB" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
+    <div class="mx-deck">
+      <div class="mx-deck-label mx-deck-label-b">
+        <span>DECK B</span>
+        <span class="mx-bpm-badge mx-bpm-b" id="bpmBadgeB">— BPM</span>
       </div>
-      <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">
-        <button onclick="goHome('B')" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,0,128,.25);background:rgba(255,0,128,.08);color:rgba(240,232,255,.5);font-size:10px;cursor:pointer;">⏮</button>
-        <button onclick="tapCue('B')" id="cueB" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,0,128,.25);background:rgba(255,0,128,.08);color:rgba(240,232,255,.5);font-size:8px;font-weight:700;cursor:pointer;">CUE</button>
-        <button onclick="tPlay('B')" id="playB" style="width:44px;height:44px;border-radius:50%;border:none;background:#FF0080;color:#fff;font-size:16px;cursor:pointer;">▶</button>
-        <button onmousedown="pbStart('B',-1)" onmouseup="pbStop('B')" ontouchstart="event.preventDefault();pbStart('B',-1)" ontouchend="event.preventDefault();pbStop('B')" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,0,128,.25);background:rgba(255,0,128,.08);color:rgba(240,232,255,.5);font-size:12px;cursor:pointer;">«</button>
-        <button onmousedown="pbStart('B',1)" onmouseup="pbStop('B')" ontouchstart="event.preventDefault();pbStart('B',1)" ontouchend="event.preventDefault();pbStop('B')" style="width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,0,128,.25);background:rgba(255,0,128,.08);color:rgba(240,232,255,.5);font-size:12px;cursor:pointer;">»</button>
-        <button onclick="syncD('B')" style="flex:1;height:32px;border-radius:16px;border:1px solid rgba(255,0,128,.35);background:rgba(255,0,128,.08);color:#FF0080;font-size:10px;font-weight:700;cursor:pointer;">SYNC</button>
+
+      <div class="mx-jog" id="jogWrapB" style="touch-action:none;cursor:grab;">
+        <div class="mx-jog-outer mx-jog-outer-b"></div>
+        <div class="mx-jog-bumps"></div>
+        <div class="mx-jog-ring1"></div>
+        <div class="mx-jog-ring2"></div>
+        <div class="mx-jog-platter mx-jog-platter-b"></div>
+        <div class="mx-jog-center mx-jog-center-b"></div>
+        <div class="mx-jog-mark" id="jogMarkB"></div>
       </div>
-      <div id="tnB" style="font-size:10px;color:rgba(240,232,255,.35);margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">Загрузка...</div>
-      <label style="display:block;width:100%;padding:8px;background:rgba(255,0,128,.06);border:1px dashed rgba(255,0,128,.3);border-radius:8px;font-size:10px;color:rgba(255,0,128,.7);text-align:center;cursor:pointer;">
-        + Загрузить трек B
-        <input type="file" accept="audio/*" onchange="loadFile('B',this)" style="display:none;">
-      </label>
+
+      <div id="wfB" class="mx-wf mx-wf-b"><canvas id="wfCanvB" style="position:absolute;inset:0;width:100%;height:100%;"></canvas></div>
+      <div id="tnB" class="mx-tn">Загрузка...</div>
+
+      <div class="mx-transport">
+        <button class="mx-tbtn mx-tbtn-b" onclick="tapCue('B')" id="cueB" style="font-size:8px;">CUE</button>
+        <button class="mx-tbtn mx-tbtn-b" style="font-size:14px;"
+          onmousedown="pbStart('B',-1)" onmouseup="pbStop('B')" onmouseleave="pbStop('B')"
+          ontouchstart="event.preventDefault();pbStart('B',-1)" ontouchend="event.preventDefault();pbStop('B')">«</button>
+        <button class="mx-play mx-play-b" onclick="tPlay('B')" id="playB">▶</button>
+        <button class="mx-tbtn mx-tbtn-b" style="font-size:14px;"
+          onmousedown="pbStart('B',1)" onmouseup="pbStop('B')" onmouseleave="pbStop('B')"
+          ontouchstart="event.preventDefault();pbStart('B',1)" ontouchend="event.preventDefault();pbStop('B')">»</button>
+        <button class="mx-sync mx-sync-b" onclick="syncD('B')">SYNC</button>
+      </div>
     </div>
   </div>
 
-  <!-- ИНСТРУКЦИЯ -->
-  <button onclick="document.getElementById('inst').style.display=document.getElementById('inst').style.display==='none'?'block':'none'" style="width:100%;padding:12px;background:transparent;color:rgba(240,232,255,.5);border:1px solid rgba(155,0,255,.25);border-radius:40px;font-size:13px;cursor:pointer;margin-bottom:8px;">
-    📖 Как пользоваться пультом?
-  </button>
-  <div id="inst" style="display:none;background:#0d0020;border:1px solid rgba(155,0,255,.2);border-radius:14px;padding:16px;">
-    <div style="font-family:Arial Black,sans-serif;font-size:1rem;letter-spacing:1px;margin-bottom:12px;">Сделай первый микс 🎧</div>
-    <div style="display:flex;flex-direction:column;gap:12px;">
-      <div style="display:flex;gap:10px;"><div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#9B00FF,#FF0080);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">1</div><div><b style="display:block;font-size:12px;margin-bottom:2px;">Нажми Play на Deck A</b><span style="font-size:11px;color:rgba(240,232,255,.45);">Трек загружен — просто запусти</span></div></div>
-      <div style="display:flex;gap:10px;"><div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#9B00FF,#FF0080);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">2</div><div><b style="display:block;font-size:12px;margin-bottom:2px;">Нажми Play на Deck B</b><span style="font-size:11px;color:rgba(240,232,255,.45);">Запусти второй трек</span></div></div>
-      <div style="display:flex;gap:10px;"><div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#9B00FF,#FF0080);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">3</div><div><b style="display:block;font-size:12px;margin-bottom:2px;">Нажми SYNC на Deck B</b><span style="font-size:11px;color:rgba(240,232,255,.45);">Темп выровняется автоматически</span></div></div>
-      <div style="display:flex;gap:10px;"><div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#9B00FF,#FF0080);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">4</div><div><b style="display:block;font-size:12px;margin-bottom:2px;">Потяни кроссфейдер</b><span style="font-size:11px;color:rgba(240,232,255,.45);">Влево — Deck A, вправо — Deck B</span></div></div>
+  <!-- EQ/FX PANEL -->
+  <div class="mx-eq-panel" id="eqPanel">
+    <div style="font-size:8px;letter-spacing:2px;color:rgba(240,232,255,.3);text-transform:uppercase;margin-bottom:10px;">EQ · каждый канал</div>
+    <div class="mx-eq-row">
+      <div class="mx-knob-wrap"><div class="mx-klabel" style="color:rgba(155,0,255,.5);">HI A</div><div class="mx-knob" data-dk="A" data-b="hi"><div class="mx-knob-tick"></div></div></div>
+      <div class="mx-knob-wrap"><div class="mx-klabel" style="color:rgba(155,0,255,.5);">MID A</div><div class="mx-knob" data-dk="A" data-b="mid"><div class="mx-knob-tick"></div></div></div>
+      <div class="mx-knob-wrap"><div class="mx-klabel" style="color:rgba(155,0,255,.5);">LOW A</div><div class="mx-knob" data-dk="A" data-b="low"><div class="mx-knob-tick"></div></div></div>
+      <div class="mx-knob-wrap"><div class="mx-klabel" style="color:rgba(255,0,128,.5);">HI B</div><div class="mx-knob" data-dk="B" data-b="hi"><div class="mx-knob-tick" style="background:#FF0080;"></div></div></div>
+      <div class="mx-knob-wrap"><div class="mx-klabel" style="color:rgba(255,0,128,.5);">MID B</div><div class="mx-knob" data-dk="B" data-b="mid"><div class="mx-knob-tick" style="background:#FF0080;"></div></div></div>
+      <div class="mx-knob-wrap"><div class="mx-klabel" style="color:rgba(255,0,128,.5);">LOW B</div><div class="mx-knob" data-dk="B" data-b="low"><div class="mx-knob-tick" style="background:#FF0080;"></div></div></div>
     </div>
+    <div class="mx-fx-row">
+      <button class="mx-fx-btn" id="fxEcho" onclick="fxToggle('echo',this)">ECHO</button>
+      <button class="mx-fx-btn" id="fxRev" onclick="fxToggle('rev',this)">REV</button>
+      <button class="mx-fx-btn" id="fxRoll" onclick="fxToggle('roll',this)">ROLL</button>
+      <button class="mx-fx-btn" id="fxFlng" onclick="fxToggle('flng',this)">FLNG</button>
+    </div>
+    <button class="mx-eq-close" onclick="toggleEQ()">↓ Закрыть</button>
   </div>
 </div>
+
+<script>
+// ── JOG VISUAL SPIN + SCRATCH ────────────────────────────────
+(function(){
+  var jogAngles = {A:0, B:0};
+  var jogRAF = {A:null, B:null};
+  var scratchActive = {A:false, B:false};
+  var scratchLastAngle = {A:0, B:0};
+  var scratchLastRate = {A:1, B:1};
+
+  function getAngleFromEvent(jog, touch) {
+    var r = jog.getBoundingClientRect();
+    var cx = r.left + r.width/2, cy = r.top + r.height/2;
+    return Math.atan2(touch.clientY - cy, touch.clientX - cx) * 180 / Math.PI;
+  }
+
+  function spinJog(k) {
+    if (!D[k] || !D[k].playing || scratchActive[k]) return;
+    jogAngles[k] = (jogAngles[k] + 1.1 * (D[k].rate||1)) % 360;
+    var mark = document.getElementById('jogMark'+k);
+    if (mark) mark.style.transform = 'translateX(-50%) rotate('+jogAngles[k]+'deg)';
+    jogRAF[k] = requestAnimationFrame(function(){ spinJog(k); });
+  }
+
+  function startSpin(k) {
+    cancelAnimationFrame(jogRAF[k]);
+    spinJog(k);
+  }
+
+  // Перехватываем setPlay чтобы запускать/останавливать вращение
+  var origSetPlay = window.setPlay;
+  window.setPlay = function(k, on) {
+    if (origSetPlay) origSetPlay(k, on);
+    var b = document.getElementById('play'+k);
+    if (b) {
+      b.textContent = on ? '⏸' : '▶';
+      b.style.background = on
+        ? (k==='A' ? 'radial-gradient(circle at 38% 35%,#bf5fff,#5500aa)' : 'radial-gradient(circle at 38% 35%,#ff6aad,#aa0055)')
+        : (k==='A' ? 'radial-gradient(circle at 38% 35%,#bf5fff,#7700cc)' : 'radial-gradient(circle at 38% 35%,#ff6aad,#cc0066)');
+    }
+    if (on) startSpin(k);
+    else cancelAnimationFrame(jogRAF[k]);
+    // обновить BPM бейдж
+    if (D[k] && D[k].bpm) {
+      var badge = document.getElementById('bpmBadge'+k);
+      if (badge) badge.textContent = Math.round(D[k].bpm * (D[k].rate||1)) + ' BPM';
+    }
+  };
+
+  // SCRATCH — touch по джогу
+  ['A','B'].forEach(function(k){
+    var jog = document.getElementById('jogWrap'+k);
+    if (!jog) return;
+
+    jog.addEventListener('touchstart', function(e){
+      e.preventDefault();
+      warmAC();
+      var touch = e.touches[0];
+      scratchActive[k] = true;
+      scratchLastAngle[k] = getAngleFromEvent(jog, touch);
+      if (D[k] && D[k].src) scratchLastRate[k] = D[k].rate || 1;
+      cancelAnimationFrame(jogRAF[k]);
+    }, {passive:false});
+
+    jog.addEventListener('touchmove', function(e){
+      e.preventDefault();
+      if (!scratchActive[k]) return;
+      var touch = e.touches[0];
+      var newAngle = getAngleFromEvent(jog, touch);
+      var delta = newAngle - scratchLastAngle[k];
+      if (delta > 180) delta -= 360;
+      if (delta < -180) delta += 360;
+      scratchLastAngle[k] = newAngle;
+      // Крутим метку
+      jogAngles[k] = (jogAngles[k] + delta) % 360;
+      var mark = document.getElementById('jogMark'+k);
+      if (mark) mark.style.transform = 'translateX(-50%) rotate('+jogAngles[k]+'deg)';
+      // Скрэтч — меняем скорость воспроизведения
+      if (D[k] && D[k].src) {
+        var scratchRate = delta * 0.08;
+        D[k].src.playbackRate.value = Math.max(-4, Math.min(4, scratchRate));
+      }
+    }, {passive:false});
+
+    jog.addEventListener('touchend', function(e){
+      e.preventDefault();
+      scratchActive[k] = false;
+      // Возвращаем нормальную скорость
+      if (D[k] && D[k].src) D[k].src.playbackRate.value = D[k].rate || 1;
+      if (D[k] && D[k].playing) startSpin(k);
+    }, {passive:false});
+  });
+})();
+
+// ── CROSSFADER VISUAL SYNC ───────────────────────────────────
+function xfSync(v) {
+  var thumb = document.getElementById('xfThumb');
+  if (!thumb) return;
+  var pct = (v / 100) * 100;
+  thumb.style.left = 'calc('+pct+'% - 11px)';
+}
+
+// ── EQ PANEL TOGGLE ──────────────────────────────────────────
+function toggleEQ() {
+  var p = document.getElementById('eqPanel');
+  if (p) p.classList.toggle('open');
+}
+
+// ── FX TOGGLE (простой вкл/выкл) ─────────────────────────────
+function fxToggle(name, btn) {
+  btn.classList.toggle('on');
+}
+
+// ── EQ KNOBS ─────────────────────────────────────────────────
+document.querySelectorAll('.mx-knob').forEach(function(el){
+  var sy, sa = 0;
+  var dn = function(e) {
+    warmAC();
+    e.preventDefault();
+    sy = e.touches ? e.touches[0].clientY : e.clientY;
+    sa = parseFloat(el.dataset.angle)||0;
+    document.addEventListener('mousemove', mv, {passive:false});
+    document.addEventListener('touchmove', mv, {passive:false});
+    document.addEventListener('mouseup', up);
+    document.addEventListener('touchend', up);
+  };
+  var mv = function(e) {
+    e.preventDefault();
+    var y = e.touches ? e.touches[0].clientY : e.clientY;
+    var a = Math.max(-135, Math.min(135, sa + (sy-y)*2));
+    el.dataset.angle = a;
+    var tick = el.querySelector('.mx-knob-tick');
+    if (tick) tick.style.transform = 'translateX(-50%) rotate('+a+'deg)';
+    // Применяем к аудио
+    var k = el.dataset.dk, b = el.dataset.b;
+    if (D[k]) {
+      var n = a/135;
+      if (b==='hi'  && D[k].hi)  D[k].hi.gain.value  = n*15;
+      if (b==='mid' && D[k].mid) D[k].mid.gain.value = n*12;
+      if (b==='low' && D[k].low) D[k].low.gain.value = n*15;
+    }
+  };
+  var up = function() {
+    document.removeEventListener('mousemove', mv);
+    document.removeEventListener('touchmove', mv);
+    document.removeEventListener('mouseup', up);
+    document.removeEventListener('touchend', up);
+  };
+  el.addEventListener('mousedown', dn);
+  el.addEventListener('touchstart', dn, {passive:false});
+});
+
+// Автозагрузка
+window.addEventListener('load', function(){
+  setTimeout(function(){
+    if(typeof autoLoad==='function'){
+      autoLoad('A','track1.mp3','Track 1');
+      autoLoad('B','track2.mp3','Track 2');
+    }
+  }, 600);
+});
+</script>
 <script>
 // ══ AUDIO ENGINE ══
 var AC = null;
