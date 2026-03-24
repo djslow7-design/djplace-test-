@@ -958,7 +958,68 @@ function mxToggleEQ(){var p=document.getElementById('eqPanel');if(p)p.classList.
   <div class="courses__razovoe" style="margin-top:14px;">
     <p>Занятия без абонемента — <a onclick="openModal && openModal('Разовое')">4 000₽/занятие →</a></p>
   </div>
+<!-- ══ НАС РЕКОМЕНДУЮТ ══ -->
+<style>
+.rec{padding:40px 0 48px;background:#07000f;border-top:1px solid rgba(155,0,255,.1);}
+.rec__head{padding:0 16px 20px;}
+.rec__scroll{display:flex;gap:12px;padding:4px 16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.rec__scroll::-webkit-scrollbar{display:none;}
+.rec-card{flex-shrink:0;width:68vw;max-width:240px;border-radius:14px;overflow:hidden;position:relative;aspect-ratio:.75;background:#0d0018;}
+.rec-card img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;}
+.rec-card__grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,0,15,1) 0%,rgba(7,0,15,.3) 50%,transparent 75%);}
+.rec-card__body{position:absolute;bottom:0;left:0;right:0;padding:14px 12px;}
+.rec-card__name{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px;color:#fff;margin-bottom:6px;}
+.rec-card__text{font-size:11px;color:rgba(240,232,255,.55);line-height:1.6;font-family:'Outfit',sans-serif;}
+</style>
 
+<section class="rec">
+  <div class="rec__head">
+    <span style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#FF0080;display:block;margin-bottom:7px;">▶ профессионалы индустрии</span>
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:min(8vw,32px);letter-spacing:1px;color:#f0e8ff;margin:0;">Нас рекомендуют</h2>
+  </div>
+  <div class="rec__scroll">
+    <div class="rec-card">
+      <img src="niknak.jpg" alt="DJ Nik Nak">
+      <div class="rec-card__grad"></div>
+      <div class="rec-card__body">
+        <div class="rec-card__name">DJ NIK NAK</div>
+        <p class="rec-card__text">Отличное место, где ты можешь как начать, так и раскрыть свой потанцевал.</p>
+      </div>
+    </div>
+    <div class="rec-card">
+      <img src="worm.jpg" alt="DJ Worm">
+      <div class="rec-card__grad"></div>
+      <div class="rec-card__body">
+        <div class="rec-card__name">DJ WORM</div>
+        <p class="rec-card__text">DJ Place — важная глава моего пути и символ того, как рождаются настоящие музыканты.</p>
+      </div>
+    </div>
+    <div class="rec-card">
+      <img src="ktodj.jpg" alt="Kto DJ">
+      <div class="rec-card__grad"></div>
+      <div class="rec-card__body">
+        <div class="rec-card__name">KTO DJ</div>
+        <p class="rec-card__text">DJ Place — это платформа, где формируется новое поколение артистов. Не шаблоны, а поиск своего звука.</p>
+      </div>
+    </div>
+    <div class="rec-card">
+      <img src="amplituda.jpg" alt="Sasha Amplituda">
+      <div class="rec-card__grad"></div>
+      <div class="rec-card__body">
+        <div class="rec-card__name">SASHA AMPLITUDA</div>
+        <p class="rec-card__text">Место, где я сделала первые шаги в диджеинге и быстро освоила базу для уверенной игры в клубах.</p>
+      </div>
+    </div>
+    <div class="rec-card">
+      <img src="dj108.jpg" alt="DJ 108">
+      <div class="rec-card__grad"></div>
+      <div class="rec-card__body">
+        <div class="rec-card__name">DJ 108</div>
+        <p class="rec-card__text">Если хотите результата, а не обещаний — выбирайте DJ Place.</p>
+      </div>
+    </div>
+  </div>
+</section>
 </section>
 
 <!-- ══ СТУДИЯ ══ -->
@@ -983,10 +1044,16 @@ function mxToggleEQ(){var p=document.getElementById('eqPanel');if(p)p.classList.
     <h2 style="font-family:'Bebas Neue',sans-serif;font-size:min(8vw,32px);letter-spacing:1px;color:#f0e8ff;margin:0 0 8px;">Студия</h2>
     <p style="font-size:12px;color:rgba(240,232,255,.4);line-height:1.65;margin:0;">Центр Петербурга, ул. Оружейника Фёдорова 2.</p>
   </div>
-  <div class="studio__photo">
-    <img src="студия1.jpg" alt="Студия DJ Place" onerror="this.src='Фото_студии.png'">
-    <div class="studio__photo-grad"></div>
+  <div class="studio__photos-scroll" style="display:flex;overflow-x:auto;scrollbar-width:none;gap:8px;padding:0 16px;">
+  <div style="flex-shrink:0;width:85vw;max-width:340px;aspect-ratio:4/3;border-radius:12px;overflow:hidden;position:relative;">
+    <img src="студия%201.jpg" alt="Студия DJ Place" style="width:100%;height:100%;object-fit:cover;display:block;">
+    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,#07000f 100%);"></div>
   </div>
+  <div style="flex-shrink:0;width:85vw;max-width:340px;aspect-ratio:4/3;border-radius:12px;overflow:hidden;position:relative;">
+    <img src="студия%202.jpg" alt="Студия DJ Place" style="width:100%;height:100%;object-fit:cover;display:block;">
+    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,#07000f 100%);"></div>
+  </div>
+</div>
   <div class="studio__photo" style="margin-top:4px;">
     <img src="студия2.jpg" alt="Студия DJ Place" onerror="this.style.display='none'">
     <div class="studio__photo-grad"></div>
@@ -1035,31 +1102,36 @@ function mxToggleEQ(){var p=document.getElementById('eqPanel');if(p)p.classList.
     <h2 style="font-family:'Bebas Neue',sans-serif;font-size:min(8vw,32px);letter-spacing:1px;color:#f0e8ff;margin:0;">Отзывы</h2>
   </div>
   <div class="reviews__scroll">
-    <div class="rv">
-      <div class="rv__stars">★★★★★</div>
-      <p class="rv__text">Думал, что диджеинг это сложно и долго. После первого занятия уже сводил два трека. Наставник объясняет так, что всё понятно даже без музыкального образования.</p>
-      <div class="rv__author">
-        <div class="rv__avatar">А</div>
-        <div><div class="rv__name">Антон, 23 года</div><div class="rv__course">Курс «База»</div></div>
-      </div>
-    </div>
-    <div class="rv">
-      <div class="rv__stars">★★★★★</div>
-      <p class="rv__text">Уже год играю на клубных вечеринках. Начинал с нуля в DJ Place. Самое важное — тут учат не кнопки нажимать, а слышать музыку и работать с толпой.</p>
-      <div class="rv__author">
-        <div class="rv__avatar">М</div>
-        <div><div class="rv__name">Миша, 27 лет</div><div class="rv__course">Курс «База» → «PRO»</div></div>
-      </div>
-    </div>
-    <div class="rv">
-      <div class="rv__stars">★★★★★</div>
-      <p class="rv__text">Брала курс PRO — хотела добавить техники. WZDQ разобрал мои слабые места и показал приёмы которые реально используют на сцене. Уже применяю на выступлениях.</p>
-      <div class="rv__author">
-        <div class="rv__avatar">К</div>
-        <div><div class="rv__name">Катя, 25 лет</div><div class="rv__course">Курс «PRO»</div></div>
-      </div>
-    </div>
+   <div class="rv">
+  <div class="rv__stars">★★★★★</div>
+  <p class="rv__text">Боялся идти первый раз — вдруг посмотрят не так. По итогу всё прошло на максимальном позитиве, дружеская атмосфера, с первого урока всё пошло. Уже контроллер стоит дома, а обучение ещё не до конца прошёл 😅</p>
+  <div class="rv__author">
+    <div class="rv__avatar">Я</div>
+    <div><div class="rv__name">Яндекс Карты</div><div class="rv__course">Верифицированный отзыв</div></div>
   </div>
+</div>
+<div class="rv">
+  <div class="rv__stars">★★★★★</div>
+  <p class="rv__text">Удобное расположение, доступные цены, график под тебя. Всем рекомендую Даню — объясняет доступно, всегда на одной волне. Советую это место всем!</p>
+  <div class="rv__author">
+    <div class="rv__avatar">Я</div>
+    <div><div class="rv__name">Яндекс Карты</div><div class="rv__course">Верифицированный отзыв</div></div>
+  </div>
+</div>
+<div class="rv">
+  <div class="rv__stars">★★★★★</div>
+  <p class="rv__text">Научат с нуля и поднимут скилл. Атмосфера — отдельная тема, настолько всё выверено и классно, что не хочется уходить. Восьмое чудо света.</p>
+  <div class="rv__author">
+    <div class="rv__avatar">Я</div>
+    <div><div class="rv__name">Яндекс Карты</div><div class="rv__course">Верифицированный отзыв</div></div>
+  </div>
+</div>   
+<div style="padding:16px 16px 0;text-align:center;">
+  <a href="https://yandex.ru/maps/org/dj_place/91632267602/reviews/" target="_blank"
+     style="display:inline-block;padding:11px 24px;border:1.5px solid rgba(155,0,255,.35);border-radius:40px;font-size:12px;color:rgba(240,232,255,.55);text-decoration:none;font-family:'Outfit',sans-serif;">
+    Все отзывы на Яндекс Картах →
+  </a>
+</div>
 </section>
 
 <!-- ══ FAQ ══ -->
