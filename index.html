@@ -1253,7 +1253,11 @@ function mxToggleEQ(){var p=document.getElementById('eqPanel');if(p)p.classList.
 .modal-success{display:none;text-align:center;padding:20px 0;}
 .modal-success__icon{font-size:48px;margin-bottom:12px;}
 .modal-success__title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:2px;color:#fff;margin-bottom:8px;}
-.modal-success__text{font-size:13px;color:rgba(240,232,255,.5);line-height:1.65;font-family:'Outfit',sans-serif;}
+.modal-success__text{font-size:14px;color:rgba(240,232,255,.55);line-height:1.7;font-family:'Outfit',sans-serif;margin-bottom:24px;}
+.modal-success__nudge{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(240,232,255,.3);font-family:'Outfit',sans-serif;margin-bottom:12px;}
+.modal-success__btns{display:flex;flex-direction:column;gap:10px;}
+.modal-tg-btn{width:100%;padding:15px;background:rgba(36,161,222,.12);color:#24a1de;border:1.5px solid rgba(36,161,222,.3);border-radius:50px;font-size:14px;font-weight:700;cursor:pointer;font-family:'Outfit',sans-serif;text-decoration:none;display:block;text-align:center;}
+.modal-input.error{border-color:rgba(255,0,128,.7);}
 </style>
 
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal()"></div>
@@ -1276,12 +1280,15 @@ function mxToggleEQ(){var p=document.getElementById('eqPanel');if(p)p.classList.
     <button class="modal-submit" onclick="submitForm()">ОТПРАВИТЬ ЗАЯВКУ</button>
     <button class="modal-cancel" onclick="closeModal()">Закрыть</button>
   </div>
-  <div class="modal-success" id="modalSuccess">
+    <div class="modal-success" id="modalSuccess">
     <div class="modal-success__icon">🎧</div>
-    <div class="modal-success__title">Заявка отправлена!</div>
-    <p class="modal-success__text">Мы свяжемся с тобой в течение часа.<br>DJ Place ждёт тебя.</p>
+    <div class="modal-success__title">Заявка принята</div>
+    <p class="modal-success__text">Спасибо, свяжемся с тобой в ближайшие минуты и договоримся о времени.</p>
+    <p class="modal-success__nudge">Хочешь быстрее? Напиши сам:</p>
+    <div class="modal-success__btns">
+      <a href="https://t.me/VM1983812" class="modal-tg-btn" target="_blank">✈ Написать в Telegram</a>
+    </div>
   </div>
-</div>
 
 <script>
 function openModal(course) {
@@ -1307,16 +1314,49 @@ function closeModal() {
 function submitForm() {
   var name = document.getElementById('formName').value.trim();
   var phone = document.getElementById('formPhone').value.trim();
-  if (!name || !phone) { alert('Заполни имя и телефон'); return; }
+  var phoneInput = document.getElementById('formPhone');
   var course = document.getElementById('formCourse').value;
-  // TODO: Telegram webhook
-  // fetch('https://api.telegram.org/bot<TOKEN>/sendMessage', {
-  //   method:'POST', headers:{'Content-Type':'application/json'},
-  //   body: JSON.stringify({chat_id:'<CHAT_ID>', text:'📩 DJ Place\nИмя: '+name+'\nТел: '+phone+'\nКурс: '+course})
-  // });
+
+  if (!phone) {
+    phoneInput.classList.add('error');
+    phoneInput.focus();
+    return;
+  }
+  phoneInput.classList.remove('error');
+
+  var time = new Date().toLocaleString('ru-RU', {timeZone:'Europe/Moscow'});
+  var text = '🎧 Новая заявка — DJ Place\n\n'
+    + '👤 Имя: ' + (name || 'не указано') + '\n'
+    + '📞 Контакт: ' + phone + '\n'
+    + '📚 Курс: ' + course + '\n'
+    + '🕐 Время: ' + time;
+
+  // Отправка в Telegram
+  fetch('https://api.telegram.org/bot8750226765:AAEcVWgi8MM_Mk-t5JpCSQoO-cahhwoVLaI/sendMessage', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      chat_id: '321163553',
+      text: text
+    })
+  }).catch(function(){});
+
+  // Резервная отправка на email через Formspree
+  fetch('https://formspree.io/f/XXXXXXXX', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({
+      name: name || 'не указано',
+      contact: phone,
+      course: course,
+      time: time,
+      _replyto: 'slow@list.ru'
+    })
+  }).catch(function(){});
+
+  // Показываем thank-you сразу, не ждём ответа серверов
   document.getElementById('modalForm').style.display = 'none';
   document.getElementById('modalSuccess').style.display = 'block';
-  setTimeout(closeModal, 2800);
 }
 
 // Свайп вниз для закрытия модала
