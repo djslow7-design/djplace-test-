@@ -151,11 +151,7 @@ html,body{background:var(--bg);color:#f0e8ff;font-family:'Outfit',Arial,sans-ser
   line-height:32px;text-transform:uppercase;touch-action:manipulation;
   margin-bottom:8px;
 }
-.mx-eqfx-panel{
-  display:none;background:var(--bg2);
-  border:1px solid rgba(155,0,255,.12);border-radius:12px;
-  padding:14px;margin-bottom:10px;
-}
+.mx-eqfx-panel{display:none;background:var(--bg2);border:1px solid rgba(155,0,255,.12);border-radius:12px;padding:14px;margin-bottom:10px;}
 .mx-eqfx-panel.open{display:block;}
 .mx-eq-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;align-items:end;margin-bottom:14px;}
 .mx-knob-wrap{text-align:center;}
@@ -172,27 +168,13 @@ html,body{background:var(--bg);color:#f0e8ff;font-family:'Outfit',Arial,sans-ser
   background:var(--p);border-radius:1px;
   transform:translateX(-50%);transform-origin:50% 14px;
 }
-
-/* ══ FX CHANNEL SELECTOR ══ */
-.mx-fx-ch-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
-.mx-fx-ch-label{font-size:7px;letter-spacing:2px;color:rgba(240,232,255,.25);text-transform:uppercase;flex-shrink:0;}
-.mx-fx-ch-btns{display:flex;gap:5px;}
-.mx-fx-ch-btn{
-  padding:4px 10px;border-radius:6px;font-size:8px;font-weight:800;letter-spacing:1px;
-  cursor:pointer;touch-action:manipulation;transition:all .15s;
-  border:1px solid rgba(155,0,255,.2);background:rgba(155,0,255,.05);
-  color:rgba(240,232,255,.3);
-}
-.mx-fx-ch-btn.on{
-  background:rgba(155,0,255,.2);border-color:rgba(155,0,255,.6);
-  color:#f0e8ff;box-shadow:0 0 8px rgba(155,0,255,.25);
-}
-.mx-fx-ch-btn[data-ch="A"].on{background:rgba(155,0,255,.2);border-color:var(--p);color:rgba(200,150,255,1);}
-.mx-fx-ch-btn[data-ch="AB"].on{background:linear-gradient(90deg,rgba(155,0,255,.18),rgba(255,0,128,.18));border-color:rgba(155,0,255,.5);color:#f0e8ff;}
-.mx-fx-ch-btn[data-ch="B"].on{background:rgba(255,0,128,.2);border-color:var(--pk);color:rgba(255,150,200,1);}
-.mx-fx-ch-btn:active{transform:scale(.92);}
-
 .mx-fx-section-label{font-size:8px;letter-spacing:2px;color:rgba(240,232,255,.25);text-transform:uppercase;margin-bottom:8px;}
+.mx-fx-ch-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.mx-fx-ch-lbl{font-size:7px;letter-spacing:2px;color:rgba(240,232,255,.25);text-transform:uppercase;flex-shrink:0;}
+.mx-fx-ch-btn{padding:4px 10px;border-radius:6px;font-size:8px;font-weight:800;letter-spacing:1px;cursor:pointer;touch-action:manipulation;transition:all .15s;border:1px solid rgba(155,0,255,.2);background:rgba(155,0,255,.05);color:rgba(240,232,255,.3);}
+.mx-fx-ch-btn.on{background:rgba(155,0,255,.2);border-color:rgba(155,0,255,.6);color:#f0e8ff;}
+.mx-fx-ch-btn[data-ch="B"].on{background:rgba(255,0,128,.2);border-color:rgba(255,0,128,.6);}
+.mx-fx-ch-btn:active{transform:scale(.92);}
 .mx-fx-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
 .mx-fx-btn{
   height:32px;border-radius:8px;border:1px solid rgba(155,0,255,.18);
@@ -230,18 +212,13 @@ html,body{background:var(--bg);color:#f0e8ff;font-family:'Outfit',Arial,sans-ser
    LANDSCAPE — классический CDJ layout
 ══════════════════════════════════════ */
 @media (orientation:landscape){
-  html,body{height:100%;overflow:hidden;}
-  body{display:flex;flex-direction:column;}
-  .mx-wrap{
-    flex:1;display:flex;flex-direction:column;
-    padding:0;min-height:0;overflow:hidden;
-  }
+  body{padding:0;}
+  .mx-wrap{padding:0;}
   .mx-tag,.mx-h2,.mx-sub{display:none;}
   .mx-topbar{display:none;}
   .mx-boards{
     display:flex;flex-direction:row;gap:0;
-    flex:1;min-height:0;
-    margin-bottom:0;
+    height:100vh;margin-bottom:0;
     border-radius:0;overflow:hidden;
   }
   .mx-deck{
@@ -263,22 +240,12 @@ html,body{background:var(--bg);color:#f0e8ff;font-family:'Outfit',Arial,sans-ser
   .mx-jog-mark{transform-origin:50% calc(min(11vh,74px) - 4px);}
   .mx-play{width:48px;height:48px;font-size:19px;}
   .mx-tbtn{height:36px;}
-  /* EQ toggle в landscape — в центральной колонке */
   .mx-eqfx-toggle{display:block!important;width:100%;}
-  /* EQ panel в landscape — НЕ fixed, открывается снизу, толкает boards вверх */
-  #eqToggle{display:none;} /* portrait-toggle скрыт, используем кнопку в center-col */
-  .mx-eqfx-panel{
-    display:none;
-    position:relative;
-    border-radius:12px 12px 0 0;
-    margin:0;
-    flex-shrink:0;
-    max-height:42vh;
-    overflow-y:auto;
-    -webkit-overflow-scrolling:touch;
-    border-left:none;border-right:none;border-bottom:none;
-  }
+  .mx-eqfx-panel{display:none;position:fixed;bottom:0;left:0;right:0;z-index:100;border-radius:16px 16px 0 0;margin-bottom:0;max-height:40vh;overflow-y:auto;-webkit-overflow-scrolling:touch;}
   .mx-eqfx-panel.open{display:block;}
+  /* boards уменьшаются когда панель открыта */
+  .mx-boards{transition:height .25s;}
+  .mx-boards.eq-open{height:calc(100vh - 40vh)!important;}
   .mx-cta{display:none;}
   .mx-center-xf-lbl{font-size:6px;letter-spacing:2px;color:rgba(240,232,255,.18);text-transform:uppercase;text-align:center;margin-bottom:4px;}
   .mx-center-logo{font-size:8px;letter-spacing:3px;color:rgba(240,232,255,.08);text-transform:uppercase;font-family:'Bebas Neue',sans-serif;}
@@ -423,7 +390,7 @@ html,body{background:var(--bg);color:#f0e8ff;font-family:'Outfit',Arial,sans-ser
     </div>
   </div>
 
-  <!-- EQ / FX PANEL (portrait: below boards; landscape: pushes boards up) -->
+  <!-- EQ / FX PANEL (portrait: below boards) -->
   <button class="mx-eqfx-toggle" id="eqToggle" onclick="mxToggleEQ()">EQ · FX ↑</button>
   <div class="mx-eqfx-panel" id="eqPanel">
     <div style="font-size:8px;letter-spacing:2px;color:rgba(240,232,255,.25);text-transform:uppercase;margin-bottom:10px;">EQ · A и B</div>
@@ -435,17 +402,12 @@ html,body{background:var(--bg);color:#f0e8ff;font-family:'Outfit',Arial,sans-ser
       <div class="mx-knob-wrap"><div class="mx-klabel" style="color:rgba(255,0,128,.5);">MID B</div><div class="mx-knob" data-k="B" data-b="mid"><div class="mx-knob-tick" style="background:var(--pk);"></div></div></div>
       <div class="mx-knob-wrap"><div class="mx-klabel" style="color:rgba(255,0,128,.5);">LOW B</div><div class="mx-knob" data-k="B" data-b="low"><div class="mx-knob-tick" style="background:var(--pk);"></div></div></div>
     </div>
-
-    <!-- FX CHANNEL SELECTOR -->
     <div class="mx-fx-ch-row">
-      <span class="mx-fx-ch-label">FX → канал:</span>
-      <div class="mx-fx-ch-btns">
-        <button class="mx-fx-ch-btn on" data-ch="A" onclick="mxSetFXCh('A')">A</button>
-        <button class="mx-fx-ch-btn on" data-ch="AB" onclick="mxSetFXCh('AB')">A+B</button>
-        <button class="mx-fx-ch-btn" data-ch="B" onclick="mxSetFXCh('B')">B</button>
-      </div>
+      <span class="mx-fx-ch-lbl">FX → канал:</span>
+      <button class="mx-fx-ch-btn on" data-ch="A" onclick="mxSetFXCh('A')">A</button>
+      <button class="mx-fx-ch-btn on" data-ch="AB" onclick="mxSetFXCh('AB')">A+B</button>
+      <button class="mx-fx-ch-btn" data-ch="B" onclick="mxSetFXCh('B')">B</button>
     </div>
-
     <div class="mx-fx-section-label">FX</div>
     <div class="mx-fx-grid">
       <button class="mx-fx-btn" data-fx="echo" onclick="mxToggleFX(this)">ECHO</button>
@@ -482,12 +444,11 @@ var MX = {
   },
   FX: { echo:null, rev:null, roll:null, flng:null },
   fxActive: { echo:false, rev:false, roll:false, flng:false },
-  fxCh: 'AB', // канал назначения FX: 'A', 'B', 'AB'
   scratch:{A:false,B:false,ang:{A:0,B:0}},
   graphBuilt: false
 };
 
-// ── PRE-WARM ────────────────────────────────────────────────
+// ── PRE-WARM: создаём AC на первом касании ──────────────────
 function mxPreWarm(){
   if(MX.AC) return;
   MX.AC = new(window.AudioContext||window.webkitAudioContext)();
@@ -509,11 +470,13 @@ function mxBuildGraph(){
   MX.master = ac.createGain(); MX.master.gain.value = 0.85;
   MX.master.connect(ac.destination);
 
+  // FX return bus
   var fxReturn = ac.createGain(); fxReturn.gain.value = 0.85;
   fxReturn.connect(MX.master);
   MX.fxReturn = fxReturn;
 
-  // ECHO
+  // Build FX nodes
+  // ECHO: delay + feedback
   var echoDelay = ac.createDelay(1.0); echoDelay.delayTime.value = 0.34;
   var echoFB    = ac.createGain(); echoFB.gain.value = 0.38;
   var echoWet   = ac.createGain(); echoWet.gain.value = 0;
@@ -521,7 +484,7 @@ function mxBuildGraph(){
   echoDelay.connect(echoWet); echoWet.connect(fxReturn);
   MX.FX.echo = { in:echoDelay, wet:echoWet };
 
-  // REV
+  // REV: synthetic reverb (noise IR)
   var revConv = ac.createConvolver();
   var revWet  = ac.createGain(); revWet.gain.value = 0;
   revConv.connect(revWet); revWet.connect(fxReturn);
@@ -536,7 +499,7 @@ function mxBuildGraph(){
   })();
   MX.FX.rev = { in:revConv, wet:revWet };
 
-  // ROLL
+  // ROLL: short looping delay (stutter)
   var rollDelay = ac.createDelay(0.5); rollDelay.delayTime.value = 0.125;
   var rollFB    = ac.createGain(); rollFB.gain.value = 0.72;
   var rollWet   = ac.createGain(); rollWet.gain.value = 0;
@@ -544,7 +507,7 @@ function mxBuildGraph(){
   rollDelay.connect(rollWet); rollWet.connect(fxReturn);
   MX.FX.roll = { in:rollDelay, wet:rollWet };
 
-  // FLNG
+  // FLNG: flanger — short modulated delay
   var flDelay = ac.createDelay(0.02); flDelay.delayTime.value = 0.005;
   var flLFO   = ac.createOscillator(); flLFO.frequency.value = 0.4;
   var flLFOG  = ac.createGain(); flLFOG.gain.value = 0.004;
@@ -554,7 +517,7 @@ function mxBuildGraph(){
   flLFO.start();
   MX.FX.flng = { in:flDelay, wet:flWet };
 
-  // Per-deck chain
+  // Per-deck signal chain
   ['A','B'].forEach(function(k){
     var d = MX.D[k];
     d.cg  = ac.createGain(); d.cg.gain.value = 1;
@@ -562,9 +525,12 @@ function mxBuildGraph(){
     d.mid = ac.createBiquadFilter(); d.mid.type='peaking'; d.mid.frequency.value=1000; d.mid.Q.value=1; d.mid.gain.value=0;
     d.low = ac.createBiquadFilter(); d.low.type='lowshelf'; d.low.frequency.value=200; d.low.gain.value=0;
     d.flt = ac.createBiquadFilter(); d.flt.type='allpass'; d.flt.frequency.value=1000;
+
+    // dry chain: hi→mid→low→flt→cg→master
     d.hi.connect(d.mid); d.mid.connect(d.low); d.low.connect(d.flt);
     d.flt.connect(d.cg); d.cg.connect(MX.master);
 
+    // FX sends (always connected to FX inputs — wet gain controls amount)
     d.echoSend = ac.createGain(); d.echoSend.gain.value = 0;
     d.revSend  = ac.createGain(); d.revSend.gain.value = 0;
     d.rollSend = ac.createGain(); d.rollSend.gain.value = 0;
@@ -600,7 +566,7 @@ function mxLoadFile(k,inp){
 }
 
 function mxAutoLoad(k,url,name){
-  if(!MX.AC) return;
+  if(!MX.AC) return; // только после prewarm
   mxSetName(k,'⟳ загрузка...');
   fetch(url)
     .then(function(r){return r.arrayBuffer();})
@@ -638,9 +604,10 @@ function mxKill(k){
   var d=MX.D[k]; if(d.src){try{d.src.onended=null;d.src.stop();}catch(e){}d.src=null;}
 }
 
+// ── START — ключевой фикс задержки ─────────────────────────
 async function mxStart(k,offset){
   var d=MX.D[k]; if(!d.buf)return;
-  await mxWarm();
+  await mxWarm(); // ждём resume() — убирает задержку
   mxKill(k);
   d.playing=true; d.pos=offset;
   var ac=MX.AC;
@@ -649,7 +616,7 @@ async function mxStart(k,offset){
   src.connect(d.hi);
   d.src=src;
   d.startAC=ac.currentTime;
-  src.start(ac.currentTime, offset);
+  src.start(ac.currentTime, offset); // точное время — без задержки
   src.onended=function(){
     if(d.playing){d.playing=false;d.pos=0;d.src=null;mxSetPlay(k,false);}
   };
@@ -697,7 +664,9 @@ function mxPB(k,dir){
   var d=MX.D[k]; if(!d.src)return;
   d.src.playbackRate.value=dir ? d.rate*(1+dir*0.04) : d.rate;
 }
-function mxSyncAll(){ mxSync('A'); mxSync('B'); }
+function mxSyncAll(){
+  mxSync('A'); mxSync('B');
+}
 function mxSync(k){
   var o=k==='A'?'B':'A', da=MX.D[o], dk=MX.D[k];
   if(!da.bpm||!dk.bpm)return;
@@ -707,7 +676,7 @@ function mxSync(k){
 }
 
 // ── XFADER ──────────────────────────────────────────────────
-function mxXF(v){
+function mxXF(v){ // v = 0..100, 50 = centre
   if(!MX.graphBuilt)return;
   var p=v/100;
   MX.D.A.cg.gain.value=Math.cos(p*Math.PI/2);
@@ -715,24 +684,11 @@ function mxXF(v){
 }
 
 // ── FX CHANNEL SELECTOR ─────────────────────────────────────
+var MX_fxCh = 'AB';
 function mxSetFXCh(ch){
-  MX.fxCh = ch;
+  MX_fxCh = ch;
   document.querySelectorAll('.mx-fx-ch-btn').forEach(function(b){ b.classList.remove('on'); });
-  var map = {A:'A', AB:'AB', B:'B'};
-  document.querySelectorAll('.mx-fx-ch-btn').forEach(function(b){
-    if(b.dataset.ch === ch) b.classList.add('on');
-  });
-  // Переприменяем активные FX к новому каналу
-  if(!MX.graphBuilt) return;
-  Object.keys(MX.fxActive).forEach(function(fx){
-    var isOn = MX.fxActive[fx];
-    ['A','B'].forEach(function(k){
-      var d = MX.D[k];
-      var chActive = (MX.fxCh === 'AB') || (MX.fxCh === k);
-      var sKey = fx+'Send';
-      if(d[sKey]) d[sKey].gain.setTargetAtTime(isOn&&chActive?0.85:0, MX.AC.currentTime, 0.05);
-    });
-  });
+  document.querySelectorAll('.mx-fx-ch-btn[data-ch="'+ch+'"]').forEach(function(b){ b.classList.add('on'); });
 }
 
 // ── FX ──────────────────────────────────────────────────────
@@ -740,13 +696,13 @@ function mxToggleFX(btn){
   var fx=btn.dataset.fx;
   MX.fxActive[fx]=!MX.fxActive[fx];
   btn.classList.toggle('on', MX.fxActive[fx]);
+  var send=MX.fxActive[fx]?0.85:0;
   var wet=MX.fxActive[fx]?0.75:0;
   if(!MX.graphBuilt)return;
   ['A','B'].forEach(function(k){
     var d=MX.D[k];
     var sKey=fx+'Send';
-    var chActive = (MX.fxCh === 'AB') || (MX.fxCh === k);
-    if(d[sKey]) d[sKey].gain.setTargetAtTime(MX.fxActive[fx]&&chActive?0.85:0, MX.AC.currentTime, 0.05);
+    if(d[sKey]) d[sKey].gain.setTargetAtTime(send, MX.AC.currentTime, 0.05);
   });
   if(MX.FX[fx]) MX.FX[fx].wet.gain.setTargetAtTime(wet, MX.AC.currentTime, 0.05);
 }
@@ -799,15 +755,13 @@ function mxSpinStart(k){
   })();
 }
 
-// ── EQ PANEL TOGGLE ────────────────────────────────────────
+// ── EQ PANEL ────────────────────────────────────────────────
 function mxToggleEQ(){
   var panel = document.getElementById('eqPanel');
+  var boards = document.querySelector('.mx-boards');
   panel.classList.toggle('open');
-  // обновляем подпись на кнопке в центральной колонке
-  var btn = document.querySelector('.mx-center-col .mx-eqfx-toggle');
-  if(btn) btn.textContent = panel.classList.contains('open') ? 'EQ · FX ↓' : 'EQ · FX ↑';
-  var eqToggle = document.getElementById('eqToggle');
-  if(eqToggle) eqToggle.textContent = panel.classList.contains('open') ? 'EQ · FX ↑ закрыть' : 'EQ · FX ↑';
+  var isOpen = panel.classList.contains('open');
+  if(boards) boards.classList.toggle('eq-open', isOpen);
 }
 
 // ══════════════════════════════════════════════════════════════
@@ -842,6 +796,7 @@ window.addEventListener('DOMContentLoaded',function(){
       var d=MX.D[k]; if(d.src) d.src.playbackRate.value=d.rate||1;
       if(d.playing) mxSpinStart(k);
     },{passive:false});
+    // Mouse scratch
     var dragging=false;
     jog.addEventListener('mousedown',function(e){mxWarm();dragging=true;MX.scratch[k]=true;MX.scratch.ang[k]=ang(e);cancelAnimationFrame(MX.D[k].raf);});
     document.addEventListener('mousemove',function(e){
@@ -967,6 +922,7 @@ window.addEventListener('DOMContentLoaded',function(){
   });
 
   // ── Autoload треков ──
+  // Ждём первого prewarm, потом загружаем
   function tryAutoLoad(){
     if(!MX.AC){setTimeout(tryAutoLoad,200);return;}
     mxWarm().then(function(){
