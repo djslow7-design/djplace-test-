@@ -116,7 +116,7 @@ body{background:#07000f;color:#f0e8ff;font-family:Arial,sans-serif;overflow-x:hi
     <p class="hero-p">Профессиональная техника, топовые наставники и бесплатная практика между уроками.</p>
     <div class="btns">
       <button class="btn1" onclick="openModal()">Записаться на пробный урок</button>
-      <button class="btn2">Попробовать пульт ↓</button>
+
     </div>
     <div class="stats">
       <div class="stat"><div class="sn">500+</div><div class="sl">Выпускников</div></div>
@@ -286,512 +286,6 @@ cv.addEventListener('touchend',function(e){e.preventDefault();scratch();},{passi
 </script>
 
 
-<!-- ══ СЕКЦИЯ ПУЛЬТ ══ -->
-<style>
-.mx-wrap{background:#050010;border-top:1px solid rgba(155,0,255,.12);padding:32px 16px 40px;}
-.mx-tag{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#FF0080;margin-bottom:8px;display:block;}
-.mx-h2{font-family:Arial Black,sans-serif;font-weight:900;font-size:min(7vw,28px);letter-spacing:1px;color:#f0e8ff;margin-bottom:6px;}
-.mx-sub{font-size:12px;color:rgba(240,232,255,.4);line-height:1.65;margin-bottom:16px;}
-.mx-rotate-hint{display:none;background:rgba(155,0,255,.1);border:1px solid rgba(155,0,255,.25);border-radius:10px;padding:10px 14px;font-size:11px;color:rgba(240,232,255,.5);text-align:center;margin-bottom:14px;}
-@media(orientation:portrait){.mx-rotate-hint{display:block;}}
-.mx-board{background:#07000f;border:1px solid rgba(155,0,255,.18);border-radius:20px;overflow:hidden;display:flex;height:310px;}
-.mx-deck{flex:1;display:flex;flex-direction:column;align-items:center;padding:10px 8px 8px;}
-.mx-deck-a{border-right:1px solid rgba(155,0,255,.1);}
-.mx-dlabel{font-size:7px;font-weight:800;letter-spacing:3px;text-transform:uppercase;width:100%;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
-.mx-dlabel-a{color:#9B00FF;}.mx-dlabel-b{color:#FF0080;}
-.mx-bpm{font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;}
-.mx-bpm-a{background:rgba(155,0,255,.15);color:rgba(155,0,255,.9);}
-.mx-bpm-b{background:rgba(255,0,128,.15);color:rgba(255,0,128,.9);}
-.mx-jog{position:relative;width:136px;height:136px;flex-shrink:0;margin-bottom:6px;touch-action:none;cursor:grab;}
-.mx-jog-outer{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 36% 30%,#2a0050,#0d0020 50%,#040010);border:2.5px solid rgba(155,0,255,.5);box-shadow:0 0 0 4px rgba(155,0,255,.05),0 10px 36px rgba(0,0,0,.95),inset 0 3px 8px rgba(255,255,255,.07),inset 0 -6px 18px rgba(0,0,0,.8);}
-.mx-jog-outer-b{border-color:rgba(255,0,128,.5);box-shadow:0 0 0 4px rgba(255,0,128,.05),0 10px 36px rgba(0,0,0,.95),inset 0 3px 8px rgba(255,255,255,.07),inset 0 -6px 18px rgba(0,0,0,.8);}
-.mx-jog-r1{position:absolute;inset:9px;border-radius:50%;border:1px solid rgba(255,255,255,.04);}
-.mx-jog-r2{position:absolute;inset:17px;border-radius:50%;border:1px solid rgba(255,255,255,.03);}
-.mx-jog-platter{position:absolute;inset:22px;border-radius:50%;background:radial-gradient(circle at 36% 32%,#3d0070,#0e0022);border:1.5px solid rgba(155,0,255,.35);box-shadow:inset 0 4px 14px rgba(0,0,0,.7),0 3px 14px rgba(155,0,255,.3);}
-.mx-jog-platter-b{background:radial-gradient(circle at 36% 32%,#5a0038,#0e0010);border-color:rgba(255,0,128,.35);box-shadow:inset 0 4px 14px rgba(0,0,0,.7),0 3px 14px rgba(255,0,128,.3);}
-.mx-jog-dot{position:absolute;inset:42px;border-radius:50%;background:radial-gradient(circle at 38% 32%,#c060ff,#6600bb);box-shadow:0 0 14px rgba(155,0,255,.85),inset 0 2px 4px rgba(255,255,255,.3);}
-.mx-jog-dot-b{background:radial-gradient(circle at 38% 32%,#ff6aad,#bb0055);box-shadow:0 0 14px rgba(255,0,128,.85),inset 0 2px 4px rgba(255,255,255,.3);}
-.mx-jog-mark{position:absolute;top:5px;left:50%;width:4px;height:13px;background:linear-gradient(to bottom,#fff,rgba(255,255,255,.1));border-radius:2px;transform-origin:50% 63px;}
-.mx-wf{width:100%;height:20px;border-radius:5px;position:relative;overflow:hidden;flex-shrink:0;margin-bottom:5px;}
-.mx-wf-a{background:rgba(155,0,255,.05);border:1px solid rgba(155,0,255,.12);}
-.mx-wf-b{background:rgba(255,0,128,.05);border:1px solid rgba(255,0,128,.12);}
-.mx-tn{font-size:8px;color:rgba(240,232,255,.28);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;text-align:center;margin-bottom:5px;}
-.mx-load{display:block;width:100%;padding:5px 0;background:rgba(155,0,255,.06);border:1px dashed rgba(155,0,255,.25);border-radius:7px;font-size:8px;color:rgba(155,0,255,.6);text-align:center;cursor:pointer;margin-bottom:6px;font-family:Arial,sans-serif;}
-.mx-load-b{background:rgba(255,0,128,.06);border-color:rgba(255,0,128,.25);color:rgba(255,0,128,.6);}
-.mx-flt-row{display:flex;align-items:center;gap:5px;width:100%;margin-bottom:5px;}
-.mx-flt-lbl{font-size:7px;letter-spacing:1px;color:rgba(240,232,255,.25);text-transform:uppercase;flex-shrink:0;}
-.mx-flt-track{flex:1;height:4px;background:rgba(255,255,255,.06);border-radius:2px;position:relative;touch-action:none;}
-.mx-flt-thumb{position:absolute;top:50%;width:14px;height:14px;border-radius:4px;transform:translate(-50%,-50%);left:50%;}
-.mx-flt-a{background:radial-gradient(circle at 38% 35%,#c060ff,#7700cc);box-shadow:0 2px 8px rgba(155,0,255,.5);}
-.mx-flt-b{background:radial-gradient(circle at 38% 35%,#ff6aad,#cc0066);box-shadow:0 2px 8px rgba(255,0,128,.5);}
-.mx-transport{display:flex;gap:4px;align-items:center;width:100%;}
-.mx-tbtn{height:32px;border-radius:9px;font-size:10px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:1;touch-action:manipulation;box-shadow:0 2px 8px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);}
-.mx-tbtn:active{opacity:.65;transform:scale(.93);}
-.mx-tbtn-a{border:1px solid rgba(155,0,255,.22);background:rgba(155,0,255,.08);color:rgba(240,232,255,.55);}
-.mx-tbtn-b{border:1px solid rgba(255,0,128,.22);background:rgba(255,0,128,.08);color:rgba(240,232,255,.55);}
-.mx-play{width:44px;height:44px;border-radius:50%;border:none;color:#fff;font-size:17px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;touch-action:manipulation;}
-.mx-play:active{transform:scale(.88);}
-.mx-play-a{background:radial-gradient(circle at 38% 35%,#bf5fff,#7700cc);box-shadow:0 4px 18px rgba(155,0,255,.6),inset 0 1px 3px rgba(255,255,255,.2);}
-.mx-play-b{background:radial-gradient(circle at 38% 35%,#ff6aad,#cc0066);box-shadow:0 4px 18px rgba(255,0,128,.6),inset 0 1px 3px rgba(255,255,255,.2);}
-.mx-sync{height:32px;border-radius:9px;font-size:8px;font-weight:900;letter-spacing:1px;cursor:pointer;flex:1;touch-action:manipulation;}
-.mx-sync:active{opacity:.7;}
-.mx-sync-a{background:rgba(155,0,255,.14);border:1px solid rgba(155,0,255,.4);color:#9B00FF;}
-.mx-sync-b{background:rgba(255,0,128,.14);border:1px solid rgba(255,0,128,.4);color:#FF0080;}
-.mx-center{width:82px;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:10px 5px 8px;border-left:1px solid rgba(155,0,255,.08);}
-.mx-clabel{font-size:5px;letter-spacing:2px;color:rgba(240,232,255,.1);text-transform:uppercase;text-align:center;}
-.mx-xf-lbl{font-size:6px;letter-spacing:2px;color:rgba(240,232,255,.2);text-transform:uppercase;text-align:center;margin-bottom:6px;}
-.mx-xf-track{height:6px;border-radius:3px;background:rgba(255,255,255,.05);position:relative;box-shadow:inset 0 2px 5px rgba(0,0,0,.5);touch-action:none;}
-.mx-xf-fill{position:absolute;inset:0;border-radius:3px;background:linear-gradient(90deg,rgba(155,0,255,.4),rgba(255,0,128,.4));}
-.mx-xf-thumb{position:absolute;top:50%;left:calc(50% - 10px);width:20px;height:20px;border-radius:5px;background:linear-gradient(145deg,#c060ff,#6600bb);transform:translateY(-50%);box-shadow:0 3px 12px rgba(155,0,255,.6),inset 0 1px 3px rgba(255,255,255,.25);}
-.mx-xf-ends{display:flex;justify-content:space-between;margin-top:5px;font-size:9px;font-weight:800;}
-.mx-eq-btn{width:100%;height:26px;border-radius:7px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);color:rgba(240,232,255,.3);font-size:7px;font-weight:800;letter-spacing:1px;cursor:pointer;text-align:center;line-height:26px;text-transform:uppercase;touch-action:manipulation;}
-.mx-eq-panel{display:none;background:#07000f;border-top:1px solid rgba(155,0,255,.15);padding:14px 16px;}
-.mx-eq-panel.open{display:block;}
-.mx-eq-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;align-items:end;margin-bottom:14px;}
-.mx-knob-wrap{text-align:center;}
-.mx-klabel{font-size:7px;letter-spacing:1.5px;color:rgba(240,232,255,.3);text-transform:uppercase;margin-bottom:6px;}
-.mx-knob{width:36px;height:36px;border-radius:50%;margin:0 auto;position:relative;cursor:pointer;touch-action:none;background:radial-gradient(circle at 36% 32%,#220044,#060010);border:1.5px solid rgba(155,0,255,.3);box-shadow:0 3px 10px rgba(0,0,0,.6),inset 0 1px 3px rgba(255,255,255,.05);}
-.mx-knob-tick{position:absolute;top:4px;left:50%;width:2px;height:9px;background:#9B00FF;border-radius:1px;transform:translateX(-50%);transform-origin:50% 14px;}
-.mx-fx-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
-.mx-fx-btn{height:30px;border-radius:8px;border:1px solid rgba(155,0,255,.18);background:rgba(155,0,255,.06);color:rgba(240,232,255,.38);font-size:8px;font-weight:800;letter-spacing:1px;cursor:pointer;touch-action:manipulation;}
-.mx-fx-btn.on{background:rgba(255,0,128,.18);border-color:rgba(255,0,128,.5);color:#FF0080;box-shadow:0 0 10px rgba(255,0,128,.25);}
-.mx-close-btn{width:100%;height:26px;border-radius:7px;background:transparent;border:1px solid rgba(155,0,255,.14);color:rgba(240,232,255,.25);font-size:8px;font-weight:700;letter-spacing:1px;cursor:pointer;text-transform:uppercase;margin-top:10px;}
-</style>
-
-<div class="mx-wrap" id="mixer">
-  <span class="mx-tag">▶ попробуй прямо сейчас</span>
-  <h2 class="mx-h2">Подиджей <span style="background:linear-gradient(90deg,#9B00FF,#FF0080);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">здесь и сейчас</span></h2>
-  <p class="mx-sub">Загрузи трек или используй наш. Крути джог, жми play.</p>
-  <div class="mx-rotate-hint">↺ Переверни телефон для полного пульта</div>
-
-  <div class="mx-board">
-    <!-- DECK A -->
-    <div class="mx-deck mx-deck-a">
-      <div class="mx-dlabel mx-dlabel-a">
-        <span>DECK A</span>
-        <span class="mx-bpm mx-bpm-a" id="bpmA">— BPM</span>
-      </div>
-      <div class="mx-jog" id="jogA">
-        <div class="mx-jog-outer"></div>
-        <div class="mx-jog-r1"></div><div class="mx-jog-r2"></div>
-        <div class="mx-jog-platter"></div>
-        <div class="mx-jog-dot"></div>
-        <div class="mx-jog-mark" id="markA" style="transform:translateX(-50%) rotate(0deg);"></div>
-      </div>
-      <div id="wfA" class="mx-wf mx-wf-a"><canvas id="wfCA" style="position:absolute;inset:0;width:100%;height:100%;"></canvas></div>
-      <div id="tnA" class="mx-tn">загрузка...</div>
-      <label class="mx-load">+ загрузить трек A<input type="file" accept="audio/*" onchange="mxLoadFile('A',this)" style="display:none;"></label>
-      <div class="mx-flt-row">
-        <span class="mx-flt-lbl">FLT</span>
-        <div class="mx-flt-track" id="fltA">
-          <div class="mx-flt-thumb mx-flt-a" id="fltTA"></div>
-        </div>
-      </div>
-      <div class="mx-transport">
-        <button class="mx-tbtn mx-tbtn-a" onclick="mxHome('A')" style="font-size:11px;">⏮</button>
-        <button class="mx-tbtn mx-tbtn-a" onclick="mxCue('A')" id="cueA" style="font-size:8px;">CUE</button>
-        <button class="mx-play mx-play-a" onclick="mxPlay('A')" id="playA">▶</button>
-        <button class="mx-tbtn mx-tbtn-a" style="font-size:13px;" onmousedown="mxPB('A',-1)" onmouseup="mxPB('A',0)" onmouseleave="mxPB('A',0)" ontouchstart="event.preventDefault();mxPB('A',-1)" ontouchend="event.preventDefault();mxPB('A',0)">«</button>
-        <button class="mx-tbtn mx-tbtn-a" style="font-size:13px;" onmousedown="mxPB('A',1)" onmouseup="mxPB('A',0)" onmouseleave="mxPB('A',0)" ontouchstart="event.preventDefault();mxPB('A',1)" ontouchend="event.preventDefault();mxPB('A',0)">»</button>
-        <button class="mx-sync mx-sync-a" onclick="mxSync('A')">SYNC</button>
-      </div>
-    </div>
-
-    <!-- CENTER -->
-    <div class="mx-center">
-      <div class="mx-clabel">DJ·PLACE</div>
-      <div style="width:100%;">
-        <div class="mx-xf-lbl">xfader</div>
-        <div class="mx-xf-track" id="xfTrack">
-          <div class="mx-xf-fill"></div>
-          <div class="mx-xf-thumb" id="xfThumb"></div>
-        </div>
-        <div class="mx-xf-ends">
-          <span style="color:rgba(155,0,255,.6);">A</span>
-          <span style="color:rgba(255,0,128,.6);">B</span>
-        </div>
-      </div>
-      <button class="mx-eq-btn" onclick="mxToggleEQ()">EQ · FX ↑</button>
-    </div>
-
-    <!-- DECK B -->
-    <div class="mx-deck">
-      <div class="mx-dlabel mx-dlabel-b">
-        <span>DECK B</span>
-        <span class="mx-bpm mx-bpm-b" id="bpmB">— BPM</span>
-      </div>
-      <div class="mx-jog" id="jogB">
-        <div class="mx-jog-outer mx-jog-outer-b"></div>
-        <div class="mx-jog-r1"></div><div class="mx-jog-r2"></div>
-        <div class="mx-jog-platter mx-jog-platter-b"></div>
-        <div class="mx-jog-dot mx-jog-dot-b"></div>
-        <div class="mx-jog-mark" id="markB" style="transform:translateX(-50%) rotate(0deg);"></div>
-      </div>
-      <div id="wfB" class="mx-wf mx-wf-b"><canvas id="wfCB" style="position:absolute;inset:0;width:100%;height:100%;"></canvas></div>
-      <div id="tnB" class="mx-tn">загрузка...</div>
-      <label class="mx-load mx-load-b">+ загрузить трек B<input type="file" accept="audio/*" onchange="mxLoadFile('B',this)" style="display:none;"></label>
-      <div class="mx-flt-row">
-        <span class="mx-flt-lbl">FLT</span>
-        <div class="mx-flt-track" id="fltB">
-          <div class="mx-flt-thumb mx-flt-b" id="fltTB"></div>
-        </div>
-      </div>
-      <div class="mx-transport">
-        <button class="mx-tbtn mx-tbtn-b" onclick="mxHome('B')" style="font-size:11px;">⏮</button>
-        <button class="mx-tbtn mx-tbtn-b" onclick="mxCue('B')" id="cueB" style="font-size:8px;">CUE</button>
-        <button class="mx-play mx-play-b" onclick="mxPlay('B')" id="playB">▶</button>
-        <button class="mx-tbtn mx-tbtn-b" style="font-size:13px;" onmousedown="mxPB('B',-1)" onmouseup="mxPB('B',0)" onmouseleave="mxPB('B',0)" ontouchstart="event.preventDefault();mxPB('B',-1)" ontouchend="event.preventDefault();mxPB('B',0)">«</button>
-        <button class="mx-tbtn mx-tbtn-b" style="font-size:13px;" onmousedown="mxPB('B',1)" onmouseup="mxPB('B',0)" onmouseleave="mxPB('B',0)" ontouchstart="event.preventDefault();mxPB('B',1)" ontouchend="event.preventDefault();mxPB('B',0)">»</button>
-        <button class="mx-sync mx-sync-b" onclick="mxSync('B')">SYNC</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- EQ/FX PANEL -->
-  <div class="mx-eq-panel" id="eqPanel">
-    <div style="font-size:8px;letter-spacing:2px;color:rgba(240,232,255,.3);text-transform:uppercase;margin-bottom:10px;">EQ · A и B</div>
-    <div class="mx-eq-grid">
-      <div class="mx-knob-wrap"><div class="mx-klabel" style="color:rgba(155,0,255,.5);">HI A</div><div class="mx-knob" data-k="A" data-b="hi"><div class="mx-knob-tick"></div></div></div>
-      <div class="mx-knob-wrap"><div class="mx-klabel" style="color:rgba(155,0,255,.5);">MID A</div><div class="mx-knob" data-k="A" data-b="mid"><div class="mx-knob-tick"></div></div></div>
-      <div class="mx-knob-wrap"><div class="mx-klabel" style="color:rgba(155,0,255,.5);">LOW A</div><div class="mx-knob" data-k="A" data-b="low"><div class="mx-knob-tick"></div></div></div>
-      <div class="mx-knob-wrap"><div class="mx-klabel" style="color:rgba(255,0,128,.5);">HI B</div><div class="mx-knob" data-k="B" data-b="hi"><div class="mx-knob-tick" style="background:#FF0080;"></div></div></div>
-      <div class="mx-knob-wrap"><div class="mx-klabel" style="color:rgba(255,0,128,.5);">MID B</div><div class="mx-knob" data-k="B" data-b="mid"><div class="mx-knob-tick" style="background:#FF0080;"></div></div></div>
-      <div class="mx-knob-wrap"><div class="mx-klabel" style="color:rgba(255,0,128,.5);">LOW B</div><div class="mx-knob" data-k="B" data-b="low"><div class="mx-knob-tick" style="background:#FF0080;"></div></div></div>
-    </div>
-    <div style="font-size:8px;letter-spacing:2px;color:rgba(240,232,255,.3);text-transform:uppercase;margin-bottom:8px;">FX</div>
-    <div class="mx-fx-grid">
-      <button class="mx-fx-btn" onclick="this.classList.toggle('on')">ECHO</button>
-      <button class="mx-fx-btn" onclick="this.classList.toggle('on')">REV</button>
-      <button class="mx-fx-btn" onclick="this.classList.toggle('on')">ROLL</button>
-      <button class="mx-fx-btn" onclick="this.classList.toggle('on')">FLNG</button>
-    </div>
-    <button class="mx-close-btn" onclick="mxToggleEQ()">↓ закрыть</button>
-  </div>
-</div>
-
-<script>
-// ══════════════════════════════════════════════════════════════
-// AUDIO ENGINE + MIXER — единый блок, правильный порядок
-// ══════════════════════════════════════════════════════════════
-
-var MX = {
-  AC: null, master: null,
-  D: {
-    A:{buf:null,src:null,playing:false,pos:0,rate:1,cuePos:0,bpm:null,startAC:0,
-       cg:null,hi:null,mid:null,low:null,flt:null,peaks:null,angle:0,raf:null,wfRaf:null},
-    B:{buf:null,src:null,playing:false,pos:0,rate:1,cuePos:0,bpm:null,startAC:0,
-       cg:null,hi:null,mid:null,low:null,flt:null,peaks:null,angle:0,raf:null,wfRaf:null}
-  },
-  scratch:{A:false,B:false,ang:{A:0,B:0}},
-  scratchSnd:null
-};
-
-function mxAC(){
-  if(!MX.AC) MX.AC=new(window.AudioContext||window.webkitAudioContext)();
-  if(MX.AC.state==='suspended') MX.AC.resume();
-  return MX.AC;
-}
-
-function mxWarm(){
-  var ac=mxAC();
-  if(MX.master) return;
-  MX.master=ac.createGain(); MX.master.gain.value=0.85; MX.master.connect(ac.destination);
-  ['A','B'].forEach(function(k){
-    var d=MX.D[k];
-    d.cg=ac.createGain(); d.cg.gain.value=1;
-    d.hi=ac.createBiquadFilter(); d.hi.type='highshelf'; d.hi.frequency.value=10000; d.hi.gain.value=0;
-    d.mid=ac.createBiquadFilter(); d.mid.type='peaking'; d.mid.frequency.value=1000; d.mid.Q.value=1; d.mid.gain.value=0;
-    d.low=ac.createBiquadFilter(); d.low.type='lowshelf'; d.low.frequency.value=200; d.low.gain.value=0;
-    d.flt=ac.createBiquadFilter(); d.flt.type='allpass'; d.flt.frequency.value=1000;
-    d.hi.connect(d.mid); d.mid.connect(d.low); d.low.connect(d.flt); d.flt.connect(d.cg); d.cg.connect(MX.master);
-  });
-  try{ MX.scratchSnd=new Audio('scratch_sound.mp3'); MX.scratchSnd.volume=0.6; }catch(e){}
-}
-document.addEventListener('click',mxWarm,{once:true});
-document.addEventListener('touchstart',mxWarm,{once:true});
-
-// ── LOAD ─────────────────────────────────────────────────────
-function mxLoadFile(k,inp){
-  mxWarm(); var file=inp.files[0]; if(!file)return;
-  mxName(k,'⟳ '+file.name.slice(0,20));
-  var r=new FileReader();
-  r.onload=function(e){
-    MX.AC.decodeAudioData(e.target.result,function(buf){
-      var d=MX.D[k];
-      if(d.playing){mxKill(k);d.playing=false;}
-      d.buf=buf; d.pos=0; d.cuePos=0; d.bpm=mxGuessBPM(buf);
-      mxName(k,file.name.replace(/\.[^.]+$/,'').slice(0,22));
-      mxDrawWF(k); mxSetPlay(k,false);
-    });
-  };
-  r.readAsArrayBuffer(file);
-}
-
-function mxAutoLoad(k,url,name){
-  mxWarm(); mxName(k,'⟳ загрузка...');
-  fetch(url).then(function(r){return r.arrayBuffer();})
-    .then(function(b){return MX.AC.decodeAudioData(b);})
-    .then(function(buf){
-      var d=MX.D[k]; d.buf=buf; d.pos=0; d.cuePos=0; d.bpm=mxGuessBPM(buf);
-      mxName(k,name); mxDrawWF(k); mxSetPlay(k,false);
-    }).catch(function(){mxName(k,'загрузи трек ↑');});
-}
-
-// ── HELPERS ──────────────────────────────────────────────────
-function mxName(k,n){
-  var el=document.getElementById('tn'+k); if(el) el.textContent=n;
-  setTimeout(function(){
-    var d=MX.D[k]; var b=document.getElementById('bpm'+k);
-    if(b&&d&&d.bpm) b.textContent=Math.round(d.bpm*(d.rate||1))+' BPM';
-  },30);
-}
-
-function mxGuessBPM(buf){
-  try{
-    var ch=buf.getChannelData(0),sr=buf.sampleRate,step=Math.floor(sr*.01),rms=[];
-    for(var i=0;i<ch.length-step;i+=step){var s=0;for(var j=0;j<step;j++)s+=ch[i+j]*ch[i+j];rms.push(Math.sqrt(s/step));}
-    var thr=rms.reduce(function(a,b){return a+b},0)/rms.length*1.3,beats=[],last=-100;
-    for(var i=1;i<rms.length;i++)if(rms[i]>thr&&rms[i]>rms[i-1]&&i-last>30){beats.push(i*step/sr);last=i;}
-    if(beats.length<8)return null;
-    var ints=beats.slice(1,40).map(function(b,i){return b-beats[i]});
-    var bpm=Math.round(60/(ints.reduce(function(a,b){return a+b},0)/ints.length));
-    while(bpm<80)bpm*=2; while(bpm>200)bpm/=2; return bpm;
-  }catch(e){return null;}
-}
-
-function mxKill(k){
-  var d=MX.D[k]; if(d.src){try{d.src.onended=null;d.src.stop();}catch(e){}d.src=null;}
-}
-
-function mxStart(k,offset){
-  var d=MX.D[k]; if(!d.buf)return;
-  mxKill(k); d.playing=true; d.pos=offset;
-  var ac=mxAC(), src=ac.createBufferSource();
-  src.buffer=d.buf; src.playbackRate.value=d.rate||1;
-  src.connect(d.hi);
-  d.src=src; d.startAC=ac.currentTime-offset; src.start(0,offset);
-  src.onended=function(){if(d.playing){d.playing=false;d.pos=0;d.src=null;mxSetPlay(k,false);}};
-  mxSetPlay(k,true);
-}
-
-function mxSetPlay(k,on){
-  var d=MX.D[k];
-  var b=document.getElementById('play'+k);
-  if(b){
-    b.textContent=on?'⏸':'▶';
-    b.style.background=on
-      ?(k==='A'?'radial-gradient(circle at 38% 35%,#9933ff,#5500aa)':'radial-gradient(circle at 38% 35%,#ff44aa,#aa0055)')
-      :(k==='A'?'radial-gradient(circle at 38% 35%,#bf5fff,#7700cc)':'radial-gradient(circle at 38% 35%,#ff6aad,#cc0066)');
-  }
-  var badge=document.getElementById('bpm'+k);
-  if(badge&&d.bpm) badge.textContent=Math.round(d.bpm*(d.rate||1))+' BPM';
-  cancelAnimationFrame(d.raf); cancelAnimationFrame(d.wfRaf);
-  if(on){ mxSpinStart(k); mxWFLoopStart(k); }
-}
-
-// ── TRANSPORT ────────────────────────────────────────────────
-function mxPlay(k){
-  mxWarm(); var d=MX.D[k]; if(!d.buf) return;
-  if(d.playing){
-    var p=d.src&&d.startAC?(mxAC().currentTime-d.startAC):d.pos;
-    mxKill(k); d.playing=false; d.pos=Math.max(0,Math.min(p,d.buf.duration-.01)); mxSetPlay(k,false);
-  } else { mxStart(k,d.pos); }
-}
-function mxCue(k){
-  mxWarm(); var d=MX.D[k]; if(!d.buf)return;
-  if(!d.playing){d.cuePos=d.pos;mxStart(k,d.cuePos);}
-  else{mxKill(k);d.playing=false;d.pos=d.cuePos;mxSetPlay(k,false);}
-}
-function mxHome(k){
-  var d=MX.D[k]; mxKill(k); d.playing=false; d.pos=0; d.cuePos=0; d.angle=0;
-  mxSetPlay(k,false); mxDrawWF(k);
-}
-function mxPB(k,dir){
-  var d=MX.D[k]; if(!d.src)return;
-  d.src.playbackRate.value=dir?d.rate*(1+dir*0.04):d.rate;
-}
-function mxSync(k){
-  var o=k==='A'?'B':'A', da=MX.D[o], dk=MX.D[k];
-  if(!da.bpm||!dk.bpm)return;
-  var tBPM=da.bpm*da.rate; dk.rate=tBPM/dk.bpm;
-  if(dk.src) dk.src.playbackRate.value=dk.rate;
-  var b=document.getElementById('bpm'+k); if(b) b.textContent=Math.round(tBPM)+' BPM';
-}
-function mxXF(v){
-  if(!MX.master)return;
-  var p=v/100;
-  MX.D.A.cg.gain.value=Math.cos(p*Math.PI/2);
-  MX.D.B.cg.gain.value=Math.sin(p*Math.PI/2);
-}
-
-// ── WAVEFORM ─────────────────────────────────────────────────
-function mxDrawWF(k){
-  var canv=document.getElementById('wfC'+k); if(!canv)return;
-  var d=MX.D[k]; if(!d.buf)return;
-  var wrap=document.getElementById('wf'+k);
-  canv.width=wrap.offsetWidth||260; canv.height=20;
-  var ch=d.buf.getChannelData(0),bars=60,step=Math.floor(ch.length/bars),peaks=[];
-  for(var i=0;i<bars;i++){var mx=0;for(var j=0;j<step;j++)mx=Math.max(mx,Math.abs(ch[i*step+j]||0));peaks.push(mx);}
-  d.peaks=peaks; mxRenderWF(k,0);
-}
-function mxRenderWF(k,pos){
-  var canv=document.getElementById('wfC'+k); if(!canv)return;
-  var d=MX.D[k]; if(!d.peaks)return;
-  var w=canv.width,h=canv.height,ctx=canv.getContext('2d');
-  ctx.clearRect(0,0,w,h);
-  ctx.fillStyle=k==='A'?'rgba(155,0,255,0.55)':'rgba(255,0,128,0.55)';
-  var bars=d.peaks.length;
-  for(var i=0;i<bars;i++){
-    var bh=Math.max(2,d.peaks[i]*(h-2));
-    ctx.fillRect(i*(w/bars)+0.5,(h-bh)/2,Math.max(1,(w/bars)-1.5),bh);
-  }
-  if(d.buf){
-    var px=(pos/d.buf.duration)*w;
-    ctx.fillStyle='rgba(255,255,255,0.9)'; ctx.fillRect(px-1,0,2,h);
-  }
-}
-function mxWFLoopStart(k){
-  cancelAnimationFrame(MX.D[k].wfRaf);
-  (function loop(){
-    var d=MX.D[k]; if(!d.playing)return;
-    var pos=d.src&&d.startAC?(mxAC().currentTime-d.startAC):d.pos;
-    mxRenderWF(k,pos); d.wfRaf=requestAnimationFrame(loop);
-  })();
-}
-
-// ── JOG SPIN ─────────────────────────────────────────────────
-function mxSpinStart(k){
-  var d=MX.D[k]; cancelAnimationFrame(d.raf);
-  (function spin(){
-    if(!d.playing||MX.scratch[k])return;
-    d.angle=(d.angle+1.1*(d.rate||1))%360;
-    var m=document.getElementById('mark'+k);
-    if(m) m.style.transform='translateX(-50%) rotate('+d.angle+'deg)';
-    d.raf=requestAnimationFrame(spin);
-  })();
-}
-
-// ── INIT TOUCH HANDLERS (после DOM) ──────────────────────────
-window.addEventListener('DOMContentLoaded',function(){
-
-  // Scrub по waveform
-  ['A','B'].forEach(function(k){
-    var wf=document.getElementById('wf'+k); if(!wf)return;
-    function seek(e){
-      var d=MX.D[k]; if(!d||!d.buf)return;
-      var r=wf.getBoundingClientRect();
-      var x=(e.touches?e.touches[0].clientX:e.clientX)-r.left;
-      var np=Math.max(0,Math.min(1,x/r.width))*d.buf.duration;
-      if(d.playing) mxStart(k,np); else{d.pos=np;mxRenderWF(k,np);}
-    }
-    wf.addEventListener('touchstart',function(e){e.preventDefault();seek(e);},{passive:false});
-    wf.addEventListener('touchmove',function(e){e.preventDefault();seek(e);},{passive:false});
-    wf.addEventListener('mousedown',seek);
-    wf.addEventListener('mousemove',function(e){if(e.buttons===1)seek(e);});
-  });
-
-  // Scratch
-  ['A','B'].forEach(function(k){
-    var jog=document.getElementById('jog'+k); if(!jog)return;
-    function ang(t){
-      var r=jog.getBoundingClientRect();
-      return Math.atan2(t.clientY-(r.top+r.height/2),t.clientX-(r.left+r.width/2))*180/Math.PI;
-    }
-    jog.addEventListener('touchstart',function(e){
-      e.preventDefault(); mxWarm();
-      MX.scratch[k]=true; MX.scratch.ang[k]=ang(e.touches[0]);
-      cancelAnimationFrame(MX.D[k].raf);
-    },{passive:false});
-    jog.addEventListener('touchmove',function(e){
-      e.preventDefault(); if(!MX.scratch[k])return;
-      var a=ang(e.touches[0]),delta=a-MX.scratch.ang[k];
-      if(delta>180)delta-=360; if(delta<-180)delta+=360;
-      MX.scratch.ang[k]=a;
-      var d=MX.D[k]; d.angle=(d.angle+delta)%360;
-      var m=document.getElementById('mark'+k);
-      if(m) m.style.transform='translateX(-50%) rotate('+d.angle+'deg)';
-      if(d.src) d.src.playbackRate.value=Math.max(-4,Math.min(4,delta*0.09));
-    },{passive:false});
-    jog.addEventListener('touchend',function(e){
-      e.preventDefault(); MX.scratch[k]=false;
-      var d=MX.D[k];
-      if(d.src) d.src.playbackRate.value=d.rate||1;
-      if(d.playing) mxSpinStart(k);
-    },{passive:false});
-  });
-
-  // Filter
-  ['A','B'].forEach(function(k){
-    var track=document.getElementById('flt'+k);
-    var thumb=document.getElementById('fltT'+k);
-    if(!track||!thumb)return;
-    var drag=false;
-    function applyFlt(v){
-      var d=MX.D[k]; if(!d.flt)return;
-      if(Math.abs(v-50)<3){d.flt.type='allpass';return;}
-      if(v<50){d.flt.type='lowpass';d.flt.frequency.value=200+((v/50)*(22000-200));d.flt.Q.value=0.7;}
-      else{d.flt.type='highpass';d.flt.frequency.value=20+(((v-50)/50)*4000);d.flt.Q.value=0.7;}
-    }
-    function move(e){
-      if(!drag)return;
-      var r=track.getBoundingClientRect();
-      var v=Math.max(0,Math.min(100,((e.touches?e.touches[0].clientX:e.clientX)-r.left)/r.width*100));
-      thumb.style.left=v+'%'; applyFlt(v);
-    }
-    track.addEventListener('mousedown',function(e){mxWarm();drag=true;move(e);});
-    track.addEventListener('touchstart',function(e){mxWarm();e.preventDefault();drag=true;move(e);},{passive:false});
-    document.addEventListener('mousemove',move);
-    document.addEventListener('touchmove',function(e){if(drag)move(e);},{passive:false});
-    document.addEventListener('mouseup',function(){drag=false;});
-    document.addEventListener('touchend',function(){drag=false;});
-  });
-
-  // Xfader
-  (function(){
-    var track=document.getElementById('xfTrack');
-    var thumb=document.getElementById('xfThumb');
-    if(!track||!thumb)return;
-    var drag=false;
-    function move(e){
-      if(!drag)return;
-      var r=track.getBoundingClientRect();
-      var v=Math.max(0,Math.min(100,((e.touches?e.touches[0].clientX:e.clientX)-r.left)/r.width*100));
-      thumb.style.left='calc('+v+'% - 10px)'; mxXF(v);
-    }
-    track.addEventListener('mousedown',function(e){mxWarm();drag=true;move(e);});
-    track.addEventListener('touchstart',function(e){mxWarm();e.preventDefault();drag=true;move(e);},{passive:false});
-    document.addEventListener('mousemove',move);
-    document.addEventListener('touchmove',function(e){if(drag)move(e);},{passive:false});
-    document.addEventListener('mouseup',function(){drag=false;});
-    document.addEventListener('touchend',function(){drag=false;});
-  })();
-
-  // EQ knobs
-  document.querySelectorAll('.mx-knob').forEach(function(el){
-    var sy,sa=0;
-    function dn(e){mxWarm();e.preventDefault();sy=e.touches?e.touches[0].clientY:e.clientY;sa=parseFloat(el.dataset.ang)||0;document.addEventListener('mousemove',mv,{passive:false});document.addEventListener('touchmove',mv,{passive:false});document.addEventListener('mouseup',up);document.addEventListener('touchend',up);}
-    function mv(e){e.preventDefault();var y=e.touches?e.touches[0].clientY:e.clientY;var a=Math.max(-135,Math.min(135,sa+(sy-y)*2));el.dataset.ang=a;var t=el.querySelector('.mx-knob-tick');if(t)t.style.transform='translateX(-50%) rotate('+a+'deg)';var k=el.dataset.k,b=el.dataset.b,d=MX.D[k];if(d){var n=a/135;if(b==='hi'&&d.hi)d.hi.gain.value=n*15;if(b==='mid'&&d.mid)d.mid.gain.value=n*12;if(b==='low'&&d.low)d.low.gain.value=n*15;}}
-    function up(){document.removeEventListener('mousemove',mv);document.removeEventListener('touchmove',mv);document.removeEventListener('mouseup',up);document.removeEventListener('touchend',up);}
-    el.addEventListener('mousedown',dn); el.addEventListener('touchstart',dn,{passive:false});
-  });
-
-  // Hero jog scratch sound
-  var cv=document.getElementById('jog');
-  if(cv){
-    cv.addEventListener('click',function(){mxWarm();if(MX.scratchSnd){try{MX.scratchSnd.currentTime=0;MX.scratchSnd.play();}catch(e){}}});
-    cv.addEventListener('touchend',function(e){e.preventDefault();mxWarm();if(MX.scratchSnd){try{MX.scratchSnd.currentTime=0;MX.scratchSnd.play();}catch(e){}}},{passive:false});
-  }
-
-  // Autoload
-  setTimeout(function(){
-    mxWarm();
-    mxAutoLoad('A','track1.mp3','Track 1');
-    mxAutoLoad('B','track2.mp3','Track 2');
-  },600);
-});
-
-function mxToggleEQ(){var p=document.getElementById('eqPanel');if(p)p.classList.toggle('open');}
-</script>
 <style>
 /* ── COURSES ─────────────────────────────────────────────── */
 .courses{padding:48px 16px 64px;background:var(--dark);}
@@ -1183,6 +677,974 @@ function mxToggleEQ(){var p=document.getElementById('eqPanel');if(p)p.classList.
   </div>
 </section>
 
+
+<!-- ══ СЕКЦИЯ ПУЛЬТ ══ -->
+<style>
+
+/* ══ WRAPPER ══ */
+.mx-wrap{background:var(--bg);padding:24px 16px 0;}
+.mx-tag{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--pk);display:block;margin-bottom:6px;}
+.mx-h2{font-family:'Bebas Neue',sans-serif;font-size:min(9vw,34px);letter-spacing:1px;color:#f0e8ff;margin-bottom:4px;}
+.mx-sub{font-size:12px;color:rgba(240,232,255,.35);margin-bottom:14px;font-family:'Outfit',sans-serif;}
+
+/* ══ PORTRAIT: TOP BAR (xfader + sync) ══ */
+.mx-topbar{
+  background:var(--bg2);border:1px solid rgba(155,0,255,.15);
+  border-radius:12px;padding:10px 14px;
+  display:flex;align-items:center;gap:10px;margin-bottom:10px;
+}
+.mx-topbar-label{font-size:9px;font-weight:800;letter-spacing:2px;}
+.mx-topbar-a{color:var(--p);}
+.mx-topbar-b{color:var(--pk);}
+.mx-xf-track{
+  flex:1;height:6px;background:#040008;border-radius:3px;
+  position:relative;touch-action:none;cursor:pointer;
+  box-shadow:inset 0 2px 4px rgba(0,0,0,.6);
+}
+.mx-xf-fill{position:absolute;inset:0;border-radius:3px;background:linear-gradient(90deg,rgba(155,0,255,.3),rgba(255,0,128,.3));}
+.mx-xf-thumb{
+  position:absolute;left:calc(50% - 11px);top:50%;
+  width:22px;height:22px;border-radius:6px;transform:translateY(-50%);
+  background:linear-gradient(145deg,#c060ff,#6600bb);
+  box-shadow:0 2px 10px rgba(155,0,255,.6),inset 0 1px 2px rgba(255,255,255,.2);
+}
+.mx-sync-btn{
+  padding:6px 12px;background:rgba(155,0,255,.1);border:1px solid rgba(155,0,255,.35);
+  border-radius:8px;font-size:9px;font-weight:800;letter-spacing:1px;color:var(--p);
+  cursor:pointer;white-space:nowrap;
+}
+.mx-sync-btn:active{opacity:.6;transform:scale(.94);}
+.mx-xf-lbl{font-size:7px;letter-spacing:2px;color:rgba(240,232,255,.2);text-transform:uppercase;text-align:center;margin-bottom:4px;}
+
+/* ══ BOARDS (portrait: side by side) ══ */
+.mx-boards{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+
+/* ══ DECK ══ */
+.mx-deck{
+  background:var(--bg3);border-radius:14px;padding:10px 8px 10px;
+  border:1px solid rgba(155,0,255,.12);display:flex;flex-direction:column;align-items:center;gap:6px;
+}
+.mx-deck-b{border-color:rgba(255,0,128,.12);}
+.mx-dlabel{font-size:8px;font-weight:800;letter-spacing:2px;display:flex;justify-content:space-between;width:100%;}
+.mx-dlabel-a{color:var(--p);}
+.mx-dlabel-b{color:var(--pk);}
+.mx-bpm{font-size:8px;font-weight:700;padding:2px 6px;border-radius:8px;}
+.mx-bpm-a{background:rgba(155,0,255,.15);color:rgba(155,0,255,.9);}
+.mx-bpm-b{background:rgba(255,0,128,.15);color:rgba(255,0,128,.9);}
+
+/* ══ JOG ══ */
+.mx-jog{
+  position:relative;width:min(38vw,140px);height:min(38vw,140px);
+  flex-shrink:0;touch-action:none;cursor:grab;
+}
+.mx-jog-outer{
+  position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle at 36% 30%,#2a0050,#0d0020 50%,#040010);
+  border:2.5px solid rgba(155,0,255,.5);
+  box-shadow:0 0 0 3px rgba(155,0,255,.05),0 8px 28px rgba(0,0,0,.9),inset 0 3px 8px rgba(255,255,255,.07);
+}
+.mx-jog-outer-b{border-color:rgba(255,0,128,.5);box-shadow:0 0 0 3px rgba(255,0,128,.05),0 8px 28px rgba(0,0,0,.9),inset 0 3px 8px rgba(255,255,255,.07);}
+.mx-jog-r1{position:absolute;inset:8px;border-radius:50%;border:1px solid rgba(255,255,255,.03);}
+.mx-jog-r2{position:absolute;inset:15px;border-radius:50%;border:1px solid rgba(255,255,255,.025);}
+.mx-jog-platter{
+  position:absolute;inset:20px;border-radius:50%;
+  background:radial-gradient(circle at 36% 32%,#3d0070,#0e0022);
+  border:1.5px solid rgba(155,0,255,.35);
+  box-shadow:inset 0 4px 14px rgba(0,0,0,.7),0 2px 10px rgba(155,0,255,.3);
+}
+.mx-jog-platter-b{background:radial-gradient(circle at 36% 32%,#5a0038,#0e0010);border-color:rgba(255,0,128,.35);box-shadow:inset 0 4px 14px rgba(0,0,0,.7),0 2px 10px rgba(255,0,128,.3);}
+.mx-jog-dot{
+  position:absolute;inset:38px;border-radius:50%;
+  background:radial-gradient(circle at 38% 32%,#c060ff,#6600bb);
+  box-shadow:0 0 14px rgba(155,0,255,.85),inset 0 2px 4px rgba(255,255,255,.3);
+}
+.mx-jog-dot-b{background:radial-gradient(circle at 38% 32%,#ff6aad,#bb0055);box-shadow:0 0 14px rgba(255,0,128,.85),inset 0 2px 4px rgba(255,255,255,.3);}
+.mx-jog-mark{
+  position:absolute;top:4px;left:50%;
+  width:4px;height:12px;
+  background:linear-gradient(to bottom,#fff,rgba(255,255,255,.1));
+  border-radius:2px;transform:translateX(-50%);
+  transform-origin:50% calc(min(19vw,70px) - 4px);
+}
+
+/* ══ WAVEFORM ══ */
+.mx-wf{width:100%;height:18px;border-radius:5px;position:relative;overflow:hidden;flex-shrink:0;}
+.mx-wf-a{background:rgba(155,0,255,.05);border:1px solid rgba(155,0,255,.12);}
+.mx-wf-b{background:rgba(255,0,128,.05);border:1px solid rgba(255,0,128,.12);}
+
+/* ══ TRACK NAME ══ */
+.mx-tn{font-size:8px;color:rgba(240,232,255,.25);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:100%;text-align:center;}
+
+/* ══ LOAD BUTTON ══ */
+.mx-load{
+  display:block;width:100%;padding:5px 0;
+  background:rgba(155,0,255,.06);border:1px dashed rgba(155,0,255,.25);
+  border-radius:7px;font-size:8px;color:rgba(155,0,255,.6);
+  text-align:center;cursor:pointer;font-family:'Outfit',sans-serif;
+}
+.mx-load-b{background:rgba(255,0,128,.06);border-color:rgba(255,0,128,.25);color:rgba(255,0,128,.6);}
+
+/* ══ FILTER ══ */
+.mx-flt-row{display:flex;align-items:center;gap:5px;width:100%;}
+.mx-flt-lbl{font-size:7px;letter-spacing:1px;color:rgba(240,232,255,.2);text-transform:uppercase;flex-shrink:0;}
+.mx-flt-track{flex:1;height:4px;background:rgba(255,255,255,.06);border-radius:2px;position:relative;touch-action:none;cursor:pointer;}
+.mx-flt-thumb{position:absolute;top:50%;width:16px;height:16px;border-radius:4px;transform:translate(-50%,-50%);left:50%;}
+.mx-flt-a{background:radial-gradient(circle at 38% 35%,#c060ff,#7700cc);box-shadow:0 2px 8px rgba(155,0,255,.5);}
+.mx-flt-b{background:radial-gradient(circle at 38% 35%,#ff6aad,#cc0066);box-shadow:0 2px 8px rgba(255,0,128,.5);}
+
+/* ══ TRANSPORT ══ */
+.mx-transport{display:flex;gap:4px;align-items:center;width:100%;}
+.mx-tbtn{
+  height:34px;border-radius:9px;font-size:10px;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;flex:1;
+  touch-action:manipulation;
+  box-shadow:0 2px 8px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);
+}
+.mx-tbtn:active{opacity:.6;transform:scale(.92);}
+.mx-tbtn-a{border:1px solid rgba(155,0,255,.22);background:rgba(155,0,255,.08);color:rgba(240,232,255,.55);}
+.mx-tbtn-b{border:1px solid rgba(255,0,128,.22);background:rgba(255,0,128,.08);color:rgba(240,232,255,.55);}
+.mx-play{
+  width:44px;height:44px;border-radius:50%;border:none;
+  color:#fff;font-size:17px;cursor:pointer;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  touch-action:manipulation;transition:transform .1s;
+}
+.mx-play:active{transform:scale(.86);}
+.mx-play-a{background:radial-gradient(circle at 38% 35%,#bf5fff,#7700cc);box-shadow:0 4px 18px rgba(155,0,255,.6),inset 0 1px 3px rgba(255,255,255,.2);}
+.mx-play-b{background:radial-gradient(circle at 38% 35%,#ff6aad,#cc0066);box-shadow:0 4px 18px rgba(255,0,128,.6),inset 0 1px 3px rgba(255,255,255,.2);}
+
+/* ══ EQ / FX PANEL ══ */
+.mx-eqfx-toggle{
+  width:100%;height:32px;background:rgba(255,255,255,.03);
+  border:1px solid rgba(155,0,255,.12);border-radius:10px;
+  color:rgba(240,232,255,.3);font-size:8px;font-weight:800;
+  letter-spacing:1px;cursor:pointer;text-align:center;
+  line-height:32px;text-transform:uppercase;touch-action:manipulation;
+  margin-bottom:8px;
+}
+.mx-eqfx-panel{display:none;background:var(--bg2);border:1px solid rgba(155,0,255,.12);border-radius:12px;padding:14px;margin-bottom:10px;}
+.mx-eqfx-panel.open{display:block;}
+.mx-eq-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;align-items:end;margin-bottom:14px;}
+.mx-knob-wrap{text-align:center;}
+.mx-klabel{font-size:7px;letter-spacing:1.5px;color:rgba(240,232,255,.3);text-transform:uppercase;margin-bottom:5px;}
+.mx-knob{
+  width:36px;height:36px;border-radius:50%;margin:0 auto;
+  position:relative;cursor:pointer;touch-action:none;
+  background:radial-gradient(circle at 36% 32%,#220044,#060010);
+  border:1.5px solid rgba(155,0,255,.3);
+  box-shadow:0 3px 10px rgba(0,0,0,.6),inset 0 1px 3px rgba(255,255,255,.05);
+}
+.mx-knob-tick{
+  position:absolute;top:4px;left:50%;width:2px;height:9px;
+  background:var(--p);border-radius:1px;
+  transform:translateX(-50%);transform-origin:50% 14px;
+}
+.mx-fx-section-label{font-size:8px;letter-spacing:2px;color:rgba(240,232,255,.25);text-transform:uppercase;margin-bottom:8px;}
+.mx-fx-ch-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.mx-fx-ch-lbl{font-size:7px;letter-spacing:2px;color:rgba(240,232,255,.25);text-transform:uppercase;flex-shrink:0;}
+.mx-fx-ch-btn{padding:4px 10px;border-radius:6px;font-size:8px;font-weight:800;letter-spacing:1px;cursor:pointer;touch-action:manipulation;transition:all .15s;border:1px solid rgba(155,0,255,.2);background:rgba(155,0,255,.05);color:rgba(240,232,255,.3);}
+.mx-fx-ch-btn.on{background:rgba(155,0,255,.2);border-color:rgba(155,0,255,.6);color:#f0e8ff;}
+.mx-fx-ch-btn[data-ch="B"].on{background:rgba(255,0,128,.2);border-color:rgba(255,0,128,.6);}
+.mx-fx-ch-btn:active{transform:scale(.92);}
+.mx-fx-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.mx-fx-btn{
+  height:32px;border-radius:8px;border:1px solid rgba(155,0,255,.18);
+  background:rgba(155,0,255,.06);color:rgba(240,232,255,.35);
+  font-size:8px;font-weight:800;letter-spacing:1px;cursor:pointer;
+  touch-action:manipulation;transition:all .15s;
+}
+.mx-fx-btn:active{transform:scale(.93);}
+.mx-fx-btn.on{background:rgba(255,0,128,.18);border-color:rgba(255,0,128,.5);color:var(--pk);box-shadow:0 0 10px rgba(255,0,128,.2);}
+.mx-close-btn{
+  width:100%;height:28px;border-radius:7px;background:transparent;
+  border:1px solid rgba(155,0,255,.12);color:rgba(240,232,255,.2);
+  font-size:8px;font-weight:700;letter-spacing:1px;cursor:pointer;
+  text-transform:uppercase;margin-top:10px;touch-action:manipulation;
+}
+
+/* ══ CTA BLOCK ══ */
+.mx-cta{
+  background:linear-gradient(180deg,var(--bg2),var(--bg));
+  border:1px solid rgba(155,0,255,.15);border-radius:14px;
+  padding:16px;text-align:center;margin-top:4px;margin-bottom:32px;
+}
+.mx-cta p{font-size:11px;color:rgba(240,232,255,.35);margin-bottom:10px;line-height:1.55;font-family:'Outfit',sans-serif;}
+.mx-cta-btn{
+  display:inline-block;padding:12px 32px;
+  background:linear-gradient(90deg,var(--p),var(--pk));
+  color:#fff;border:none;border-radius:30px;
+  font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:2px;
+  cursor:pointer;box-shadow:0 4px 20px rgba(155,0,255,.4);
+  touch-action:manipulation;
+}
+.mx-cta-btn:active{transform:scale(.96);}
+
+/* ══════════════════════════════════════
+   LANDSCAPE — классический CDJ layout
+══════════════════════════════════════ */
+@media (orientation:landscape){
+  body{padding:0;}
+  .mx-wrap{padding:0;}
+  .mx-tag,.mx-h2,.mx-sub{display:none;}
+  .mx-topbar{display:none;}
+  .mx-boards{
+    display:flex;flex-direction:row;gap:0;
+    height:100vh;margin-bottom:0;
+    border-radius:0;overflow:hidden;
+  }
+  .mx-deck{
+    flex:1;border-radius:0;padding:10px 10px 8px;
+    border-top:none;border-bottom:none;
+  }
+  .mx-deck:first-child{border-left:none;border-right:1px solid rgba(155,0,255,.1);}
+  .mx-deck:last-child{border-right:none;border-left:1px solid rgba(255,0,128,.1);}
+  .mx-center-col{
+    display:flex!important;
+    width:88px;flex-shrink:0;
+    flex-direction:column;align-items:center;justify-content:space-between;
+    padding:10px 5px 8px;
+    background:var(--bg3);
+    border-left:1px solid rgba(155,0,255,.08);
+    border-right:1px solid rgba(155,0,255,.08);
+  }
+  .mx-jog{width:min(22vh,148px);height:min(22vh,148px);}
+  .mx-jog-mark{transform-origin:50% calc(min(11vh,74px) - 4px);}
+  .mx-play{width:48px;height:48px;font-size:19px;}
+  .mx-tbtn{height:36px;}
+  .mx-eqfx-toggle{display:block!important;width:100%;}
+  .mx-eqfx-panel{
+    display:none;position:fixed;bottom:0;left:0;right:0;z-index:100;
+    border-radius:14px 14px 0 0;margin-bottom:0;
+    max-height:38vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  }
+  .mx-eqfx-panel.open{display:block;}
+  /* когда панель открыта — boards отступают снизу, transport остаётся виден */
+  .mx-boards{transition:padding-bottom .25s;}
+  .mx-boards.eq-open{padding-bottom:38vh;}
+  .mx-cta{display:none;}
+  .mx-center-xf-lbl{font-size:6px;letter-spacing:2px;color:rgba(240,232,255,.18);text-transform:uppercase;text-align:center;margin-bottom:4px;}
+  .mx-center-logo{font-size:8px;letter-spacing:3px;color:rgba(240,232,255,.08);text-transform:uppercase;font-family:'Bebas Neue',sans-serif;}
+  .mx-center-xf-track{
+    width:6px;height:80px;background:rgba(255,255,255,.05);
+    border-radius:3px;position:relative;touch-action:none;cursor:pointer;
+    box-shadow:inset 0 2px 5px rgba(0,0,0,.5);
+  }
+  .mx-center-xf-fill{
+    position:absolute;left:0;right:0;bottom:0;
+    background:linear-gradient(to top,rgba(155,0,255,.4),rgba(255,0,128,.4));
+    border-radius:3px;top:40%;
+  }
+  .mx-center-xf-thumb{
+    position:absolute;left:50%;top:50%;
+    width:22px;height:12px;border-radius:4px;
+    transform:translate(-50%,-50%);
+    background:linear-gradient(90deg,#c060ff,#6600bb);
+    box-shadow:0 2px 10px rgba(155,0,255,.6);
+  }
+  .mx-center-ends{display:flex;justify-content:space-between;width:100%;font-size:9px;font-weight:800;margin-top:4px;}
+}
+
+/* центральная колонка в portrait = скрыта */
+.mx-center-col{display:none;}
+</style>
+
+
+<div class="mx-wrap">
+  <span class="mx-tag">▶ попробуй прямо сейчас</span>
+  <h2 class="mx-h2">Подиджей <span style="background:linear-gradient(90deg,var(--p),var(--pk));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">здесь и сейчас</span></h2>
+  <p class="mx-sub">Загрузи трек или используй наш. Крути джог, жми play.</p>
+
+  <!-- PORTRAIT: TOPBAR (xfader + sync) -->
+  <div class="mx-topbar">
+    <span class="mx-topbar-label mx-topbar-a">A</span>
+    <div style="flex:1;">
+      <div class="mx-xf-lbl">XFADER</div>
+      <div class="mx-xf-track" id="xfTrack">
+        <div class="mx-xf-fill"></div>
+        <div class="mx-xf-thumb" id="xfThumb"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:3px;">
+        <span style="font-size:8px;color:rgba(155,0,255,.4);">A</span>
+        <span style="font-size:8px;color:rgba(255,0,128,.4);">B</span>
+      </div>
+    </div>
+    <span class="mx-topbar-label mx-topbar-b">B</span>
+    <div style="width:1px;height:24px;background:rgba(155,0,255,.15);flex-shrink:0;"></div>
+    <button class="mx-sync-btn" id="syncAllBtn" onclick="mxSyncAll()">SYNC</button>
+  </div>
+
+  <!-- BOARDS -->
+  <div class="mx-boards">
+
+    <!-- DECK A -->
+    <div class="mx-deck">
+      <div class="mx-dlabel mx-dlabel-a">
+        <span>DECK A</span>
+        <span class="mx-bpm mx-bpm-a" id="bpmA">— BPM</span>
+      </div>
+      <div class="mx-jog" id="jogA">
+        <div class="mx-jog-outer"></div>
+        <div class="mx-jog-r1"></div>
+        <div class="mx-jog-r2"></div>
+        <div class="mx-jog-platter"></div>
+        <div class="mx-jog-dot"></div>
+        <div class="mx-jog-mark" id="markA"></div>
+      </div>
+      <div class="mx-wf mx-wf-a" id="wfA"><canvas id="wfCA" style="position:absolute;inset:0;width:100%;height:100%;"></canvas></div>
+      <div class="mx-tn" id="tnA">загрузка...</div>
+      <label class="mx-load">+ загрузить трек A<input type="file" accept="audio/*" onchange="mxLoadFile('A',this)" style="display:none;"></label>
+      <div class="mx-flt-row">
+        <span class="mx-flt-lbl">FLT</span>
+        <div class="mx-flt-track" id="fltA"><div class="mx-flt-thumb mx-flt-a" id="fltTA"></div></div>
+      </div>
+      <div class="mx-transport">
+        <button class="mx-tbtn mx-tbtn-a" onclick="mxHome('A')" style="font-size:12px;">⏮</button>
+        <button class="mx-tbtn mx-tbtn-a" onclick="mxCue('A')" id="cueA" style="font-size:8px;letter-spacing:1px;">CUE</button>
+        <button class="mx-play mx-play-a" onclick="mxPlay('A')" id="playA">▶</button>
+        <button class="mx-tbtn mx-tbtn-a" style="font-size:14px;"
+          onmousedown="mxPB('A',-1)" onmouseup="mxPB('A',0)" onmouseleave="mxPB('A',0)"
+          ontouchstart="event.preventDefault();mxPB('A',-1)" ontouchend="event.preventDefault();mxPB('A',0)">«</button>
+        <button class="mx-tbtn mx-tbtn-a" style="font-size:14px;"
+          onmousedown="mxPB('A',1)" onmouseup="mxPB('A',0)" onmouseleave="mxPB('A',0)"
+          ontouchstart="event.preventDefault();mxPB('A',1)" ontouchend="event.preventDefault();mxPB('A',0)">»</button>
+      </div>
+    </div>
+
+    <!-- LANDSCAPE CENTER COLUMN -->
+    <div class="mx-center-col" id="centerCol">
+      <div class="mx-center-logo">DJ·PLACE</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <div class="mx-center-xf-lbl">xfader</div>
+        <span style="font-size:9px;font-weight:800;color:rgba(155,0,255,.7);">A</span>
+        <div style="display:flex;justify-content:center;">
+          <div class="mx-center-xf-track" id="xfTrackV">
+            <div class="mx-center-xf-fill" id="xfFillV"></div>
+            <div class="mx-center-xf-thumb" id="xfThumbV"></div>
+          </div>
+        </div>
+        <span style="font-size:9px;font-weight:800;color:rgba(255,0,128,.7);">B</span>
+      </div>
+      <button class="mx-eqfx-toggle" onclick="mxToggleEQ()" style="font-size:7px;">EQ · FX ↑</button>
+    </div>
+
+    <!-- DECK B -->
+    <div class="mx-deck mx-deck-b">
+      <div class="mx-dlabel mx-dlabel-b">
+        <span>DECK B</span>
+        <span class="mx-bpm mx-bpm-b" id="bpmB">— BPM</span>
+      </div>
+      <div class="mx-jog" id="jogB">
+        <div class="mx-jog-outer mx-jog-outer-b"></div>
+        <div class="mx-jog-r1"></div>
+        <div class="mx-jog-r2"></div>
+        <div class="mx-jog-platter mx-jog-platter-b"></div>
+        <div class="mx-jog-dot mx-jog-dot-b"></div>
+        <div class="mx-jog-mark" id="markB" style="background:linear-gradient(to bottom,#FF0080,rgba(255,0,128,.1));"></div>
+      </div>
+      <div class="mx-wf mx-wf-b" id="wfB"><canvas id="wfCB" style="position:absolute;inset:0;width:100%;height:100%;"></canvas></div>
+      <div class="mx-tn" id="tnB">загрузка...</div>
+      <label class="mx-load mx-load-b">+ загрузить трек B<input type="file" accept="audio/*" onchange="mxLoadFile('B',this)" style="display:none;"></label>
+      <div class="mx-flt-row">
+        <span class="mx-flt-lbl">FLT</span>
+        <div class="mx-flt-track" id="fltB"><div class="mx-flt-thumb mx-flt-b" id="fltTB"></div></div>
+      </div>
+      <div class="mx-transport">
+        <button class="mx-tbtn mx-tbtn-b" onclick="mxHome('B')" style="font-size:12px;">⏮</button>
+        <button class="mx-tbtn mx-tbtn-b" onclick="mxCue('B')" id="cueB" style="font-size:8px;letter-spacing:1px;">CUE</button>
+        <button class="mx-play mx-play-b" onclick="mxPlay('B')" id="playB">▶</button>
+        <button class="mx-tbtn mx-tbtn-b" style="font-size:14px;"
+          onmousedown="mxPB('B',-1)" onmouseup="mxPB('B',0)" onmouseleave="mxPB('B',0)"
+          ontouchstart="event.preventDefault();mxPB('B',-1)" ontouchend="event.preventDefault();mxPB('B',0)">«</button>
+        <button class="mx-tbtn mx-tbtn-b" style="font-size:14px;"
+          onmousedown="mxPB('B',1)" onmouseup="mxPB('B',0)" onmouseleave="mxPB('B',0)"
+          ontouchstart="event.preventDefault();mxPB('B',1)" ontouchend="event.preventDefault();mxPB('B',0)">»</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- EQ / FX PANEL (portrait: below boards) -->
+  <button class="mx-eqfx-toggle" id="eqToggle" onclick="mxToggleEQ()">EQ · FX ↑</button>
+  <div class="mx-eqfx-panel" id="eqPanel">
+    <div style="font-size:8px;letter-spacing:2px;color:rgba(240,232,255,.25);text-transform:uppercase;margin-bottom:10px;">EQ · A и B</div>
+    <div class="mx-eq-grid">
+      <div class="mx-knob-wrap"><div class="mx-klabel" style="color:rgba(155,0,255,.5);">HI A</div><div class="mx-knob" data-k="A" data-b="hi"><div class="mx-knob-tick"></div></div></div>
+      <div class="mx-knob-wrap"><div class="mx-klabel" style="color:rgba(155,0,255,.5);">MID A</div><div class="mx-knob" data-k="A" data-b="mid"><div class="mx-knob-tick"></div></div></div>
+      <div class="mx-knob-wrap"><div class="mx-klabel" style="color:rgba(155,0,255,.5);">LOW A</div><div class="mx-knob" data-k="A" data-b="low"><div class="mx-knob-tick"></div></div></div>
+      <div class="mx-knob-wrap"><div class="mx-klabel" style="color:rgba(255,0,128,.5);">HI B</div><div class="mx-knob" data-k="B" data-b="hi"><div class="mx-knob-tick" style="background:var(--pk);"></div></div></div>
+      <div class="mx-knob-wrap"><div class="mx-klabel" style="color:rgba(255,0,128,.5);">MID B</div><div class="mx-knob" data-k="B" data-b="mid"><div class="mx-knob-tick" style="background:var(--pk);"></div></div></div>
+      <div class="mx-knob-wrap"><div class="mx-klabel" style="color:rgba(255,0,128,.5);">LOW B</div><div class="mx-knob" data-k="B" data-b="low"><div class="mx-knob-tick" style="background:var(--pk);"></div></div></div>
+    </div>
+    <div class="mx-fx-ch-row">
+      <span class="mx-fx-ch-lbl">FX → канал:</span>
+      <button class="mx-fx-ch-btn on" data-ch="A" onclick="mxSetFXCh('A')">A</button>
+      <button class="mx-fx-ch-btn on" data-ch="AB" onclick="mxSetFXCh('AB')">A+B</button>
+      <button class="mx-fx-ch-btn" data-ch="B" onclick="mxSetFXCh('B')">B</button>
+    </div>
+    <div class="mx-fx-section-label">FX</div>
+    <div class="mx-fx-grid">
+      <button class="mx-fx-btn" data-fx="echo" onclick="mxToggleFX(this)">ECHO</button>
+      <button class="mx-fx-btn" data-fx="rev" onclick="mxToggleFX(this)">REV</button>
+      <button class="mx-fx-btn" data-fx="roll" onclick="mxToggleFX(this)">ROLL</button>
+      <button class="mx-fx-btn" data-fx="flng" onclick="mxToggleFX(this)">FLNG</button>
+    </div>
+    <button class="mx-close-btn" onclick="mxToggleEQ()">↓ закрыть</button>
+  </div>
+
+  <!-- CTA (portrait only) -->
+  <div class="mx-cta">
+    <p>Это симулятор. На реальном оборудовании<br>ощущения совсем другие — приходи и проверь.</p>
+    <button class="mx-cta-btn" onclick="window.parent && window.parent.openModal ? window.parent.openModal() : (window.openModal ? window.openModal() : alert('Записаться: +7 981 879 60 47'))">ЗАПИСАТЬСЯ В СТУДИЮ</button>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+// AUDIO ENGINE
+// ══════════════════════════════════════════════════════════════
+
+var MX = {
+  AC: null, master: null, irBuf: null,
+  D: {
+    A:{buf:null,src:null,playing:false,pos:0,rate:1,cuePos:0,bpm:null,
+       startAC:0,cg:null,hi:null,mid:null,low:null,flt:null,
+       echoSend:null,revSend:null,rollSend:null,flngSend:null,
+       peaks:null,angle:0,raf:null,wfRaf:null},
+    B:{buf:null,src:null,playing:false,pos:0,rate:1,cuePos:0,bpm:null,
+       startAC:0,cg:null,hi:null,mid:null,low:null,flt:null,
+       echoSend:null,revSend:null,rollSend:null,flngSend:null,
+       peaks:null,angle:0,raf:null,wfRaf:null}
+  },
+  FX: { echo:null, rev:null, roll:null, flng:null },
+  fxActive: { echo:false, rev:false, roll:false, flng:false },
+  scratch:{A:false,B:false,ang:{A:0,B:0}},
+  graphBuilt: false
+};
+
+// ── PRE-WARM: создаём AC на первом касании ──────────────────
+function mxPreWarm(){
+  if(MX.AC) return;
+  MX.AC = new(window.AudioContext||window.webkitAudioContext)();
+}
+document.addEventListener('touchstart', mxPreWarm, {once:true,passive:true});
+document.addEventListener('mousedown', mxPreWarm, {once:true});
+
+function mxGetAC(){
+  if(!MX.AC) MX.AC = new(window.AudioContext||window.webkitAudioContext)();
+  return MX.AC;
+}
+
+// ── BUILD GRAPH ─────────────────────────────────────────────
+function mxBuildGraph(){
+  if(MX.graphBuilt) return;
+  MX.graphBuilt = true;
+  var ac = MX.AC;
+
+  MX.master = ac.createGain(); MX.master.gain.value = 0.85;
+  MX.master.connect(ac.destination);
+
+  // FX return bus
+  var fxReturn = ac.createGain(); fxReturn.gain.value = 0.85;
+  fxReturn.connect(MX.master);
+  MX.fxReturn = fxReturn;
+
+  // Build FX nodes
+  // ECHO: delay + feedback
+  var echoDelay = ac.createDelay(1.0); echoDelay.delayTime.value = 0.34;
+  var echoFB    = ac.createGain(); echoFB.gain.value = 0.38;
+  var echoWet   = ac.createGain(); echoWet.gain.value = 0;
+  echoDelay.connect(echoFB); echoFB.connect(echoDelay);
+  echoDelay.connect(echoWet); echoWet.connect(fxReturn);
+  MX.FX.echo = { in:echoDelay, wet:echoWet };
+
+  // REV: synthetic reverb (noise IR)
+  var revConv = ac.createConvolver();
+  var revWet  = ac.createGain(); revWet.gain.value = 0;
+  revConv.connect(revWet); revWet.connect(fxReturn);
+  (function makeIR(){
+    var sr=ac.sampleRate, len=sr*1.8;
+    var buf=ac.createBuffer(2,len,sr);
+    for(var c=0;c<2;c++){
+      var d=buf.getChannelData(c);
+      for(var i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.2);
+    }
+    revConv.buffer=buf;
+  })();
+  MX.FX.rev = { in:revConv, wet:revWet };
+
+  // ROLL: short looping delay (stutter)
+  var rollDelay = ac.createDelay(0.5); rollDelay.delayTime.value = 0.125;
+  var rollFB    = ac.createGain(); rollFB.gain.value = 0.72;
+  var rollWet   = ac.createGain(); rollWet.gain.value = 0;
+  rollDelay.connect(rollFB); rollFB.connect(rollDelay);
+  rollDelay.connect(rollWet); rollWet.connect(fxReturn);
+  MX.FX.roll = { in:rollDelay, wet:rollWet };
+
+  // FLNG: flanger — short modulated delay
+  var flDelay = ac.createDelay(0.02); flDelay.delayTime.value = 0.005;
+  var flLFO   = ac.createOscillator(); flLFO.frequency.value = 0.4;
+  var flLFOG  = ac.createGain(); flLFOG.gain.value = 0.004;
+  var flWet   = ac.createGain(); flWet.gain.value = 0;
+  flLFO.connect(flLFOG); flLFOG.connect(flDelay.delayTime);
+  flDelay.connect(flWet); flWet.connect(fxReturn);
+  flLFO.start();
+  MX.FX.flng = { in:flDelay, wet:flWet };
+
+  // Per-deck signal chain
+  ['A','B'].forEach(function(k){
+    var d = MX.D[k];
+    d.cg  = ac.createGain(); d.cg.gain.value = 1;
+    d.hi  = ac.createBiquadFilter(); d.hi.type='highshelf'; d.hi.frequency.value=10000; d.hi.gain.value=0;
+    d.mid = ac.createBiquadFilter(); d.mid.type='peaking'; d.mid.frequency.value=1000; d.mid.Q.value=1; d.mid.gain.value=0;
+    d.low = ac.createBiquadFilter(); d.low.type='lowshelf'; d.low.frequency.value=200; d.low.gain.value=0;
+    d.flt = ac.createBiquadFilter(); d.flt.type='allpass'; d.flt.frequency.value=1000;
+
+    // dry chain: hi→mid→low→flt→cg→master
+    d.hi.connect(d.mid); d.mid.connect(d.low); d.low.connect(d.flt);
+    d.flt.connect(d.cg); d.cg.connect(MX.master);
+
+    // FX sends (always connected to FX inputs — wet gain controls amount)
+    d.echoSend = ac.createGain(); d.echoSend.gain.value = 0;
+    d.revSend  = ac.createGain(); d.revSend.gain.value = 0;
+    d.rollSend = ac.createGain(); d.rollSend.gain.value = 0;
+    d.flngSend = ac.createGain(); d.flngSend.gain.value = 0;
+    d.flt.connect(d.echoSend); d.echoSend.connect(MX.FX.echo.in);
+    d.flt.connect(d.revSend);  d.revSend.connect(MX.FX.rev.in);
+    d.flt.connect(d.rollSend); d.rollSend.connect(MX.FX.roll.in);
+    d.flt.connect(d.flngSend); d.flngSend.connect(MX.FX.flng.in);
+  });
+}
+
+async function mxWarm(){
+  mxGetAC();
+  if(MX.AC.state==='suspended') await MX.AC.resume();
+  mxBuildGraph();
+}
+
+// ── LOAD ────────────────────────────────────────────────────
+function mxLoadFile(k,inp){
+  mxWarm(); var file=inp.files[0]; if(!file)return;
+  mxSetName(k,'⟳ '+file.name.slice(0,20));
+  var r=new FileReader();
+  r.onload=function(e){
+    MX.AC.decodeAudioData(e.target.result,function(buf){
+      var d=MX.D[k];
+      if(d.playing){mxKill(k);d.playing=false;}
+      d.buf=buf; d.pos=0; d.cuePos=0; d.bpm=mxGuessBPM(buf);
+      mxSetName(k,file.name.replace(/\.[^.]+$/,'').slice(0,22));
+      mxDrawWF(k); mxSetPlay(k,false);
+    });
+  };
+  r.readAsArrayBuffer(file);
+}
+
+function mxAutoLoad(k,url,name){
+  if(!MX.AC) return; // только после prewarm
+  mxSetName(k,'⟳ загрузка...');
+  fetch(url)
+    .then(function(r){return r.arrayBuffer();})
+    .then(function(b){return MX.AC.decodeAudioData(b);})
+    .then(function(buf){
+      var d=MX.D[k]; d.buf=buf; d.pos=0; d.cuePos=0; d.bpm=mxGuessBPM(buf);
+      mxSetName(k,name); mxDrawWF(k); mxSetPlay(k,false);
+    }).catch(function(){mxSetName(k,'загрузи трек ↑');});
+}
+
+// ── HELPERS ─────────────────────────────────────────────────
+function mxSetName(k,n){
+  var el=document.getElementById('tn'+k); if(el) el.textContent=n;
+  setTimeout(function(){
+    var d=MX.D[k]; var b=document.getElementById('bpm'+k);
+    if(b&&d&&d.bpm) b.textContent=Math.round(d.bpm*(d.rate||1))+' BPM';
+  },30);
+}
+
+function mxGuessBPM(buf){
+  try{
+    var ch=buf.getChannelData(0),sr=buf.sampleRate,step=Math.floor(sr*.01),rms=[];
+    for(var i=0;i<ch.length-step;i+=step){var s=0;for(var j=0;j<step;j++)s+=ch[i+j]*ch[i+j];rms.push(Math.sqrt(s/step));}
+    var avg=rms.reduce(function(a,b){return a+b},0)/rms.length;
+    var thr=avg*1.3,beats=[],last=-100;
+    for(var i=1;i<rms.length;i++)if(rms[i]>thr&&rms[i]>rms[i-1]&&i-last>30){beats.push(i*step/sr);last=i;}
+    if(beats.length<8)return null;
+    var ints=beats.slice(1,40).map(function(b,i){return b-beats[i];});
+    var bpm=Math.round(60/(ints.reduce(function(a,b){return a+b},0)/ints.length));
+    while(bpm<80)bpm*=2; while(bpm>200)bpm/=2; return bpm;
+  }catch(e){return null;}
+}
+
+function mxKill(k){
+  var d=MX.D[k]; if(d.src){try{d.src.onended=null;d.src.stop();}catch(e){}d.src=null;}
+}
+
+// ── START — ключевой фикс задержки ─────────────────────────
+async function mxStart(k,offset){
+  var d=MX.D[k]; if(!d.buf)return;
+  await mxWarm(); // ждём resume() — убирает задержку
+  mxKill(k);
+  d.playing=true; d.pos=offset;
+  var ac=MX.AC;
+  var src=ac.createBufferSource();
+  src.buffer=d.buf; src.playbackRate.value=d.rate||1;
+  src.connect(d.hi);
+  d.src=src;
+  d.startAC=ac.currentTime;
+  src.start(ac.currentTime, offset); // точное время — без задержки
+  src.onended=function(){
+    if(d.playing){d.playing=false;d.pos=0;d.src=null;mxSetPlay(k,false);}
+  };
+  mxSetPlay(k,true);
+}
+
+function mxSetPlay(k,on){
+  var d=MX.D[k];
+  var b=document.getElementById('play'+k);
+  if(b){
+    b.textContent=on?'⏸':'▶';
+    b.style.background=on
+      ?(k==='A'?'radial-gradient(circle at 38% 35%,#9933ff,#5500aa)':'radial-gradient(circle at 38% 35%,#ff44aa,#aa0055)')
+      :(k==='A'?'radial-gradient(circle at 38% 35%,#bf5fff,#7700cc)':'radial-gradient(circle at 38% 35%,#ff6aad,#cc0066)');
+  }
+  var badge=document.getElementById('bpm'+k);
+  if(badge&&d.bpm) badge.textContent=Math.round(d.bpm*(d.rate||1))+' BPM';
+  cancelAnimationFrame(d.raf); cancelAnimationFrame(d.wfRaf);
+  if(on){mxSpinStart(k); mxWFLoop(k);}
+}
+
+// ── TRANSPORT ───────────────────────────────────────────────
+function mxPlay(k){
+  mxWarm(); var d=MX.D[k]; if(!d.buf)return;
+  if(d.playing){
+    var p=d.src&&d.startAC?(MX.AC.currentTime-d.startAC+d.pos):d.pos;
+    mxKill(k); d.playing=false;
+    d.pos=Math.max(0,Math.min(p,d.buf.duration-.01));
+    mxSetPlay(k,false);
+  } else {
+    mxStart(k,d.pos);
+  }
+}
+function mxCue(k){
+  mxWarm(); var d=MX.D[k]; if(!d.buf)return;
+  if(!d.playing){d.cuePos=d.pos; mxStart(k,d.cuePos);}
+  else{mxKill(k);d.playing=false;d.pos=d.cuePos;mxSetPlay(k,false);}
+}
+function mxHome(k){
+  var d=MX.D[k]; mxKill(k); d.playing=false; d.pos=0; d.cuePos=0; d.angle=0;
+  var m=document.getElementById('mark'+k); if(m) m.style.transform='translateX(-50%) rotate(0deg)';
+  mxSetPlay(k,false); mxDrawWF(k);
+}
+function mxPB(k,dir){
+  var d=MX.D[k]; if(!d.src)return;
+  d.src.playbackRate.value=dir ? d.rate*(1+dir*0.04) : d.rate;
+}
+function mxSyncAll(){
+  mxSync('A'); mxSync('B');
+}
+function mxSync(k){
+  var o=k==='A'?'B':'A', da=MX.D[o], dk=MX.D[k];
+  if(!da.bpm||!dk.bpm)return;
+  var tBPM=da.bpm*(da.rate||1); dk.rate=tBPM/dk.bpm;
+  if(dk.src) dk.src.playbackRate.value=dk.rate;
+  var b=document.getElementById('bpm'+k); if(b) b.textContent=Math.round(tBPM)+' BPM';
+}
+
+// ── XFADER ──────────────────────────────────────────────────
+function mxXF(v){ // v = 0..100, 50 = centre
+  if(!MX.graphBuilt)return;
+  var p=v/100;
+  MX.D.A.cg.gain.value=Math.cos(p*Math.PI/2);
+  MX.D.B.cg.gain.value=Math.sin(p*Math.PI/2);
+  mxApplySends(); // FX sends следуют за фейдером
+}
+
+// ── FX CHANNEL SELECTOR ─────────────────────────────────────
+var MX_fxCh = 'AB'; // 'A', 'B', 'AB', или '' (выкл)
+function mxSetFXCh(ch){
+  // тап на активную кнопку — выключает всё
+  if(MX_fxCh === ch){ ch = ''; }
+  MX_fxCh = ch;
+  document.querySelectorAll('.mx-fx-ch-btn').forEach(function(b){
+    b.classList.toggle('on', b.dataset.ch === ch);
+  });
+  mxApplySends(); // пересчитываем sends с учётом нового канала
+}
+
+// централизованная функция — считает send для канала k и эффекта fx
+function mxSendGain(k, fx){
+  if(!MX.fxActive[fx]) return 0;           // эффект выкл
+  if(MX_fxCh === '') return 0;             // канал не выбран
+  if(MX_fxCh !== 'AB' && MX_fxCh !== k) return 0; // канал не этот
+  var cgain = MX.D[k].cg ? MX.D[k].cg.gain.value : 1;
+  return cgain * 0.85;
+}
+
+function mxApplySends(){
+  if(!MX.graphBuilt) return;
+  ['A','B'].forEach(function(k){
+    ['echo','rev','roll','flng'].forEach(function(fx){
+      var s = MX.D[k][fx+'Send'];
+      if(s) s.gain.setTargetAtTime(mxSendGain(k,fx), MX.AC.currentTime, 0.05);
+    });
+  });
+}
+
+// ── FX ──────────────────────────────────────────────────────
+function mxToggleFX(btn){
+  var fx=btn.dataset.fx;
+  MX.fxActive[fx]=!MX.fxActive[fx];
+  btn.classList.toggle('on', MX.fxActive[fx]);
+  if(!MX.graphBuilt)return;
+  var wet=MX.fxActive[fx]?0.75:0;
+  if(MX.FX[fx]) MX.FX[fx].wet.gain.setTargetAtTime(wet, MX.AC.currentTime, 0.05);
+  mxApplySends();
+}
+
+// ── WAVEFORM ────────────────────────────────────────────────
+function mxDrawWF(k){
+  var canv=document.getElementById('wfC'+k); if(!canv)return;
+  var d=MX.D[k]; if(!d.buf)return;
+  var wrap=document.getElementById('wf'+k);
+  canv.width=wrap.offsetWidth||260; canv.height=18;
+  var ch=d.buf.getChannelData(0),bars=60,step=Math.floor(ch.length/bars),peaks=[];
+  for(var i=0;i<bars;i++){var mx=0;for(var j=0;j<step;j++)mx=Math.max(mx,Math.abs(ch[i*step+j]||0));peaks.push(mx);}
+  d.peaks=peaks; mxRenderWF(k,0);
+}
+function mxRenderWF(k,pos){
+  var canv=document.getElementById('wfC'+k); if(!canv)return;
+  var d=MX.D[k]; if(!d.peaks)return;
+  var w=canv.width,h=canv.height,ctx=canv.getContext('2d');
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle=k==='A'?'rgba(155,0,255,.55)':'rgba(255,0,128,.55)';
+  var bars=d.peaks.length;
+  for(var i=0;i<bars;i++){
+    var bh=Math.max(2,d.peaks[i]*(h-2));
+    ctx.fillRect(i*(w/bars)+0.5,(h-bh)/2,Math.max(1,(w/bars)-1.5),bh);
+  }
+  if(d.buf){
+    var px=(pos/d.buf.duration)*w;
+    ctx.fillStyle='rgba(255,255,255,0.9)'; ctx.fillRect(px-1,0,2,h);
+  }
+}
+function mxWFLoop(k){
+  cancelAnimationFrame(MX.D[k].wfRaf);
+  (function loop(){
+    var d=MX.D[k]; if(!d.playing)return;
+    var pos=d.src&&d.startAC?(MX.AC.currentTime-d.startAC+d.pos):d.pos;
+    mxRenderWF(k,Math.min(pos,d.buf?d.buf.duration:0));
+    d.wfRaf=requestAnimationFrame(loop);
+  })();
+}
+
+// ── JOG SPIN ────────────────────────────────────────────────
+function mxSpinStart(k){
+  var d=MX.D[k]; cancelAnimationFrame(d.raf);
+  (function spin(){
+    if(!d.playing||MX.scratch[k])return;
+    d.angle=(d.angle+1.1*(d.rate||1))%360;
+    var m=document.getElementById('mark'+k);
+    if(m) m.style.transform='translateX(-50%) rotate('+d.angle+'deg)';
+    d.raf=requestAnimationFrame(spin);
+  })();
+}
+
+// ── EQ PANEL ────────────────────────────────────────────────
+function mxToggleEQ(){
+  var panel = document.getElementById('eqPanel');
+  var boards = document.querySelector('.mx-boards');
+  panel.classList.toggle('open');
+  var isOpen = panel.classList.contains('open');
+  if(boards) boards.classList.toggle('eq-open', isOpen);
+}
+
+// ══════════════════════════════════════════════════════════════
+// TOUCH / MOUSE HANDLERS
+// ══════════════════════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded',function(){
+
+  // ── Scratch (jog) ──
+  ['A','B'].forEach(function(k){
+    var jog=document.getElementById('jog'+k); if(!jog)return;
+    function ang(t){
+      var r=jog.getBoundingClientRect();
+      return Math.atan2(t.clientY-(r.top+r.height/2),t.clientX-(r.left+r.width/2))*180/Math.PI;
+    }
+    jog.addEventListener('touchstart',function(e){
+      e.preventDefault(); mxWarm();
+      MX.scratch[k]=true; MX.scratch.ang[k]=ang(e.touches[0]);
+      cancelAnimationFrame(MX.D[k].raf);
+    },{passive:false});
+    jog.addEventListener('touchmove',function(e){
+      e.preventDefault(); if(!MX.scratch[k])return;
+      var a=ang(e.touches[0]),delta=a-MX.scratch.ang[k];
+      if(delta>180)delta-=360; if(delta<-180)delta+=360;
+      MX.scratch.ang[k]=a;
+      var d=MX.D[k]; d.angle=(d.angle+delta)%360;
+      var m=document.getElementById('mark'+k);
+      if(m) m.style.transform='translateX(-50%) rotate('+d.angle+'deg)';
+      if(d.src) d.src.playbackRate.value=Math.max(-4,Math.min(4,delta*0.09));
+    },{passive:false});
+    jog.addEventListener('touchend',function(e){
+      e.preventDefault(); MX.scratch[k]=false;
+      var d=MX.D[k]; if(d.src) d.src.playbackRate.value=d.rate||1;
+      if(d.playing) mxSpinStart(k);
+    },{passive:false});
+    // Mouse scratch
+    var dragging=false;
+    jog.addEventListener('mousedown',function(e){mxWarm();dragging=true;MX.scratch[k]=true;MX.scratch.ang[k]=ang(e);cancelAnimationFrame(MX.D[k].raf);});
+    document.addEventListener('mousemove',function(e){
+      if(!dragging||!MX.scratch[k])return;
+      var a=ang(e),delta=a-MX.scratch.ang[k];
+      if(delta>180)delta-=360; if(delta<-180)delta+=360;
+      MX.scratch.ang[k]=a;
+      var d=MX.D[k]; d.angle=(d.angle+delta)%360;
+      var m=document.getElementById('mark'+k);
+      if(m) m.style.transform='translateX(-50%) rotate('+d.angle+'deg)';
+      if(d.src) d.src.playbackRate.value=Math.max(-4,Math.min(4,delta*0.09));
+    });
+    document.addEventListener('mouseup',function(){
+      if(!dragging)return; dragging=false; MX.scratch[k]=false;
+      var d=MX.D[k]; if(d.src) d.src.playbackRate.value=d.rate||1;
+      if(d.playing) mxSpinStart(k);
+    });
+  });
+
+  // ── Filter ──
+  ['A','B'].forEach(function(k){
+    var track=document.getElementById('flt'+k);
+    var thumb=document.getElementById('fltT'+k);
+    if(!track||!thumb)return;
+    var dragging=false;
+    function applyFlt(v){
+      var d=MX.D[k]; if(!d.flt)return;
+      if(Math.abs(v-50)<3){d.flt.type='allpass';return;}
+      if(v<50){d.flt.type='lowpass';d.flt.frequency.value=200+((v/50)*(22000-200));d.flt.Q.value=0.7;}
+      else{d.flt.type='highpass';d.flt.frequency.value=20+(((v-50)/50)*4000);d.flt.Q.value=0.7;}
+    }
+    function move(e){
+      if(!dragging)return;
+      var r=track.getBoundingClientRect();
+      var v=Math.max(0,Math.min(100,((e.touches?e.touches[0].clientX:e.clientX)-r.left)/r.width*100));
+      thumb.style.left=v+'%'; applyFlt(v);
+    }
+    track.addEventListener('mousedown',function(e){mxWarm();dragging=true;move(e);});
+    track.addEventListener('touchstart',function(e){mxWarm();e.preventDefault();dragging=true;move(e);},{passive:false});
+    document.addEventListener('mousemove',move);
+    document.addEventListener('touchmove',function(e){if(dragging)move(e);},{passive:false});
+    document.addEventListener('mouseup',function(){dragging=false;});
+    document.addEventListener('touchend',function(){dragging=false;});
+  });
+
+  // ── Crossfader (portrait horizontal) ──
+  (function(){
+    var track=document.getElementById('xfTrack');
+    var thumb=document.getElementById('xfThumb');
+    if(!track||!thumb)return;
+    var dragging=false;
+    function move(e){
+      if(!dragging)return;
+      var r=track.getBoundingClientRect();
+      var v=Math.max(0,Math.min(100,((e.touches?e.touches[0].clientX:e.clientX)-r.left)/r.width*100));
+      thumb.style.left='calc('+v+'% - 11px)'; mxXF(v);
+    }
+    track.addEventListener('mousedown',function(e){mxWarm();dragging=true;move(e);});
+    track.addEventListener('touchstart',function(e){mxWarm();e.preventDefault();dragging=true;move(e);},{passive:false});
+    document.addEventListener('mousemove',move);
+    document.addEventListener('touchmove',function(e){if(dragging)move(e);},{passive:false});
+    document.addEventListener('mouseup',function(){dragging=false;});
+    document.addEventListener('touchend',function(){dragging=false;});
+  })();
+
+  // ── Crossfader (landscape vertical) ──
+  (function(){
+    var track=document.getElementById('xfTrackV');
+    var thumb=document.getElementById('xfThumbV');
+    var fill=document.getElementById('xfFillV');
+    if(!track||!thumb)return;
+    var dragging=false;
+    function move(e){
+      if(!dragging)return;
+      var r=track.getBoundingClientRect();
+      var v=Math.max(0,Math.min(100,((e.touches?e.touches[0].clientY:e.clientY)-r.top)/r.height*100));
+      thumb.style.top='calc('+v+'% - 6px)';
+      if(fill) fill.style.cssText='position:absolute;left:0;right:0;top:'+v+'%;bottom:0;background:linear-gradient(to bottom,rgba(155,0,255,.4),rgba(255,0,128,.4));border-radius:3px;';
+      mxXF(v);
+    }
+    track.addEventListener('mousedown',function(e){mxWarm();dragging=true;move(e);});
+    track.addEventListener('touchstart',function(e){mxWarm();e.preventDefault();dragging=true;move(e);},{passive:false});
+    document.addEventListener('mousemove',move);
+    document.addEventListener('touchmove',function(e){if(dragging)move(e);},{passive:false});
+    document.addEventListener('mouseup',function(){dragging=false;});
+    document.addEventListener('touchend',function(){dragging=false;});
+  })();
+
+  // ── EQ Knobs ──
+  document.querySelectorAll('.mx-knob').forEach(function(el){
+    var sy,sa=0;
+    function dn(e){
+      mxWarm(); e.preventDefault();
+      sy=e.touches?e.touches[0].clientY:e.clientY; sa=parseFloat(el.dataset.ang)||0;
+      document.addEventListener('mousemove',mv,{passive:false});
+      document.addEventListener('touchmove',mv,{passive:false});
+      document.addEventListener('mouseup',up);
+      document.addEventListener('touchend',up);
+    }
+    function mv(e){
+      e.preventDefault();
+      var y=e.touches?e.touches[0].clientY:e.clientY;
+      var a=Math.max(-135,Math.min(135,sa+(sy-y)*2));
+      el.dataset.ang=a;
+      var t=el.querySelector('.mx-knob-tick');
+      if(t) t.style.transform='translateX(-50%) rotate('+a+'deg)';
+      if(!MX.graphBuilt)return;
+      var k=el.dataset.k,b=el.dataset.b,d=MX.D[k];
+      if(!d)return;
+      var n=a/135;
+      if(b==='hi'&&d.hi)   d.hi.gain.setTargetAtTime(n*15,MX.AC.currentTime,.01);
+      if(b==='mid'&&d.mid) d.mid.gain.setTargetAtTime(n*12,MX.AC.currentTime,.01);
+      if(b==='low'&&d.low) d.low.gain.setTargetAtTime(n*15,MX.AC.currentTime,.01);
+    }
+    function up(){
+      document.removeEventListener('mousemove',mv);
+      document.removeEventListener('touchmove',mv);
+      document.removeEventListener('mouseup',up);
+      document.removeEventListener('touchend',up);
+    }
+    el.addEventListener('mousedown',dn);
+    el.addEventListener('touchstart',dn,{passive:false});
+  });
+
+  // ── Autoload треков ──
+  // fetch стартует сразу — не ждём касания
+  var _pre = {A:null, B:null};
+  function _prefetch(k, url, name){
+    mxSetName(k,'⟳ загрузка...');
+    fetch(url).then(function(r){
+      if(!r.ok) throw new Error(404);
+      return r.arrayBuffer();
+    }).then(function(ab){
+      _pre[k]={ab:ab,name:name};
+      if(MX.AC && MX.graphBuilt) _decode(k);
+    }).catch(function(){ mxSetName(k,'загрузи трек ↑'); });
+  }
+  function _decode(k){
+    if(!_pre[k]||!MX.AC) return;
+    var ab=_pre[k].ab.slice(0), name=_pre[k].name;
+    _pre[k]=null;
+    MX.AC.decodeAudioData(ab, function(buf){
+      var d=MX.D[k];
+      d.buf=buf; d.pos=0; d.cuePos=0; d.bpm=mxGuessBPM(buf);
+      mxSetName(k,name); mxDrawWF(k); mxSetPlay(k,false);
+    }, function(){ mxSetName(k,'загрузи трек ↑'); });
+  }
+  _prefetch('A','track1.mp3','Track 1');
+  _prefetch('B','track2.mp3','Track 2');
+  // после первого касания — создаём AC и декодируем
+  function _onTouch(){
+    mxWarm().then(function(){ _decode('A'); _decode('B'); });
+  }
+  document.addEventListener('touchstart', _onTouch, {once:true,passive:true});
+  document.addEventListener('mousedown',  _onTouch, {once:true});
+});
+</script>
 <!-- ══ CTA ══ -->
 <style>
 .cta-final{padding:60px 20px;background:#07000f;text-align:center;border-top:1px solid rgba(155,0,255,.1);position:relative;overflow:hidden;}
@@ -1210,7 +1672,7 @@ function mxToggleEQ(){var p=document.getElementById('eqPanel');if(p)p.classList.
   <h2 style="font-family:'Bebas Neue',sans-serif;font-size:min(8vw,30px);letter-spacing:1px;color:#f0e8ff;margin-bottom:4px;">Студия в центре Петербурга</h2>
   <p style="font-size:12px;color:rgba(240,232,255,.35);margin-bottom:16px;font-family:'Outfit',sans-serif;">ул. Оружейника Фёдорова 2 · м. Чернышевская</p>
   <div style="position:relative;overflow:hidden;border-radius:14px;border:1px solid rgba(155,0,255,.2);width:100%;aspect-ratio:4/3;">
-    <iframe src="https://yandex.ru/map-widget/v1/?display-text=dj%20place&from=mapframe&ll=30.340300%2C59.945865&mode=search&oid=91632267602&ol=biz&sctx=ZAAAAAgBEAAaKAoSCWtFm%2BPcej5AEevIkc7A9k1AEhIJa5xNRwA35D8RhpLJqZ1hyj8iBgABAgMEBSgKOABAvYIGSAFqAnJ1nQHNzMw9oAEAqAEAvQF1eGtQwgEG0uLVrdUCggIIZGogcGxhY2WKAgCSAgCaAgxkZXNrdG9wLW1hcHM%3D&sll=30.340300%2C59.945865&source=mapframe&sspn=0.078964%2C0.025749&text=dj%20place&um=constructor%3A220582059cc4e428c6660f0fab9ebfe6e02bb7e25add55e42f4ccff275657d66&utm_source=mapframe&z=14" width="100%" height="100%" frameborder="0" allowfullscreen="true" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></iframe>
+    <iframe src="https://yandex.com/map-widget/v1/?from=mapframe&ll=30.479933%2C59.927759&mode=usermaps&source=mapframe&um=constructor%3A220582059cc4e428c6660f0fab9ebfe6e02bb7e25add55e42f4ccff275657d66&utm_source=mapframe&z=11" width="100%" height="100%" frameborder="0" allowfullscreen="true" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></iframe>
   </div>
 </section>
 
@@ -1263,15 +1725,22 @@ function mxToggleEQ(){var p=document.getElementById('eqPanel');if(p)p.classList.
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal()"></div>
 <div class="modal-sheet" id="modalSheet">
   <div class="modal-handle"></div>
- <div id="modalForm">
-    <div class="modal-title">Запишись на пробное</div>
-    <p class="modal-sub">Позвоним сегодня и выберем удобное время</p>
+  <div id="modalForm">
+    <div class="modal-title">Записаться</div>
+    <p class="modal-sub">Бесплатное пробное · без обязательств</p>
     <label class="modal-label">Имя</label>
     <input class="modal-input" id="formName" type="text" placeholder="Как тебя зовут?" autocomplete="given-name">
-    <label class="modal-label">Телефон или Telegram</label>
-    <input class="modal-input" id="formPhone" type="tel" placeholder="+7 999... или @username" inputmode="tel" autocomplete="tel">
-    <p style="font-size:11px;color:rgba(240,232,255,.2);margin:-8px 0 16px;font-family:'Outfit',sans-serif;">Не передаём данные третьим лицам</p>
-    <button class="modal-submit" onclick="submitForm()">Хочу попробовать →</button>
+    <label class="modal-label">Телефон</label>
+    <input class="modal-input" id="formPhone" type="tel" placeholder="+7 ___ ___ __ __" autocomplete="tel">
+    <label class="modal-label">Курс</label>
+    <select class="modal-select" id="formCourse">
+      <option value="Пробное">🎧 Бесплатное пробное занятие</option>
+      <option value="База">🔥 База — 12 занятий · 45 000₽</option>
+      <option value="PRO">⚡ PRO — 5 занятий · 20 000₽</option>
+      <option value="Разовое">Разовое занятие — 4 000₽</option>
+    </select>
+    <button class="modal-submit" onclick="submitForm()">ОТПРАВИТЬ ЗАЯВКУ</button>
+    <button class="modal-cancel" onclick="closeModal()">Закрыть</button>
   </div>
     <div class="modal-success" id="modalSuccess">
     <div class="modal-success__icon">🎧</div>
@@ -1308,7 +1777,7 @@ function submitForm() {
   var name = document.getElementById('formName').value.trim();
   var phone = document.getElementById('formPhone').value.trim();
   var phoneInput = document.getElementById('formPhone');
- var course = 'Пробное';
+  var course = document.getElementById('formCourse').value;
 
   if (!phone) {
     phoneInput.classList.add('error');
