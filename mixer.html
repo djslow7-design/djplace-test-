@@ -681,24 +681,40 @@ function mxSync(k){
 function mxXF(v){ // v = 0..100, 50 = centre
   if(!MX.graphBuilt)return;
   var p=v/100;
-  var gainA=Math.cos(p*Math.PI/2);
-  var gainB=Math.sin(p*Math.PI/2);
-  MX.D.A.cg.gain.value=gainA;
-  MX.D.B.cg.gain.value=gainB;
-  // FX sends пропорционально фейдеру — хвост эффекта затухает вместе с каналом
-  ['echo','rev','roll','flng'].forEach(function(fx){
-    var sA=MX.D.A[fx+'Send'], sB=MX.D.B[fx+'Send'];
-    if(sA) sA.gain.value = MX.fxActive[fx] ? gainA*0.85 : 0;
-    if(sB) sB.gain.value = MX.fxActive[fx] ? gainB*0.85 : 0;
-  });
+  MX.D.A.cg.gain.value=Math.cos(p*Math.PI/2);
+  MX.D.B.cg.gain.value=Math.sin(p*Math.PI/2);
+  mxApplySends(); // FX sends следуют за фейдером
 }
 
 // ── FX CHANNEL SELECTOR ─────────────────────────────────────
-var MX_fxCh = 'AB';
+var MX_fxCh = 'AB'; // 'A', 'B', 'AB', или '' (выкл)
 function mxSetFXCh(ch){
+  // тап на активную кнопку — выключает всё
+  if(MX_fxCh === ch){ ch = ''; }
   MX_fxCh = ch;
-  document.querySelectorAll('.mx-fx-ch-btn').forEach(function(b){ b.classList.remove('on'); });
-  document.querySelectorAll('.mx-fx-ch-btn[data-ch="'+ch+'"]').forEach(function(b){ b.classList.add('on'); });
+  document.querySelectorAll('.mx-fx-ch-btn').forEach(function(b){
+    b.classList.toggle('on', b.dataset.ch === ch);
+  });
+  mxApplySends(); // пересчитываем sends с учётом нового канала
+}
+
+// централизованная функция — считает send для канала k и эффекта fx
+function mxSendGain(k, fx){
+  if(!MX.fxActive[fx]) return 0;           // эффект выкл
+  if(MX_fxCh === '') return 0;             // канал не выбран
+  if(MX_fxCh !== 'AB' && MX_fxCh !== k) return 0; // канал не этот
+  var cgain = MX.D[k].cg ? MX.D[k].cg.gain.value : 1;
+  return cgain * 0.85;
+}
+
+function mxApplySends(){
+  if(!MX.graphBuilt) return;
+  ['A','B'].forEach(function(k){
+    ['echo','rev','roll','flng'].forEach(function(fx){
+      var s = MX.D[k][fx+'Send'];
+      if(s) s.gain.setTargetAtTime(mxSendGain(k,fx), MX.AC.currentTime, 0.05);
+    });
+  });
 }
 
 // ── FX ──────────────────────────────────────────────────────
@@ -706,16 +722,10 @@ function mxToggleFX(btn){
   var fx=btn.dataset.fx;
   MX.fxActive[fx]=!MX.fxActive[fx];
   btn.classList.toggle('on', MX.fxActive[fx]);
-  var wet=MX.fxActive[fx]?0.75:0;
   if(!MX.graphBuilt)return;
-  ['A','B'].forEach(function(k){
-    var d=MX.D[k];
-    var sKey=fx+'Send';
-    // учитываем текущую позицию фейдера через cg.gain
-    var send = MX.fxActive[fx] ? (d.cg ? d.cg.gain.value*0.85 : 0.85) : 0;
-    if(d[sKey]) d[sKey].gain.setTargetAtTime(send, MX.AC.currentTime, 0.05);
-  });
+  var wet=MX.fxActive[fx]?0.75:0;
   if(MX.FX[fx]) MX.FX[fx].wet.gain.setTargetAtTime(wet, MX.AC.currentTime, 0.05);
+  mxApplySends();
 }
 
 // ── WAVEFORM ────────────────────────────────────────────────
