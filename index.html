@@ -268,18 +268,26 @@ function loop(ts){
 }
 requestAnimationFrame(loop);
 
+var _scratchBuf = null;
+var _scratchAC = null;
+(function(){
+  fetch('scratch_sound.mp3')
+    .then(function(r){ return r.arrayBuffer(); })
+    .then(function(ab){
+      _scratchAC = new(window.AudioContext||window.webkitAudioContext)();
+      _scratchAC.decodeAudioData(ab, function(buf){ _scratchBuf = buf; });
+    }).catch(function(){});
+})();
+
 function scratch(){
-  try{
-    var ac=new(window.AudioContext||window.webkitAudioContext)();
-    if(ac.state==='suspended')ac.resume();
-    var buf=ac.createBuffer(1,Math.floor(ac.sampleRate*.22),ac.sampleRate),d=buf.getChannelData(0);
-    for(var i=0;i<d.length;i++){var t=i/ac.sampleRate,env=Math.pow(Math.sin(Math.PI*t/.22),.4)*Math.pow(1-t/.22,.3);d[i]=((Math.random()*2-1)*.35+Math.sin(2*Math.PI*100*t)*.6)*env*.8;}
-    var ws=ac.createWaveShaper(),c=new Float32Array(256);
-    for(var j=0;j<256;j++){var x=(j*2)/256-1;c[j]=(3.14+200)*x/(3.14+200*Math.abs(x));}
-    ws.curve=c;var src=ac.createBufferSource();src.buffer=buf;src.connect(ws);ws.connect(ac.destination);src.start();
-  }catch(e){}
   var seq=[-0.8,-1,-.7,-.2,.3,.7,1.1,.8,.38],si=0;
   var st=setInterval(function(){si<seq.length?cur=seq[si++]:(cur=spd,clearInterval(st));},38);
+  if(!_scratchBuf||!_scratchAC) return;
+  if(_scratchAC.state==='suspended') _scratchAC.resume();
+  var src=_scratchAC.createBufferSource();
+  src.buffer=_scratchBuf;
+  src.connect(_scratchAC.destination);
+  src.start();
 }
 cv.addEventListener('click',scratch);
 cv.addEventListener('touchend',function(e){e.preventDefault();scratch();},{passive:false});
