@@ -241,11 +241,15 @@ html,body{background:var(--bg);color:#f0e8ff;font-family:'Outfit',Arial,sans-ser
   .mx-play{width:48px;height:48px;font-size:19px;}
   .mx-tbtn{height:36px;}
   .mx-eqfx-toggle{display:block!important;width:100%;}
-  .mx-eqfx-panel{display:none;position:fixed;bottom:0;left:0;right:0;z-index:100;border-radius:16px 16px 0 0;margin-bottom:0;max-height:40vh;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+  .mx-eqfx-panel{
+    display:none;position:fixed;bottom:0;left:0;right:0;z-index:100;
+    border-radius:14px 14px 0 0;margin-bottom:0;
+    max-height:38vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  }
   .mx-eqfx-panel.open{display:block;}
-  /* boards уменьшаются когда панель открыта */
-  .mx-boards{transition:height .25s;}
-  .mx-boards.eq-open{height:calc(100vh - 40vh)!important;}
+  /* когда панель открыта — boards отступают снизу, transport остаётся виден */
+  .mx-boards{transition:padding-bottom .25s;}
+  .mx-boards.eq-open{padding-bottom:38vh;}
   .mx-cta{display:none;}
   .mx-center-xf-lbl{font-size:6px;letter-spacing:2px;color:rgba(240,232,255,.18);text-transform:uppercase;text-align:center;margin-bottom:4px;}
   .mx-center-logo{font-size:8px;letter-spacing:3px;color:rgba(240,232,255,.08);text-transform:uppercase;font-family:'Bebas Neue',sans-serif;}
@@ -922,20 +926,36 @@ window.addEventListener('DOMContentLoaded',function(){
   });
 
   // ── Autoload треков ──
-  // Ждём первого prewarm, потом загружаем
-  function tryAutoLoad(){
-    if(!MX.AC){setTimeout(tryAutoLoad,200);return;}
-    mxWarm().then(function(){
-      mxAutoLoad('A','track1.mp3','Track 1');
-      mxAutoLoad('B','track2.mp3','Track 2');
-    });
+  // fetch стартует сразу — не ждём касания
+  var _pre = {A:null, B:null};
+  function _prefetch(k, url, name){
+    mxSetName(k,'⟳ загрузка...');
+    fetch(url).then(function(r){
+      if(!r.ok) throw new Error(404);
+      return r.arrayBuffer();
+    }).then(function(ab){
+      _pre[k]={ab:ab,name:name};
+      if(MX.AC && MX.graphBuilt) _decode(k);
+    }).catch(function(){ mxSetName(k,'загрузи трек ↑'); });
   }
-  document.addEventListener('touchstart', function(){
-    setTimeout(tryAutoLoad,100);
-  },{once:true,passive:true});
-  document.addEventListener('mousedown', function(){
-    setTimeout(tryAutoLoad,100);
-  },{once:true});
+  function _decode(k){
+    if(!_pre[k]||!MX.AC) return;
+    var ab=_pre[k].ab.slice(0), name=_pre[k].name;
+    _pre[k]=null;
+    MX.AC.decodeAudioData(ab, function(buf){
+      var d=MX.D[k];
+      d.buf=buf; d.pos=0; d.cuePos=0; d.bpm=mxGuessBPM(buf);
+      mxSetName(k,name); mxDrawWF(k); mxSetPlay(k,false);
+    }, function(){ mxSetName(k,'загрузи трек ↑'); });
+  }
+  _prefetch('A','track1.mp3','Track 1');
+  _prefetch('B','track2.mp3','Track 2');
+  // после первого касания — создаём AC и декодируем
+  function _onTouch(){
+    mxWarm().then(function(){ _decode('A'); _decode('B'); });
+  }
+  document.addEventListener('touchstart', _onTouch, {once:true,passive:true});
+  document.addEventListener('mousedown',  _onTouch, {once:true});
 });
 </script>
 </body>
