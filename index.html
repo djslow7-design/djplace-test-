@@ -1765,6 +1765,7 @@ function openModal(course) {
   document.getElementById('modalOverlay').classList.add('open');
   document.getElementById('modalSheet').classList.add('open');
   document.body.style.overflow = 'hidden';
+  var sticky = document.getElementById('stickyCta'); if (sticky) sticky.classList.remove('visible');
   setTimeout(function(){ document.getElementById('formPhone').focus(); }, 350);
 }
 function closeModal() {
@@ -1871,7 +1872,10 @@ function toggleFaq(btn) {
   var hero = document.querySelector('.hero');
   var cta = document.getElementById('cta');
   var shown = false;
-  window.addEventListener('scroll', function(){
+  var modalOpen = false;
+
+  function checkSticky(){
+    if(modalOpen){ return; }
     var heroBottom = hero ? hero.getBoundingClientRect().bottom : 0;
     var ctaTop = cta ? cta.getBoundingClientRect().top : 9999;
     var shouldShow = heroBottom < 0 && ctaTop > window.innerHeight;
@@ -1879,7 +1883,27 @@ function toggleFaq(btn) {
       shown = shouldShow;
       btn.classList.toggle('visible', shown);
     }
-  }, {passive:true});
+  }
+
+  window.addEventListener('scroll', checkSticky, {passive:true});
+  // Проверяем сразу при загрузке
+  window.addEventListener('DOMContentLoaded', checkSticky);
+  // И через 300мс на случай если контент ещё грузится
+  setTimeout(checkSticky, 300);
+
+  // Прячем при открытии оверлея наставников
+  var origOpen = window.openMentor;
+  window.openMentor = function(i){
+    modalOpen = true;
+    btn.classList.remove('visible');
+    if(origOpen) origOpen(i);
+  };
+  var origClose = window.closeMentor;
+  window.closeMentor = function(){
+    modalOpen = false;
+    if(origClose) origClose();
+    setTimeout(checkSticky, 100);
+  };
 })();
 </script>
 
