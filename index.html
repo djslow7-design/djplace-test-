@@ -1726,21 +1726,15 @@ window.addEventListener('DOMContentLoaded',function(){
 <div class="modal-sheet" id="modalSheet">
   <div class="modal-handle"></div>
   <div id="modalForm">
-    <div class="modal-title">Записаться</div>
-    <p class="modal-sub">Бесплатное пробное · без обязательств</p>
+    <div class="modal-title">Запишись на пробное</div>
+    <p class="modal-sub">Позвоним сегодня и выберем удобное время</p>
     <label class="modal-label">Имя</label>
     <input class="modal-input" id="formName" type="text" placeholder="Как тебя зовут?" autocomplete="given-name">
-    <label class="modal-label">Телефон</label>
-    <input class="modal-input" id="formPhone" type="tel" placeholder="+7 ___ ___ __ __" autocomplete="tel">
-    <label class="modal-label">Курс</label>
-    <select class="modal-select" id="formCourse">
-      <option value="Пробное">🎧 Бесплатное пробное занятие</option>
-      <option value="База">🔥 База — 12 занятий · 45 000₽</option>
-      <option value="PRO">⚡ PRO — 5 занятий · 20 000₽</option>
-      <option value="Разовое">Разовое занятие — 4 000₽</option>
-    </select>
-    <button class="modal-submit" onclick="submitForm()">ОТПРАВИТЬ ЗАЯВКУ</button>
-    <button class="modal-cancel" onclick="closeModal()">Закрыть</button>
+    <label class="modal-label">Телефон или Telegram</label>
+    <input class="modal-input" id="formPhone" type="tel" placeholder="+7 999... или @username" inputmode="tel" autocomplete="tel">
+    <p style="font-size:11px;color:rgba(240,232,255,.2);margin:-8px 0 16px;font-family:'Outfit',sans-serif;">Не передаём данные третьим лицам</p>
+    <input type="hidden" id="formCourse" value="Пробное">
+    <button class="modal-submit" onclick="submitForm()">Хочу попробовать →</button>
   </div>
     <div class="modal-success" id="modalSuccess">
     <div class="modal-success__icon">🎧</div>
@@ -1754,15 +1748,12 @@ window.addEventListener('DOMContentLoaded',function(){
 
 <script>
 function openModal(course) {
-  if (course) {
-    var sel = document.getElementById('formCourse');
-    for (var i = 0; i < sel.options.length; i++) {
-      if (sel.options[i].value === course) { sel.selectedIndex = i; break; }
-    }
-  }
+  var courseInput = document.getElementById('formCourse');
+  if (courseInput) courseInput.value = course || 'Пробное';
   document.getElementById('modalOverlay').classList.add('open');
   document.getElementById('modalSheet').classList.add('open');
   document.body.style.overflow = 'hidden';
+  setTimeout(function(){ document.getElementById('formPhone').focus(); }, 350);
 }
 function closeModal() {
   document.getElementById('modalOverlay').classList.remove('open');
@@ -1771,6 +1762,10 @@ function closeModal() {
   setTimeout(function(){
     document.getElementById('modalForm').style.display = '';
     document.getElementById('modalSuccess').style.display = 'none';
+    // сбрасываем поля и курс
+    document.getElementById('formName').value = '';
+    document.getElementById('formPhone').value = '';
+    document.getElementById('formCourse').value = 'Пробное';
   }, 400);
 }
 function submitForm() {
