@@ -1,6 +1,19 @@
 {
   "headers": [
     {
+      "source": "/index.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "script-src 'self' 'unsafe-eval' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; font-src 'self' https:; media-src 'self' blob:; frame-src https:; connect-src 'self' https:; default-src 'self' https:"
+        }
+      ]
+    },
+    {
       "source": "/(.*)",
       "headers": [
         {
