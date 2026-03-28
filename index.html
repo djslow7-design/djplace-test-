@@ -274,18 +274,33 @@ requestAnimationFrame(loop);
 
 var _scratchBuf = null;
 var _scratchAC = null;
+// Fetch сразу — но AC создаём только внутри жеста (требование iOS)
 (function(){
   fetch('scratch_sound.mp3')
     .then(function(r){ return r.arrayBuffer(); })
     .then(function(ab){
-      _scratchAC = new(window.AudioContext||window.webkitAudioContext)();
-      _scratchAC.decodeAudioData(ab, function(buf){ _scratchBuf = buf; });
+      // Сохраняем байты, декодируем после первого касания
+      _scratchRaw = ab;
     }).catch(function(){});
 })();
+var _scratchRaw = null;
+function _initScratchAC(){
+  if(_scratchAC) return;
+  _scratchAC = new(window.AudioContext||window.webkitAudioContext)();
+  if(_scratchRaw){
+    var ab = _scratchRaw.slice(0);
+    _scratchRaw = null;
+    _scratchAC.decodeAudioData(ab, function(buf){ _scratchBuf = buf; });
+  }
+}
+// Инициализируем AC на первом касании джога (внутри жеста — iOS разрешит)
+document.addEventListener('touchstart', function(){ _initScratchAC(); }, {once:true, passive:true});
+document.addEventListener('mousedown', function(){ _initScratchAC(); }, {once:true});
 
 function scratch(){
   var seq=[-0.8,-1,-.7,-.2,.3,.7,1.1,.8,.38],si=0;
   var st=setInterval(function(){si<seq.length?cur=seq[si++]:(cur=spd,clearInterval(st));},38);
+  _initScratchAC();
   if(!_scratchBuf||!_scratchAC) return;
   if(_scratchAC.state==='suspended') _scratchAC.resume();
   var src=_scratchAC.createBufferSource();
@@ -1625,8 +1640,8 @@ window.addEventListener('DOMContentLoaded',function(){
   });
 
   // ── Autoload треков ──
-  // fetch стартует сразу — не ждём касания
   var _pre = {A:null, B:null};
+  var _touched = false;
   function _prefetch(k, url, name){
     mxSetName(k,'⟳ загрузка...');
     fetch(url).then(function(r){
@@ -1634,7 +1649,7 @@ window.addEventListener('DOMContentLoaded',function(){
       return r.arrayBuffer();
     }).then(function(ab){
       _pre[k]={ab:ab,name:name};
-      if(MX.AC && MX.graphBuilt) _decode(k);
+      if(_touched && MX.AC && MX.graphBuilt) _decode(k);
     }).catch(function(){ mxSetName(k,'загрузи трек ↑'); });
   }
   function _decode(k){
@@ -1649,9 +1664,16 @@ window.addEventListener('DOMContentLoaded',function(){
   }
   _prefetch('A','track1.mp3','Track 1');
   _prefetch('B','track2.mp3','Track 2');
-  // после первого касания — создаём AC и декодируем
   function _onTouch(){
-    mxWarm().then(function(){ _decode('A'); _decode('B'); });
+    _touched = true;
+    setTimeout(function(){
+      if(!MX.AC){ setTimeout(_onTouch, 200); return; }
+      MX.AC.resume().then(function(){
+        mxBuildGraph();
+        _decode('A');
+        _decode('B');
+      });
+    }, 100);
   }
   document.addEventListener('touchstart', _onTouch, {once:true,passive:true});
   document.addEventListener('mousedown',  _onTouch, {once:true});
@@ -1743,7 +1765,7 @@ window.addEventListener('DOMContentLoaded',function(){
     <label class="modal-label">Имя</label>
     <input class="modal-input" id="formName" type="text" placeholder="Как тебя зовут?" autocomplete="given-name">
     <label class="modal-label">Телефон или Telegram</label>
-    <input class="modal-input" id="formPhone" type="tel" placeholder="+7 999... или @username" inputmode="tel" autocomplete="tel">
+    <input class="modal-input" id="formPhone" type="text" placeholder="+7 999... или @username" inputmode="text" autocomplete="off">
     <p style="font-size:11px;color:rgba(240,232,255,.2);margin:-8px 0 16px;font-family:'Outfit',sans-serif;">Не передаём данные третьим лицам</p>
     <input type="hidden" id="formCourse" value="Пробное">
     <button class="modal-submit" onclick="submitForm()">Хочу попробовать →</button>
