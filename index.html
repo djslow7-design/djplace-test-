@@ -1827,6 +1827,7 @@ function submitForm() {
   fetch('https://api.telegram.org/bot8750226765:AAEcVWgi8MM_Mk-t5JpCSQoO-cahhwoVLaI/sendMessage', {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
+    keepalive: true,
     body: JSON.stringify({
       chat_id: '321163553',
       text: text
@@ -1837,12 +1838,13 @@ function submitForm() {
   fetch('https://formspree.io/f/xgopogwa', {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
+    keepalive: true,
     body: JSON.stringify({
       name: name || 'не указано',
       contact: phone,
       course: course,
       time: time,
-      _replyto: 'slow@list.ru'
+      _replyto: 'djslow7@gmail.com'
     })
   }).catch(function(){});
 
@@ -1869,3 +1871,4 @@ function toggleFaq(btn) {
 
 </body>
 </html>
+
