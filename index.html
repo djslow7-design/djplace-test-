@@ -56,7 +56,7 @@ ym(106292208,'init',{clickmap:true,trackLinks:true,accurateTrackBounce:true,webv
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{--p:#9B00FF;--pk:#FF0080;}
-body{background:#07000f;color:#f0e8ff;font-family:Arial,sans-serif;overflow-x:hidden;}
+body{background:#07000f;color:#f0e8ff;font-family:'Outfit',sans-serif;overflow-x:hidden;}
 .ticker{background:#9B00FF;display:flex;align-items:center;overflow:hidden;white-space:nowrap;height:32px;}
 .ts{flex-shrink:0;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff;padding:0 12px;border-right:1px solid rgba(255,255,255,.25);height:100%;display:flex;align-items:center;background:#7B00CC;}
 .tscroll{flex:1;overflow:hidden;}
@@ -71,7 +71,7 @@ body{background:#07000f;color:#f0e8ff;font-family:Arial,sans-serif;overflow-x:hi
 .hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(155,0,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(155,0,255,.04) 1px,transparent 1px);background-size:44px 44px;pointer-events:none;}
 .hz{position:relative;z-index:1;}
 .eyebrow{display:inline-flex;align-items:center;gap:5px;border:1px solid rgba(155,0,255,.35);color:rgba(155,0,255,.8);font-size:9px;letter-spacing:2px;text-transform:uppercase;padding:.32rem .9rem;border-radius:14px;background:rgba(155,0,255,.06);margin-bottom:16px;}
-.jog-wrap{position:relative;width:210px;height:210px;margin:0 auto 20px;}
+.jog-wrap{position:relative;width:270px;height:270px;margin:0 auto 20px;}
 .jog-glow{position:absolute;inset:-14px;border-radius:50%;background:radial-gradient(circle,rgba(155,0,255,.22),rgba(255,0,128,.09) 45%,transparent 70%);animation:gp 3s ease-in-out infinite;pointer-events:none;}
 @keyframes gp{0%,100%{opacity:.4;transform:scale(.97)}50%{opacity:.85;transform:scale(1.04)}}
 .jog-marker{position:absolute;top:6px;left:50%;transform:translateX(-50%);width:5px;height:17px;background:linear-gradient(180deg,#FF0080,#aa0040);border-radius:3px;z-index:3;box-shadow:0 0 8px rgba(255,0,128,.85);}
@@ -152,7 +152,7 @@ body{background:#07000f;color:#f0e8ff;font-family:Arial,sans-serif;overflow-x:hi
     <div class="eyebrow">Санкт-Петербург · с 2016</div>
     <div class="jog-wrap">
       <div class="jog-glow"></div>
-      <canvas id="jog" width="210" height="210"></canvas>
+      <canvas id="jog" width="270" height="270"></canvas>
       <div class="jog-marker"></div>
     </div>
     <div class="hero-logo">
@@ -530,6 +530,8 @@ cv.addEventListener('touchend',function(e){e.preventDefault();scratch();},{passi
 <style>
 .rec{padding:40px 0 48px;background:#07000f;border-top:1px solid rgba(155,0,255,.1);}
 .rec__head{padding:0 16px 20px;}
+.rec__scroll-wrap{position:relative;}
+.rec__scroll-wrap::after{content:'';position:absolute;top:0;right:0;bottom:0;width:60px;background:linear-gradient(to left,#07000f 0%,transparent 100%);pointer-events:none;z-index:2;}
 .rec__scroll{display:flex;gap:12px;padding:4px 16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
 .rec__scroll::-webkit-scrollbar{display:none;}
 .rec-card{flex-shrink:0;width:68vw;max-width:240px;border-radius:14px;overflow:hidden;position:relative;aspect-ratio:.75;background:#0d0018;}
@@ -545,6 +547,7 @@ cv.addEventListener('touchend',function(e){e.preventDefault();scratch();},{passi
     <span style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#FF0080;display:block;margin-bottom:7px;">▶ профессионалы индустрии</span>
     <h2 style="font-family:'Bebas Neue',sans-serif;font-size:min(8vw,32px);letter-spacing:1px;color:#f0e8ff;margin:0;" aria-label="Профессиональные диджеи Санкт-Петербурга рекомендуют школу DJ Place">Нас рекомендуют</h2>
   </div>
+  <div class="rec__scroll-wrap">
   <div class="rec__scroll">
     <div class="rec-card">
       <img src="NIK%20NAK.jpeg" alt="DJ Nik Nak">
@@ -586,8 +589,8 @@ cv.addEventListener('touchend',function(e){e.preventDefault();scratch();},{passi
         <p class="rec-card__text">Если хотите результата, а не обещаний — выбирайте DJ Place.</p>
       </div>
     </div>
-  </div>
-</section>
+  </div><!-- /rec__scroll -->
+  </div><!-- /rec__scroll-wrap -->
 </section>
 
 <!-- ══ СТУДИЯ ══ -->
@@ -718,35 +721,35 @@ cv.addEventListener('touchend',function(e){e.preventDefault();scratch();},{passi
         Нужен ли музыкальный опыт?
         <span class="faq__q-icon">+</span>
       </button>
-      <div class="faq__a"><div class="faq__a-inner">Нет. Большинство учеников приходят без опыта. Курс «База» построен с нуля — ты встаёшь за аппарат с первого занятия и сразу слышишь результат.</div></div>
+      <div class="faq__a"><div class="faq__a-inner">Нет. Большинство приходят без опыта — курс «База» построен с нуля.</div></div>
     </div>
     <div class="faq__item">
       <button class="faq__q" onclick="toggleFaq(this)">
         Что такое пробное занятие?
         <span class="faq__q-icon">+</span>
       </button>
-      <div class="faq__a"><div class="faq__a-inner">60 минут в студии один на один с преподавателем. Ты пробуешь технику, задаёшь вопросы. Это бесплатно и ни к чему не обязывает.</div></div>
+      <div class="faq__a"><div class="faq__a-inner">60 минут в студии один на один с преподавателем. Бесплатно, ни к чему не обязывает.</div></div>
+    </div>
+    <div class="faq__item">
+      <button class="faq__q" onclick="toggleFaq(this)">
+        Нужно ли своё оборудование?
+        <span class="faq__q-icon">+</span>
+      </button>
+      <div class="faq__a"><div class="faq__a-inner">Нет. Занимаемся на Pioneer CDJ в студии. Если захочешь купить контроллер — поможем выбрать.</div></div>
     </div>
     <div class="faq__item">
       <button class="faq__q" onclick="toggleFaq(this)">
         Есть ли рассрочка?
         <span class="faq__q-icon">+</span>
       </button>
-      <div class="faq__a"><div class="faq__a-inner">Да. Для курсов «База» и «PRO» доступна рассрочка без переплат и банковских процентов. Уточним детали при записи.</div></div>
+      <div class="faq__a"><div class="faq__a-inner">Да, для «База» и «PRO» — без переплат и банковских процентов.</div></div>
     </div>
     <div class="faq__item">
       <button class="faq__q" onclick="toggleFaq(this)">
         Могу ли я практиковаться между уроками?
         <span class="faq__q-icon">+</span>
       </button>
-      <div class="faq__a"><div class="faq__a-inner">Да. Студия открыта для бесплатных тренировок в течение всего курса. Это ключевое преимущество — ты закрепляешь материал, а не ждёшь следующего урока.</div></div>
-    </div>
-    <div class="faq__item">
-      <button class="faq__q" onclick="toggleFaq(this)">
-        Можно начать в любое время?
-        <span class="faq__q-icon">+</span>
-      </button>
-      <div class="faq__a"><div class="faq__a-inner">Да, набор идёт постоянно. Всё обучение индивидуальное, поэтому график подстраивается под тебя. Запишись на пробное — и обсудим расписание.</div></div>
+      <div class="faq__a"><div class="faq__a-inner">Да. Студия открыта для бесплатных тренировок на всё время курса.</div></div>
     </div>
   </div>
 </section>
@@ -1761,9 +1764,15 @@ window.addEventListener('DOMContentLoaded',function(){
 <footer style="background:#040008;border-top:1px solid rgba(155,0,255,.1);padding:28px 20px 36px;text-align:center;">
   <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:4px;background:linear-gradient(90deg,var(--p),var(--pk));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px;">DJ PLACE</div>
   <div style="display:flex;justify-content:center;gap:16px;margin-bottom:14px;">
-    <a href="https://www.instagram.com/dj_place/" target="_blank" style="width:36px;height:36px;border-radius:50%;background:rgba(155,0,255,.1);border:1px solid rgba(155,0,255,.25);display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:16px;">📸</a>
-    <a href="https://vk.com/dj_place" target="_blank" style="width:36px;height:36px;border-radius:50%;background:rgba(155,0,255,.1);border:1px solid rgba(155,0,255,.25);display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:16px;">💙</a>
-    <a href="tel:+79818796047" style="width:36px;height:36px;border-radius:50%;background:rgba(155,0,255,.1);border:1px solid rgba(155,0,255,.25);display:flex;align-items:center;justify-content:center;text-decoration:none;font-size:16px;">📞</a>
+    <a href="https://www.instagram.com/dj_place/" target="_blank" style="width:36px;height:36px;border-radius:50%;background:rgba(155,0,255,.1);border:1px solid rgba(155,0,255,.25);display:flex;align-items:center;justify-content:center;text-decoration:none;">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="rgba(240,232,255,0.6)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="rgba(240,232,255,0.6)" stroke="none"/></svg>
+    </a>
+    <a href="https://vk.com/dj_place" target="_blank" style="width:36px;height:36px;border-radius:50%;background:rgba(155,0,255,.1);border:1px solid rgba(155,0,255,.25);display:flex;align-items:center;justify-content:center;text-decoration:none;">
+      <svg width="18" height="11" viewBox="0 0 24 14" fill="rgba(240,232,255,0.6)"><path d="M13.1 13s.4-.1.6-.2c.2-.2.2-.5.2-.5s0-1.5.7-1.7c.7-.2 1.6 1.4 2.5 2 .7.5 1.3.4 1.3.4l2.5-.1s1.3-.1.7-1.1c-.1-.1-.4-.9-2-2.3-1.7-1.5-1.5-1.3.6-3.9 1.3-1.7 1.8-2.7 1.7-3.1-.2-.4-1.1-.3-1.1-.3H18c-.1 0-.2 0-.3.1-.1.1-.2.2-.2.2s-.5 1.4-1.2 2.5c-1.4 2.4-2 2.5-2.2 2.4-.5-.4-.4-1.3-.4-2 0-2.1.3-3-.6-3.2-.3-.1-.5-.1-1.3-.1-1 0-1.8 0-2.3.2-.3.2-.5.5-.4.5.2 0 .6.1.8.4.3.4.3 1.2.3 1.2s.2 2.5-.4 2.8c-.4.2-.9-.2-2.1-2.3C7.3 3.8 6.8 2.5 6.8 2.5s-.1-.2-.2-.3c-.2-.1-.4-.1-.4-.1H3.9s-.4 0-.6.2c-.1.2 0 .5 0 .5S5.5 8.6 8 11c2.3 2.2 4.9 2 4.9 2H13z"/></svg>
+    </a>
+    <a href="tel:+79818796047" style="width:36px;height:36px;border-radius:50%;background:rgba(155,0,255,.1);border:1px solid rgba(155,0,255,.25);display:flex;align-items:center;justify-content:center;text-decoration:none;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(240,232,255,0.6)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1 1 .4 2 .7 2.9a2 2 0 01-.5 2.1L8.1 9.9a16 16 0 006 6l1.2-1.2a2 2 0 012.1-.5c.9.3 1.9.6 2.9.7A2 2 0 0122 16.9z"/></svg>
+    </a>
   </div>
   <div style="font-size:11px;color:rgba(240,232,255,.25);line-height:1.8;font-family:'Outfit',sans-serif;margin-bottom:16px;">
     Санкт-Петербург · ул. Оружейника Фёдорова 2<br>
