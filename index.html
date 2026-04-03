@@ -119,6 +119,93 @@ body{background:#07000f;color:#f0e8ff;font-family:'Outfit',sans-serif;overflow-x
 .ov-tag{font-size:10px;padding:5px 12px;border-radius:16px;background:rgba(155,0,255,.1);border:1px solid rgba(155,0,255,.22);color:rgba(240,232,255,.55);}
 .ov-enroll{width:100%;padding:17px;background:linear-gradient(90deg,var(--p),var(--pk));color:#fff;border:none;border-radius:50px;font-family:Arial Black,sans-serif;font-size:15px;font-weight:900;cursor:pointer;margin-bottom:12px;box-shadow:0 6px 28px rgba(155,0,255,.4);}
 .ov-back{width:100%;padding:15px;background:rgba(155,0,255,.08);color:rgba(240,232,255,.6);border:1.5px solid rgba(155,0,255,.25);border-radius:50px;font-size:14px;font-weight:600;cursor:pointer;}
+
+/* ── IPAD 768px ───────────────────────────────────────────── */
+@media(min-width:768px){
+  body{font-size:16px;}
+  .nav{padding:16px 40px;}
+  .logo{font-size:1.4rem;}
+  .nav-btn{padding:11px 28px;font-size:13px;}
+
+  .hero{padding:32px 60px 56px;}
+  .jog-wrap{width:340px;height:340px;}
+  #jog{width:340px;height:340px;}
+  .hero-logo{font-size:100px;}
+  .hero-h1{font-size:22px;}
+  .hero-p{font-size:16px;}
+  .btns{flex-direction:row;justify-content:center;gap:14px;}
+  .btn1{width:auto;padding:17px 36px;}
+  .btn2{width:auto;padding:16px 28px;}
+  .stats{grid-template-columns:repeat(4,1fr);max-width:560px;margin:0 auto;}
+  .sn{font-size:32px;}
+
+  .mentors{padding:56px 40px;}
+  .mgrid{grid-template-columns:repeat(4,1fr);gap:14px;}
+  .sec-h2{font-size:36px;}
+
+  .rec__head{padding:0 40px 20px;}
+  .rec__scroll{padding:4px 40px;}
+
+  .reviews__head{padding:0 40px 20px;}
+  .reviews__scroll{padding:4px 40px;}
+
+  .faq{padding:56px 40px 72px;}
+  .faq__list{max-width:680px;}
+
+  .courses{padding:56px 40px 72px;}
+  .courses__grid{flex-direction:row;gap:16px;}
+  .course-card{flex:1;}
+
+  .mx-wrap{padding:32px 40px 0;}
+  .cta-final{padding:80px 40px;}
+  .cta-final__h{font-size:64px;}
+
+  section[id="studio"]{padding:56px 40px 72px;}
+}
+
+/* ── DESKTOP 1024px ───────────────────────────────────────── */
+@media(min-width:1024px){
+  .nav{padding:20px 80px;max-width:1280px;margin:0 auto;}
+
+  .hero{padding:40px 80px 64px;max-width:1280px;margin:0 auto;}
+  .jog-wrap{width:380px;height:380px;}
+  #jog{width:380px;height:380px;}
+  .hero-logo{font-size:min(9vw,130px);}
+  .hero-h1{font-size:26px;}
+  .hero-p{font-size:17px;}
+  .stats{max-width:640px;}
+  .sn{font-size:36px;}
+
+  .mentors{padding:72px 80px;max-width:1280px;margin:0 auto;}
+  .mgrid{gap:20px;}
+  .sec-h2{font-size:44px;}
+
+  .rec__head{padding:0 80px 24px;}
+  .rec__scroll{padding:4px 80px;}
+  .rec-card{width:260px;max-width:260px;}
+
+  .reviews__head{padding:0 80px 24px;}
+  .reviews__scroll{padding:4px 80px;}
+  .rv{width:300px;max-width:300px;}
+
+  .faq{padding:72px 80px 88px;max-width:1280px;margin:0 auto;}
+  .faq__list{max-width:780px;}
+
+  .courses{padding:72px 80px 88px;max-width:1280px;margin:0 auto;}
+  .courses__grid{gap:24px;}
+
+  .mx-wrap{padding:40px 80px 0;max-width:1280px;margin:0 auto;}
+
+  .cta-final{padding:100px 80px;}
+  .cta-final__h{font-size:80px;}
+  .cta-final__btn{max-width:400px;}
+
+  section[id="studio"]{padding:72px 80px 88px;max-width:1280px;margin:0 auto;}
+  section[id="studio"] > div:nth-child(2){grid-template-columns:repeat(4,1fr);gap:8px;}
+
+  section[style*="background:#040008"]{padding:40px 80px 0;max-width:1280px;margin:0 auto;}
+  footer{padding:36px 80px 48px;}
+}
 </style>
 </head>
 <body>
