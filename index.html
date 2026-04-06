@@ -103,6 +103,7 @@ body{background:#07000f;color:#f0e8ff;font-family:'Outfit',sans-serif;overflow-x
 .mc-grad{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,0,15,.95) 0%,rgba(7,0,15,.1) 55%,transparent 75%);z-index:2;}
 .mc-name{position:absolute;bottom:10px;left:10px;right:10px;z-index:3;}
 .mc-name h3{font-family:Arial Black,sans-serif;font-size:min(4vw,16px);letter-spacing:2px;color:#fff;text-shadow:0 2px 12px #000;}
+.mc-preview{font-size:10px;color:rgba(255,0,128,.85);font-weight:600;margin-top:4px;letter-spacing:.5px;line-height:1.3;text-shadow:0 1px 6px #000;}
 .mc-badge{font-size:9px;color:rgba(255,0,128,.9);font-weight:700;margin-top:3px;}
 .mc-arrow{position:absolute;top:10px;right:10px;z-index:3;width:26px;height:26px;border-radius:50%;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:12px;color:rgba(255,255,255,.5);}
 .ov{position:fixed;inset:0;z-index:999;background:#07000f;transform:translateY(100%);transition:transform .42s cubic-bezier(.25,.46,.45,.94);display:flex;flex-direction:column;overflow:hidden;}
@@ -119,6 +120,20 @@ body{background:#07000f;color:#f0e8ff;font-family:'Outfit',sans-serif;overflow-x
 .ov-tag{font-size:10px;padding:5px 12px;border-radius:16px;background:rgba(155,0,255,.1);border:1px solid rgba(155,0,255,.22);color:rgba(240,232,255,.55);}
 .ov-enroll{width:100%;padding:17px;background:linear-gradient(90deg,var(--p),var(--pk));color:#fff;border:none;border-radius:50px;font-family:Arial Black,sans-serif;font-size:15px;font-weight:900;cursor:pointer;margin-bottom:12px;box-shadow:0 6px 28px rgba(155,0,255,.4);}
 .ov-back{width:100%;padding:15px;background:rgba(155,0,255,.08);color:rgba(240,232,255,.6);border:1.5px solid rgba(155,0,255,.25);border-radius:50px;font-size:14px;font-weight:600;cursor:pointer;}
+
+/* ── DESKTOP OVERLAY ──────────────────────────────────────── */
+@media(min-width:1024px){
+  .ov{background:rgba(7,0,15,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;padding:40px;}
+  .ov.open{transform:translateY(0);}
+  .ov-inner{display:flex;background:#0d001c;border-radius:20px;border:1px solid rgba(155,0,255,.25);overflow:hidden;max-width:860px;width:100%;min-height:440px;position:relative;}
+  .ov-swipe{display:none;}
+  .ov-photo{width:320px;height:auto;min-height:440px;flex-shrink:0;border-radius:0;}
+  .ov-photo-grad{background:linear-gradient(to right,transparent 60%,#0d001c 100%);}
+  .ov-body{flex:1;padding:36px 36px 32px;margin-top:0;display:flex;flex-direction:column;justify-content:space-between;overflow-y:auto;}
+  .ov-name{font-size:42px;}
+  .ov-close{position:absolute;top:16px;right:16px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10;}
+  .ov-back{display:none;}
+}
 
 /* ── IPAD 768px ───────────────────────────────────────────── */
 @media(min-width:768px){
@@ -253,7 +268,7 @@ body{background:#07000f;color:#f0e8ff;font-family:'Outfit',sans-serif;overflow-x
 
     </div>
     <div class="stats">
-      <div class="stat"><div class="sn">500+</div><div class="sl">Выпускников</div></div>
+      <div class="stat"><div class="sn">2016</div><div class="sl">Год основания</div></div>
       <div class="stat"><div class="sn">10+</div><div class="sl">Лет опыта</div></div>
       <div class="stat"><div class="sn">3</div><div class="sl">Вида техники</div></div>
       <div class="stat"><div class="sn">СПб</div><div class="sl">Центр города</div></div>
@@ -277,7 +292,7 @@ body{background:#07000f;color:#f0e8ff;font-family:'Outfit',sans-serif;overflow-x
 </div></div>
 
 <div class="mentors">
-  <span class="sec-tag">▶ наставники</span>
+
   <h2 class="sec-h2" aria-label="Преподаватели курсов диджеинга в Санкт-Петербурге — действующие диджеи и артисты">Кто тебя учит</h2>
   <p class="sec-sub">Действующие артисты. Нажми на фото.</p>
   <div class="mgrid">
@@ -286,52 +301,55 @@ body{background:#07000f;color:#f0e8ff;font-family:'Outfit',sans-serif;overflow-x
       <div class="mc-img" style="background-image:url('WZDQ.jpg')"></div>
       <img src="WZDQ.jpg" alt="WZDQ — диджей, чемпион Лиги Диджеев России 2024, преподаватель DJ Place" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;">
       <div class="mc-grad"></div>
-      <div class="mc-name"><h3>WZDQ</h3></div>
+      <div class="mc-name"><h3>WZDQ</h3><div class="mc-preview">Чемпион Лиги Диджеев России 2024</div></div>
     </div>
     <div class="mc" data-i="1">
       <div class="mc-ph">🎵</div>
       <div class="mc-img" style="background-image:url('Sunshine.png')"></div>
       <img src="Sunshine.png" alt="Sunshine — штатный диджей Soda Luv, преподаватель школы диджеинга DJ Place Санкт-Петербург" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;">
       <div class="mc-grad"></div>
-      <div class="mc-name"><h3>SUNSHINE</h3></div>
+      <div class="mc-name"><h3>SUNSHINE</h3><div class="mc-preview">Штатный диджей Soda Luv</div></div>
     </div>
     <div class="mc" data-i="2">
       <div class="mc-ph">🎚️</div>
       <div class="mc-img" style="background-image:url('PACIFISTIC.jpg')"></div>
       <img src="PACIFISTIC.jpg" alt="Pacifistic — резидент BBC Radio 1 Kiss FM, преподаватель DJ Place Санкт-Петербург" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;">
       <div class="mc-grad"></div>
-      <div class="mc-name"><h3>PACIFISTIC</h3></div>
+      <div class="mc-name"><h3>PACIFISTIC</h3><div class="mc-preview">BBC Radio 1 · Kiss FM · Rinse FM</div></div>
     </div>
     <div class="mc" data-i="3">
       <div class="mc-ph">🎶</div>
       <div class="mc-img" style="background-image:url('SMOOTHIES.JPG')"></div>
       <img src="SMOOTHIES.JPG" alt="Smoothies — диджей UK Garage Liquid DnB, преподаватель школы диджеинга DJ Place" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;">
       <div class="mc-grad"></div>
-      <div class="mc-name"><h3>SMOOTHIES</h3></div>
+      <div class="mc-name"><h3>SMOOTHIES</h3><div class="mc-preview">Шерегеш → Петербург</div></div>
     </div>
   </div>
 </div>
 
 <div class="ov" id="ov">
   <div class="ov-swipe"></div>
-  <div class="ov-photo" id="ovPhoto"><div class="ov-photo-grad"></div></div>
-  <div class="ov-body">
-    <div class="ov-name" id="ovName"></div>
-    <div class="ov-fact" id="ovFact"></div>
-    <div class="ov-line"></div>
-    <div class="ov-desc" id="ovDesc"></div>
-    <div class="ov-tags" id="ovTags" style="display:none"></div>
-    <button class="ov-enroll" onclick="openModal()">Записаться на пробное</button>
-    <button class="ov-back" onclick="closeMentor()">← Назад к наставникам</button>
+  <div class="ov-inner" id="ovInner">
+    <button class="ov-close" onclick="closeMentor()">✕</button>
+    <div class="ov-photo" id="ovPhoto"><div class="ov-photo-grad"></div></div>
+    <div class="ov-body">
+      <div class="ov-name" id="ovName"></div>
+      <div class="ov-fact" id="ovFact"></div>
+      <div class="ov-line"></div>
+      <div class="ov-desc" id="ovDesc"></div>
+      <div class="ov-tags" id="ovTags" style="display:none"></div>
+      <button class="ov-enroll" onclick="openModal()">Записаться на пробное</button>
+      <button class="ov-back" onclick="closeMentor()">← Назад к наставникам</button>
+    </div>
   </div>
 </div>
 
 <script>
 var M = [
-  {name:'WZDQ',fact:'🏆 Чемпион Лиги Диджеев РФ · 2024<br>1.4 млн стримов · Гастроли по России',desc:'Диджей и продюсер из Петербурга. Основатель проекта 6HRS. Специализируется на баттловом диджеинге и скретче. Поддержка VK Music и Яндекс Музыки.',tags:['UKG','House','Scratch','Battle DJ'],img:'WZDQ.jpg'},
-  {name:'SUNSHINE',fact:'🎤 Штатный диджей Soda Luv<br>Event-менеджер · Продюсер',desc:'Концертный диджей федерального уровня. Десятки городов по всей России. Делил сцену с артистами от мейнстрима до андеграунда.',tags:['Hip-Hop','R&B','Широкий профиль'],img:'Sunshine.png'},
-  {name:'PACIFISTIC',fact:'📻 BBC Radio 1 · Kiss FM · Rinse FM<br>Резидент лейбла plusvibe',desc:'Звучал на ведущих британских радиостанциях. Организовал 5+ лет собственных ивентов с международными артистами.',tags:['UK Bass','Garage','Организатор'],img:'PACIFISTIC.jpg'},
-  {name:'SMOOTHIES',fact:'🎛️ 5 лет на сцене · Санкт-Петербург',desc:'Прошёл путь от локальных площадок до лучших клубов и фестивалей Петербурга.',tags:['UK Garage','Liquid DnB','Electro Punk'],img:'SMOOTHIES.JPG'}
+  {name:'WZDQ',fact:'🏆 Чемпион Лиги Диджеев РФ · 2024<br>1.4 млн стримов · Гастроли по России',desc:'Чемпион Лиги Диджеев России 2024. Основатель проекта 6HRS, 1.4 млн стримов на VK Music и Яндекс.Музыке. Специализируется на скретче, баттловом диджеинге, продюсировании авторских треков и эдитов.',tags:[],img:'WZDQ.jpg'},
+  {name:'SUNSHINE',fact:'🎤 Штатный диджей Soda Luv<br>Event-менеджер · Продюсер',desc:'Штатный диджей Soda Luv, сопровождает все выступления и туры артиста. За годы карьеры был резидентом целого ряда клубов и проектов, география выступлений исчисляется десятками городов по всей России.',tags:[],img:'Sunshine.png'},
+  {name:'PACIFISTIC',fact:'📻 BBC Radio 1 · Kiss FM · Rinse FM<br>Резидент лейбла plusvibe',desc:'Звучал на BBC Radio 1, Kiss FM и Rinse FM. Резидент лейбла plusvibe, организатор международных ивентов с артистами из Европы.',tags:[],img:'PACIFISTIC.jpg'},
+  {name:'SMOOTHIES',fact:'🎛️ Шерегеш → Петербург',desc:'Начинал на горнолыжных вечеринках в Шерегеше, сейчас играет на лучших площадках Петербурга. Специалист по UK Garage и Liquid DnB.',tags:[],img:'SMOOTHIES.JPG'}
 ];
 
 function openMentor(i) {
@@ -349,10 +367,12 @@ function closeMentor() {
   document.body.style.overflow = '';
 }
 
-// Свайп вниз
+// Свайп вниз (мобиль)
 var sy = 0;
 document.getElementById('ov').addEventListener('touchstart',function(e){sy=e.touches[0].clientY;},{passive:true});
 document.getElementById('ov').addEventListener('touchend',function(e){if(e.changedTouches[0].clientY-sy>80)closeMentor();},{passive:true});
+// Клик по фону (десктоп)
+document.getElementById('ov').addEventListener('click',function(e){if(e.target===this)closeMentor();});
 
 // Карточки — открываем только если это тап, не скролл
 document.querySelectorAll('.mc').forEach(function(card){
@@ -388,7 +408,7 @@ function draw(a){
   ctx.save();ctx.translate(CX,CY);ctx.rotate(a*Math.PI/180);
   ctx.beginPath();ctx.arc(0,0,80,0,Math.PI*2);ctx.fillStyle='#080808';ctx.fill();
   for(var j=0;j<108;j++){var sa=(j/108)*Math.PI*2;if(sa>5.95||sa<0.38)continue;ctx.save();ctx.rotate(sa);ctx.fillStyle='rgba(36,36,36,.92)';ctx.fillRect(64,-1.2,7,2.4);ctx.restore();}
-  ctx.save();ctx.rotate(.19);ctx.beginPath();ctx.moveTo(62,-4.5);ctx.lineTo(73,0);ctx.lineTo(62,4.5);ctx.fillStyle='#FF2020';ctx.fill();ctx.restore();
+  ctx.save();ctx.rotate(0);ctx.beginPath();ctx.moveTo(62,-4.5);ctx.lineTo(73,0);ctx.lineTo(62,4.5);ctx.fillStyle='#FF2020';ctx.fill();ctx.restore();
   ctx.restore();
   var hg=ctx.createRadialGradient(CX-6,CY-8,0,CX,CY,23);hg.addColorStop(0,'#80d0ee');hg.addColorStop(.5,'#4ab8de');hg.addColorStop(1,'#186880');
   ctx.beginPath();ctx.arc(CX,CY,23,0,Math.PI*2);ctx.fillStyle=hg;ctx.fill();
@@ -518,7 +538,7 @@ cv.addEventListener('touchend',function(e){e.preventDefault();scratch();},{passi
 </style>
 
 <section class="courses" id="courses">
-  <p class="courses__label">▶ выбери свой путь</p>
+
   <h2 class="courses__title" aria-label="Курсы диджеинга в СПб с нуля и для опытных — индивидуальное обучение на Pioneer CDJ">Курсы</h2>
 
   <div class="courses__grid">
@@ -631,7 +651,7 @@ cv.addEventListener('touchend',function(e){e.preventDefault();scratch();},{passi
 
 <section class="rec">
   <div class="rec__head">
-    <span style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#FF0080;display:block;margin-bottom:7px;">▶ профессионалы индустрии</span>
+
     <h2 style="font-family:'Bebas Neue',sans-serif;font-size:min(8vw,32px);letter-spacing:1px;color:#f0e8ff;margin:0;" aria-label="Профессиональные диджеи Санкт-Петербурга рекомендуют школу DJ Place">Нас рекомендуют</h2>
   </div>
   <div class="rec__scroll-wrap">
@@ -685,7 +705,7 @@ cv.addEventListener('touchend',function(e){e.preventDefault();scratch();},{passi
 
 <section style="padding:40px 16px 48px;background:#07000f;border-top:1px solid rgba(155,0,255,.1);" id="studio">
   <div style="margin-bottom:20px;">
-    <span style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#FF0080;display:block;margin-bottom:7px;">▶ где ты будешь учиться</span>
+
     <h2 style="font-family:'Bebas Neue',sans-serif;font-size:min(8vw,32px);letter-spacing:1px;color:#f0e8ff;margin:0 0 6px;" aria-label="Студия диджеинга в центре Санкт-Петербурга — Pioneer CDJ Nexus, DJM, Technics 1210, контроллеры DDJ">Студия и оборудование</h2>
     <p style="font-size:12px;color:rgba(240,232,255,.4);line-height:1.65;margin:0;font-family:'Outfit',sans-serif;">Центр Петербурга · ул. Оружейника Фёдорова 2</p>
   </div>
@@ -710,25 +730,13 @@ cv.addEventListener('touchend',function(e){e.preventDefault();scratch();},{passi
   <div style="background:#0d001c;border:1px solid rgba(155,0,255,.14);border-radius:12px;padding:18px 16px;">
     <div style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(240,232,255,.3);margin-bottom:14px;font-family:'Outfit',sans-serif;">Оборудование</div>
     <div style="display:flex;flex-direction:column;gap:10px;">
-      <div style="display:flex;gap:12px;align-items:baseline;">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;color:#f0e8ff;flex-shrink:0;width:140px;">Pioneer CDJ Nexus</div>
-        <div style="font-size:11px;color:rgba(240,232,255,.4);font-family:'Outfit',sans-serif;line-height:1.4;">Профессиональный CDJ — стандарт клубной сцены</div>
-      </div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;color:#f0e8ff;">Pioneer CDJ Nexus</div>
       <div style="height:1px;background:rgba(155,0,255,.08);"></div>
-      <div style="display:flex;gap:12px;align-items:baseline;">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;color:#f0e8ff;flex-shrink:0;width:140px;">Pioneer DJM</div>
-        <div style="font-size:11px;color:rgba(240,232,255,.4);font-family:'Outfit',sans-serif;line-height:1.4;">Микшер со встроенными эффектами и фильтрами</div>
-      </div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;color:#f0e8ff;">Pioneer DJM</div>
       <div style="height:1px;background:rgba(155,0,255,.08);"></div>
-      <div style="display:flex;gap:12px;align-items:baseline;">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;color:#f0e8ff;flex-shrink:0;width:140px;">Technics 1210</div>
-        <div style="font-size:11px;color:rgba(240,232,255,.4);font-family:'Outfit',sans-serif;line-height:1.4;">Классический виниловый сетап</div>
-      </div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;color:#f0e8ff;">Technics 1210</div>
       <div style="height:1px;background:rgba(155,0,255,.08);"></div>
-      <div style="display:flex;gap:12px;align-items:baseline;">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;color:#f0e8ff;flex-shrink:0;width:140px;">Контроллеры DDJ</div>
-        <div style="font-size:11px;color:rgba(240,232,255,.4);font-family:'Outfit',sans-serif;line-height:1.4;">Начального и продвинутого уровня</div>
-      </div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;color:#f0e8ff;">Контроллеры DDJ</div>
     </div>
   </div>
 </section>
@@ -750,7 +758,7 @@ cv.addEventListener('touchend',function(e){e.preventDefault();scratch();},{passi
 
 <section class="reviews" id="reviews">
   <div class="reviews__head">
-    <span style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#FF0080;display:block;margin-bottom:7px;">▶ </span>
+
     <h2 style="font-family:'Bebas Neue',sans-serif;font-size:min(8vw,32px);letter-spacing:1px;color:#f0e8ff;margin:0;" aria-label="Отзывы учеников школы диджеинга DJ Place в Санкт-Петербурге">Отзывы</h2>
   </div>
   <div class="reviews__scroll">
@@ -800,7 +808,7 @@ cv.addEventListener('touchend',function(e){e.preventDefault();scratch();},{passi
 </style>
 
 <section class="faq" id="faq">
-  <span style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#FF0080;display:block;margin-bottom:7px;">▶ вопросы</span>
+
   <h2 style="font-family:'Bebas Neue',sans-serif;font-size:min(8vw,32px);letter-spacing:1px;color:#f0e8ff;margin:0;" aria-label="Частые вопросы об обучении диджеингу с нуля — пробное занятие, цены, рассрочка, оборудование">FAQ</h2>
   <div class="faq__list">
     <div class="faq__item">
@@ -1051,9 +1059,14 @@ cv.addEventListener('touchend',function(e){e.preventDefault();scratch();},{passi
   .mx-wrap{padding:0;}
   .mx-tag,.mx-h2,.mx-sub{display:none;}
   .mx-topbar{display:none;}
+
+@media(min-width:1024px){
+  .mx-h2,.mx-sub{display:block;}
+  .mx-wrap{padding:40px 80px 16px;max-width:1280px;margin:0 auto;}
+}
   .mx-boards{
     display:flex;flex-direction:row;gap:0;
-    height:100vh;margin-bottom:0;
+    height:auto;margin-bottom:0;
     border-radius:0;overflow:hidden;
   }
   .mx-deck{
@@ -1065,7 +1078,7 @@ cv.addEventListener('touchend',function(e){e.preventDefault();scratch();},{passi
   .mx-center-col{
     display:flex!important;
     width:88px;flex-shrink:0;
-    flex-direction:column;align-items:center;justify-content:space-between;
+    flex-direction:column;align-items:center;justify-content:flex-start;gap:10px;
     padding:10px 5px 8px;
     background:var(--bg3);
     border-left:1px solid rgba(155,0,255,.08);
@@ -1110,11 +1123,20 @@ cv.addEventListener('touchend',function(e){e.preventDefault();scratch();},{passi
 
 /* центральная колонка в portrait = скрыта */
 .mx-center-col{display:none;}
+
+@media(min-width:1024px){
+  .mx-boards{border-radius:12px 12px 0 0!important;}
+  #eqPanel{display:block!important;position:static!important;border-radius:0 0 12px 12px!important;border-top:1px solid rgba(155,0,255,.15)!important;max-height:none!important;margin:0!important;}
+  #eqToggle{display:none!important;}
+  .mx-close-btn{display:none!important;}
+  .mx-center-col .mx-eqfx-toggle{display:none!important;}
+  .mx-boards.eq-open{padding-bottom:0!important;}
+}
 </style>
 
 
 <div class="mx-wrap">
-  <span class="mx-tag">▶ попробуй прямо сейчас</span>
+
   <h2 class="mx-h2">Подиджей <span style="background:linear-gradient(90deg,var(--p),var(--pk));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">здесь и сейчас</span></h2>
   <p class="mx-sub">Загрузи трек или используй наш. Крути джог, жми play.</p>
 
@@ -1189,6 +1211,13 @@ cv.addEventListener('touchend',function(e){e.preventDefault();scratch();},{passi
         <span style="font-size:9px;font-weight:800;color:rgba(255,0,128,.7);">B</span>
       </div>
       <button class="mx-eqfx-toggle" onclick="mxToggleEQ()" style="font-size:7px;">EQ · FX ↑</button>
+      <button onclick="mxSyncAll()" style="
+        width:100%;padding:6px 0;border-radius:6px;border:none;cursor:pointer;
+        background:linear-gradient(135deg,rgba(155,0,255,.25),rgba(255,0,128,.2));
+        color:#fff;font-size:8px;font-weight:800;letter-spacing:2px;
+        font-family:'Bebas Neue',sans-serif;
+        box-shadow:0 0 8px rgba(155,0,255,.3);
+      ">SYNC</button>
     </div>
 
     <!-- DECK B -->
@@ -1839,7 +1868,7 @@ window.addEventListener('DOMContentLoaded',function(){
 
 <!-- ══ КАРТА ══ -->
 <section style="background:#040008;border-top:1px solid rgba(155,0,255,.1);padding:32px 20px 0;">
-  <span style="font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#FF0080;display:block;margin-bottom:7px;font-family:'Outfit',sans-serif;">▶ как нас найти</span>
+
   <h2 style="font-family:'Bebas Neue',sans-serif;font-size:min(8vw,30px);letter-spacing:1px;color:#f0e8ff;margin-bottom:4px;">Студия в центре Петербурга</h2>
   <p style="font-size:12px;color:rgba(240,232,255,.35);margin-bottom:16px;font-family:'Outfit',sans-serif;">ул. Оружейника Фёдорова 2 · м. Чернышевская</p>
   <div style="position:relative;overflow:hidden;border-radius:14px;border:1px solid rgba(155,0,255,.2);width:100%;aspect-ratio:4/3;">
