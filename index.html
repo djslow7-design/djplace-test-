@@ -1184,7 +1184,7 @@ cv.addEventListener('touchend',function(e){e.preventDefault();scratch();},{passi
       </div>
       <div class="mx-transport">
         <button class="mx-tbtn mx-tbtn-a" onclick="mxHome('A')" style="font-size:12px;">⏮</button>
-        <button class="mx-tbtn mx-tbtn-a" onclick="mxCue('A')" id="cueA" style="font-size:8px;letter-spacing:1px;">CUE</button>
+        <button class="mx-tbtn mx-tbtn-a" id="cueA" style="font-size:8px;letter-spacing:1px;" onmousedown="mxCueDown('A')" onmouseup="mxCueUp('A')" onmouseleave="mxCueUp('A')" ontouchstart="e=arguments[0];e.preventDefault();mxCueDown('A')" ontouchend="mxCueUp('A')">CUE</button>
         <button class="mx-play mx-play-a" onclick="mxPlay('A')" id="playA">▶</button>
         <button class="mx-tbtn mx-tbtn-a" style="font-size:14px;"
           onmousedown="mxPB('A',-1)" onmouseup="mxPB('A',0)" onmouseleave="mxPB('A',0)"
@@ -1242,7 +1242,7 @@ cv.addEventListener('touchend',function(e){e.preventDefault();scratch();},{passi
       </div>
       <div class="mx-transport">
         <button class="mx-tbtn mx-tbtn-b" onclick="mxHome('B')" style="font-size:12px;">⏮</button>
-        <button class="mx-tbtn mx-tbtn-b" onclick="mxCue('B')" id="cueB" style="font-size:8px;letter-spacing:1px;">CUE</button>
+        <button class="mx-tbtn mx-tbtn-b" id="cueB" style="font-size:8px;letter-spacing:1px;" onmousedown="mxCueDown('B')" onmouseup="mxCueUp('B')" onmouseleave="mxCueUp('B')" ontouchstart="e=arguments[0];e.preventDefault();mxCueDown('B')" ontouchend="mxCueUp('B')">CUE</button>
         <button class="mx-play mx-play-b" onclick="mxPlay('B')" id="playB">▶</button>
         <button class="mx-tbtn mx-tbtn-b" style="font-size:14px;"
           onmousedown="mxPB('B',-1)" onmouseup="mxPB('B',0)" onmouseleave="mxPB('B',0)"
@@ -1514,10 +1514,15 @@ function mxPlay(k){
     mxStart(k,d.pos);
   }
 }
-function mxCue(k){
+function mxCueDown(k){
   mxWarm(); var d=MX.D[k]; if(!d.buf)return;
-  if(!d.playing){d.cuePos=d.pos; mxStart(k,d.cuePos);}
-  else{mxKill(k);d.playing=false;d.pos=d.cuePos;mxSetPlay(k,false);}
+  if(!d.playing){d.cuePos=d.pos;}
+  mxKill(k); d.playing=false;
+  mxStart(k,d.cuePos);
+}
+function mxCueUp(k){
+  var d=MX.D[k]; if(!d.buf)return;
+  mxKill(k); d.playing=false; d.pos=d.cuePos; mxSetPlay(k,false);
 }
 function mxHome(k){
   var d=MX.D[k]; mxKill(k); d.playing=false; d.pos=0; d.cuePos=0; d.angle=0;
@@ -2043,3 +2048,4 @@ function toggleFaq(btn) {
 
 </body>
 </html>
+
