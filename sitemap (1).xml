@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://диджейплэйс.рф/</loc>
-    <lastmod>2026-03-29</lastmod>
+    <loc>https://dj-place.ru/</loc>
+    <lastmod>2026-05-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://диджейплэйс.рф/oferta.html</loc>
+    <loc>https://dj-place.ru/blog-kontroller.html</loc>
+    <lastmod>2026-05-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://dj-place.ru/oferta.html</loc>
     <lastmod>2026-03-29</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://диджейплэйс.рф/privacy.html</loc>
+    <loc>https://dj-place.ru/privacy.html</loc>
     <lastmod>2026-03-29</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
