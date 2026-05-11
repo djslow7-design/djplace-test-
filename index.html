@@ -93,7 +93,7 @@ body{background:#07000f;color:#f0e8ff;font-family:'Outfit',sans-serif;overflow-x
 .mob-menu a:hover{color:#f0e8ff;}
 .mob-menu a.blog-link{color:rgba(155,0,255,.8);}
 .mob-menu-btn{margin-top:16px;padding:16px 48px;background:linear-gradient(90deg,var(--p),var(--pk));color:#fff;border:none;border-radius:50px;font-family:'Bebas Neue',sans-serif;font-size:18px;cursor:pointer;}
-.mob-close{position:absolute;top:20px;right:20px;width:44px;height:44px;background:rgba(155,0,255,.12);border:1px solid rgba(155,0,255,.3);border-radius:50%;color:rgba(240,232,255,.75);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;}
+.mob-close{position:absolute;top:20px;right:20px;width:44px;height:44px;background:rgba(155,0,255,.12);border:1px solid rgba(155,0,255,.3);border-radius:50%;color:rgba(240,232,255,.75);font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 @media(min-width:1024px){.burger{display:none;}.mob-menu{display:none;}}
 .hero{padding:4px 20px 36px;position:relative;overflow:hidden;text-align:center;}
 .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 90% 70% at 50% 55%,rgba(155,0,255,.13),transparent 70%);pointer-events:none;}
@@ -138,9 +138,11 @@ body{background:#07000f;color:#f0e8ff;font-family:'Outfit',sans-serif;overflow-x
 .ov{position:fixed;inset:0;z-index:999;background:#07000f;transform:translateY(100%);transition:transform .42s cubic-bezier(.25,.46,.45,.94);display:flex;flex-direction:column;overflow:hidden;}
 .ov.open{transform:translateY(0);}
 .ov-swipe{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:44px;height:5px;background:rgba(255,255,255,.2);border-radius:3px;z-index:5;}
+/* мобиль: inner должен занять всю высоту и быть flex-контейнером */
+.ov-inner{flex:1;display:flex;flex-direction:column;min-height:0;overflow:hidden;}
 .ov-photo{width:100%;height:55vh;min-height:240px;background-size:cover;background-position:top center;position:relative;flex-shrink:0;}
 .ov-photo-grad{position:absolute;inset:0;background:linear-gradient(to top,#07000f 0%,rgba(7,0,15,.1) 55%,transparent 80%);}
-.ov-body{flex:1;padding:0 22px 24px;overflow-y:auto;-webkit-overflow-scrolling:touch;margin-top:-32px;position:relative;}
+.ov-body{flex:1;min-height:0;padding:0 22px 24px;overflow-y:auto;-webkit-overflow-scrolling:touch;margin-top:-32px;position:relative;}
 .ov-name{font-family:'Bebas Neue',sans-serif;font-size:min(10vw,38px);letter-spacing:3px;color:#fff;margin-bottom:6px;}
 .ov-fact{font-size:13px;color:var(--pk);font-weight:700;line-height:1.6;margin-bottom:14px;}
 .ov-line{height:1px;background:linear-gradient(90deg,rgba(155,0,255,.4),transparent);margin-bottom:14px;}
@@ -466,20 +468,11 @@ function openMentor(i) {
   document.getElementById('ovDesc').textContent = m.desc;
   document.getElementById('ovTags').innerHTML = '';
   document.getElementById('ov').classList.add('open');
-  // iOS-совместимая блокировка скролла
-  var sy = window.scrollY;
-  document.body.style.position = 'fixed';
-  document.body.style.top = '-' + sy + 'px';
-  document.body.style.width = '100%';
-  document.body._ovScrollY = sy;
+  document.body.style.overflow = 'hidden';
 }
 function closeMentor() {
   document.getElementById('ov').classList.remove('open');
-  var sy = document.body._ovScrollY || 0;
-  document.body.style.position = '';
-  document.body.style.top = '';
-  document.body.style.width = '';
-  window.scrollTo(0, sy);
+  document.body.style.overflow = '';
 }
 
 // Свайп вниз (мобиль)
@@ -2262,19 +2255,7 @@ function toggleMenu() {
   var menu = document.getElementById('mobMenu');
   burger.classList.toggle('open');
   menu.classList.toggle('open');
-  if (menu.classList.contains('open')) {
-    var sy = window.scrollY;
-    document.body.style.position = 'fixed';
-    document.body.style.top = '-' + sy + 'px';
-    document.body.style.width = '100%';
-    document.body._menuScrollY = sy;
-  } else {
-    var sy2 = document.body._menuScrollY || 0;
-    document.body.style.position = '';
-    document.body.style.top = '';
-    document.body.style.width = '';
-    window.scrollTo(0, sy2);
-  }
+  document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
 }
 </script>
 
