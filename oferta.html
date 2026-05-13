@@ -2,110 +2,139 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Публичная оферта — DJ Place</title>
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23080010'/><text x='50%25' y='22' text-anchor='middle' font-family='Arial Black,sans-serif' font-size='20' font-weight='900' fill='url(%23g)'><tspan>DJ</tspan></text><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='0'><stop offset='0%25' stop-color='%239b00ff'/><stop offset='100%25' stop-color='%23ff2d78'/></linearGradient></defs></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{--p:#9B00FF;--pk:#FF0080;}
-body{background:#07000f;color:#f0e8ff;font-family:'Outfit',Arial,sans-serif;overflow-x:hidden;}
-.top-bar{background:#040008;border-bottom:1px solid rgba(155,0,255,.15);padding:14px 20px;display:flex;align-items:center;gap:12px;}
-.back-btn{display:flex;align-items:center;gap:6px;text-decoration:none;font-size:12px;color:rgba(240,232,255,.45);font-family:'Outfit',sans-serif;}
-.back-btn:hover{color:rgba(240,232,255,.8);}
-.back-arrow{font-size:16px;}
-.logo{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:4px;background:linear-gradient(90deg,var(--p),var(--pk));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.doc-wrap{max-width:680px;margin:0 auto;padding:36px 20px 60px;}
-.doc-tag{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--pk);display:block;margin-bottom:10px;}
-.doc-title{font-family:'Bebas Neue',sans-serif;font-size:min(9vw,36px);letter-spacing:1px;color:#fff;margin-bottom:6px;line-height:1.1;}
-.doc-sub{font-size:12px;color:rgba(240,232,255,.3);margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid rgba(155,0,255,.12);}
-h2{font-family:'Outfit',sans-serif;font-size:15px;font-weight:700;color:#f0e8ff;margin:28px 0 10px;letter-spacing:.3px;}
-p{font-size:13px;color:rgba(240,232,255,.55);line-height:1.8;margin-bottom:10px;}
-ul{padding-left:18px;margin-bottom:10px;}
-li{font-size:13px;color:rgba(240,232,255,.55);line-height:1.8;margin-bottom:4px;}
-.req-block{background:#0d001c;border:1px solid rgba(155,0,255,.14);border-radius:12px;padding:18px;margin-top:28px;}
-.req-block h3{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:rgba(155,0,255,.7);margin-bottom:12px;}
-.req-row{display:flex;gap:10px;margin-bottom:6px;}
-.req-label{font-size:12px;color:rgba(240,232,255,.3);min-width:90px;flex-shrink:0;}
-.req-val{font-size:12px;color:rgba(240,232,255,.6);}
+body{background:#07000f;color:#f0e8ff;font-family:'Outfit',sans-serif;overflow-x:hidden;min-height:100vh;}
+
+.nav{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;border-bottom:1px solid rgba(155,0,255,.15);}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:4px;background:linear-gradient(90deg,var(--p),var(--pk));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;}
+.back-btn{font-size:13px;color:rgba(240,232,255,.5);text-decoration:none;display:flex;align-items:center;gap:6px;transition:color .2s;}
+.back-btn:hover{color:#f0e8ff;}
+.back-btn::before{content:'←';}
+
+.doc-wrap{max-width:720px;margin:0 auto;padding:48px 24px 80px;}
+
+.doc-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--pk);margin-bottom:12px;display:block;}
+.doc-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,7vw,52px);letter-spacing:2px;color:#f0e8ff;line-height:1;margin-bottom:8px;}
+.doc-sub{font-size:13px;color:rgba(240,232,255,.35);margin-bottom:40px;}
+.doc-divider{height:1px;background:linear-gradient(90deg,rgba(155,0,255,.4),transparent);margin-bottom:40px;}
+
+.doc-intro{font-size:14px;color:rgba(240,232,255,.55);line-height:1.8;margin-bottom:36px;padding:20px;background:rgba(155,0,255,.06);border:1px solid rgba(155,0,255,.18);border-radius:12px;}
+
+.sec{margin-bottom:32px;}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;color:#f0e8ff;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid rgba(155,0,255,.15);}
+.sec p{font-size:14px;color:rgba(240,232,255,.6);line-height:1.85;margin-bottom:10px;}
+.sec p:last-child{margin-bottom:0;}
+.sec ul{font-size:14px;color:rgba(240,232,255,.6);line-height:1.85;padding-left:20px;margin-bottom:10px;}
+.sec ul li{margin-bottom:6px;}
+
+.highlight{color:rgba(255,0,128,.85);font-weight:600;}
+a.doc-link{color:rgba(155,0,255,.8);text-decoration:underline;text-decoration-color:rgba(155,0,255,.35);}
+
+.footer{text-align:center;padding:32px 24px;border-top:1px solid rgba(155,0,255,.12);font-size:12px;color:rgba(240,232,255,.22);}
+.footer a{color:rgba(155,0,255,.5);text-decoration:none;}
 </style>
 </head>
 <body>
 
-<div class="top-bar">
-  <a href="index.html" class="back-btn"><span class="back-arrow">←</span> Назад</a>
-  <div class="logo">DJ PLACE</div>
-</div>
+<nav class="nav">
+  <a href="https://dj-place.ru" class="logo">DJ/PLACE</a>
+  <a href="https://dj-place.ru" class="back-btn">На главную</a>
+</nav>
 
 <div class="doc-wrap">
-  <span class="doc-tag">▶ документы</span>
+  <span class="doc-label">Юридический документ</span>
   <h1 class="doc-title">Публичная оферта</h1>
-  <p class="doc-sub">Договор об оказании образовательных услуг</p>
+  <p class="doc-sub">Актуальная версия размещена на сайте <a class="doc-link" href="https://dj-place.ru">dj-place.ru</a></p>
+  <div class="doc-divider"></div>
 
-  <p>Настоящий документ является официальным предложением (публичной офертой) самозанятого лица Маров Владислав Анатольевич, плательщика налога на профессиональный доход (далее — Исполнитель), и содержит все существенные условия договора на оказание образовательных услуг.</p>
-  <p>Любое физическое лицо, принявшее условия настоящей оферты (далее — Ученик или Заказчик), считается заключившим договор на условиях, изложенных ниже.</p>
+  <div class="doc-intro">
+    Настоящий документ является официальным предложением (публичной офертой) самозанятого лица Маров Владислав Анатольевич, плательщика налога на профессиональный доход (далее — Исполнитель), и содержит все существенные условия договора на оказание образовательных услуг.<br><br>
+    Любое физическое лицо, принявшее условия настоящей оферты (далее — Ученик или Заказчик), считается заключившим договор на условиях, изложенных ниже.
+  </div>
 
-  <h2>1. Термины и общие положения</h2>
-  <p>1.1. Оферта — настоящий документ, размещённый в свободном доступе на сайте Исполнителя по адресу: диджейплэйс.рф.</p>
-  <p>1.2. Акцепт оферты — полное и безоговорочное принятие условий договора путём оплаты выбранного курса, занятия или иного продукта, представленного на сайте или в официальных каналах Исполнителя.</p>
-  <p>1.3. Услуги — образовательные услуги в сфере диджеинга, музыкального продакшена и смежных направлений, оказываемые в формате курсов и разовых занятий (онлайн и/или офлайн).</p>
-  <p>1.4. Совершая акцепт оферты, Заказчик подтверждает, что: ознакомился с условиями договора; понимает формат и содержание обучения; принимает условия оферты в полном объёме.</p>
+  <div class="sec">
+    <h2 class="sec-title">1. Термины и общие положения</h2>
+    <p><span class="highlight">1.1.</span> Оферта — настоящий документ, размещённый в свободном доступе на сайте Исполнителя по адресу: <a class="doc-link" href="https://dj-place.ru">dj-place.ru</a>.</p>
+    <p><span class="highlight">1.2.</span> Акцепт оферты — полное и безоговорочное принятие условий договора путём оплаты выбранного курса, занятия или иного продукта, представленного на сайте или в официальных каналах Исполнителя.</p>
+    <p><span class="highlight">1.3.</span> Услуги — образовательные услуги в сфере диджеинга, музыкального продакшена и смежных направлений, оказываемые в формате курсов и разовых занятий (онлайн и/или офлайн).</p>
+    <p><span class="highlight">1.4.</span> Совершая акцепт оферты, Заказчик подтверждает, что: ознакомился с условиями договора; понимает формат и содержание обучения; принимает условия оферты в полном объёме.</p>
+  </div>
 
-  <h2>2. Предмет договора</h2>
-  <p>2.1. Исполнитель обязуется оказать Заказчику образовательные услуги, а Заказчик обязуется оплатить и пройти выбранный курс или разовое занятие.</p>
-  <p>2.2. Подробное описание программ, формата, длительности и стоимости услуг размещается на сайте Исполнителя и является неотъемлемой частью настоящего договора.</p>
-  <p>2.3. Услуги не являются лицензируемой образовательной деятельностью и носят информационно-обучающий характер.</p>
+  <div class="sec">
+    <h2 class="sec-title">2. Предмет договора</h2>
+    <p><span class="highlight">2.1.</span> Исполнитель обязуется оказать Заказчику образовательные услуги, а Заказчик обязуется оплатить и пройти выбранный курс или разовое занятие.</p>
+    <p><span class="highlight">2.2.</span> Подробное описание программ, формата, длительности и стоимости услуг размещается на сайте Исполнителя и является неотъемлемой частью настоящего договора.</p>
+    <p><span class="highlight">2.3.</span> Услуги не являются лицензируемой образовательной деятельностью и носят информационно-обучающий характер.</p>
+  </div>
 
-  <h2>3. Порядок оказания услуг</h2>
-  <p>3.1. Обучение проводится по заранее сформированной программе, индивидуально или в группе.</p>
-  <p>3.2. Доступ к занятиям предоставляется после 100% оплаты или части курса.</p>
-  <p>3.3. Исполнитель вправе вносить изменения в расписание, уведомляя об этом Заказчика заранее удобным способом.</p>
-  <p>3.4. Заказчик обязуется соблюдать правила поведения, техники безопасности и уважительного взаимодействия в процессе обучения.</p>
+  <div class="sec">
+    <h2 class="sec-title">3. Порядок оказания услуг</h2>
+    <p><span class="highlight">3.1.</span> Обучение проводится по заранее сформированной программе, индивидуально или в группе.</p>
+    <p><span class="highlight">3.2.</span> Доступ к занятиям предоставляется после 100% оплаты или части курса.</p>
+    <p><span class="highlight">3.3.</span> Срок прохождения курса составляет 4 (четыре) месяца с момента первой оплаты. По истечении указанного срока неиспользованные занятия аннулируются без возврата денежных средств, если иное не согласовано сторонами в письменном виде.</p>
+    <p><span class="highlight">3.4.</span> Исполнитель вправе вносить изменения в расписание, уведомляя об этом Заказчика заранее удобным способом.</p>
+    <p><span class="highlight">3.5.</span> Заказчик обязуется соблюдать правила поведения, техники безопасности и уважительного взаимодействия в процессе обучения.</p>
+  </div>
 
-  <h2>4. Стоимость и порядок оплаты</h2>
-  <p>4.1. Стоимость услуг указывается на сайте Исполнителя или согласовывается индивидуально.</p>
-  <p>4.2. Оплата производится в размере 100% до начала оказания услуг или оплаты части курса.</p>
-  <p>4.3. Оплата означает согласие Заказчика с условиями настоящей оферты.</p>
+  <div class="sec">
+    <h2 class="sec-title">4. Стоимость и порядок оплаты</h2>
+    <p><span class="highlight">4.1.</span> Стоимость услуг указывается на сайте Исполнителя или согласовывается индивидуально.</p>
+    <p><span class="highlight">4.2.</span> Оплата производится в размере 100% до начала оказания услуг или оплаты части курса.</p>
+    <p><span class="highlight">4.3.</span> Оплата означает согласие Заказчика с условиями настоящей оферты.</p>
+  </div>
 
-  <h2>5. Возвраты и отмены</h2>
-  <p>5.1. В случае отказа Заказчика от обучения до начала оказания услуг, возврат осуществляется за вычетом фактически понесённых расходов.</p>
-  <p>5.2. В случае начала обучения возврат средств производится пропорционально количеству неоказанных занятий.</p>
-  <p>5.3. Разовые занятия, пропущенные по вине Заказчика без предварительного уведомления, возврату не подлежат.</p>
+  <div class="sec">
+    <h2 class="sec-title">5. Возвраты и отмены</h2>
+    <p><span class="highlight">5.1.</span> В случае отказа Заказчика от обучения до начала оказания услуг, возврат осуществляется за вычетом фактически понесённых расходов.</p>
+    <p><span class="highlight">5.2.</span> В случае начала обучения возврат средств производится пропорционально количеству неоказанных занятий.</p>
+    <p><span class="highlight">5.3.</span> Разовые занятия, пропущенные по вине Заказчика без предварительного уведомления, возврату не подлежат.</p>
+  </div>
 
-  <h2>6. Права и обязанности сторон</h2>
-  <p><strong style="color:#f0e8ff;">Исполнитель обязуется:</strong></p>
-  <ul>
-    <li>предоставить услуги в заявленном объёме и качестве;</li>
-    <li>обеспечить профессиональный и безопасный формат обучения.</li>
-  </ul>
-  <p><strong style="color:#f0e8ff;">Исполнитель вправе:</strong></p>
-  <ul>
-    <li>привлекать третьих лиц для оказания услуг;</li>
-    <li>приостанавливать обучение при нарушении условий договора.</li>
-  </ul>
-  <p><strong style="color:#f0e8ff;">Заказчик обязуется:</strong></p>
-  <ul>
-    <li>своевременно оплачивать услуги;</li>
-    <li>соблюдать правила обучения и рекомендации Исполнителя.</li>
-  </ul>
+  <div class="sec">
+    <h2 class="sec-title">6. Права и обязанности сторон</h2>
+    <p><span class="highlight">Исполнитель обязуется:</span></p>
+    <ul>
+      <li>предоставить услуги в заявленном объёме и качестве;</li>
+      <li>обеспечить профессиональный и безопасный формат обучения.</li>
+    </ul>
+    <p><span class="highlight">Исполнитель вправе:</span></p>
+    <ul>
+      <li>привлекать третьих лиц для оказания услуг;</li>
+      <li>приостанавливать обучение при нарушении условий договора.</li>
+    </ul>
+    <p><span class="highlight">Заказчик обязуется:</span></p>
+    <ul>
+      <li>своевременно оплачивать услуги;</li>
+      <li>соблюдать правила обучения и рекомендации Исполнителя.</li>
+    </ul>
+  </div>
 
-  <h2>7. Ответственность и ограничения</h2>
-  <p>7.1. Исполнитель не гарантирует достижение конкретного коммерческого или карьерного результата, так как он зависит от личных усилий Заказчика.</p>
-  <p>7.2. Все материалы, предоставляемые в ходе обучения, являются интеллектуальной собственностью Исполнителя и не подлежат распространению без письменного согласия.</p>
+  <div class="sec">
+    <h2 class="sec-title">7. Ответственность и ограничения</h2>
+    <p><span class="highlight">7.1.</span> Исполнитель не гарантирует достижение конкретного коммерческого или карьерного результата, так как он зависит от личных усилий Заказчика.</p>
+    <p><span class="highlight">7.2.</span> Все материалы, предоставляемые в ходе обучения, являются интеллектуальной собственностью Исполнителя и не подлежат распространению без письменного согласия.</p>
+  </div>
 
-  <h2>8. Заключительные положения</h2>
-  <p>8.1. Договор вступает в силу с момента акцепта и действует до полного исполнения обязательств.</p>
-  <p>8.2. Все споры решаются путём переговоров, а при невозможности — в судебном порядке по месту регистрации Исполнителя.</p>
-  <p>8.3. Актуальная версия оферты всегда размещена на сайте Исполнителя.</p>
-
-  <div class="req-block">
-    <h3>Реквизиты Исполнителя</h3>
-    <div class="req-row"><span class="req-label">ФИО</span><span class="req-val">Маров Владислав Анатольевич</span></div>
-    <div class="req-row"><span class="req-label">Статус</span><span class="req-val">Самозанятый (НПД)</span></div>
-    <div class="req-row"><span class="req-label">Email</span><span class="req-val">djslow7@gmail.com</span></div>
-    <div class="req-row"><span class="req-label">Телефон</span><span class="req-val">+7 981 879 60 47</span></div>
-    <div class="req-row"><span class="req-label">ИНН</span><span class="req-val">7707083893</span></div>
+  <div class="sec">
+    <h2 class="sec-title">8. Заключительные положения</h2>
+    <p><span class="highlight">8.1.</span> Договор вступает в силу с момента акцепта и действует до полного исполнения обязательств.</p>
+    <p><span class="highlight">8.2.</span> Все споры решаются путём переговоров, а при невозможности — в судебном порядке по месту регистрации Исполнителя.</p>
+    <p><span class="highlight">8.3.</span> Актуальная версия оферты всегда размещена на сайте Исполнителя: <a class="doc-link" href="https://dj-place.ru">dj-place.ru</a>.</p>
   </div>
 </div>
 
+<footer class="footer">
+  <p>© DJ Place, Санкт-Петербург, 2016–2025 &nbsp;·&nbsp; <a href="https://dj-place.ru">dj-place.ru</a></p>
+</footer>
+
 </body>
 </html>
+
