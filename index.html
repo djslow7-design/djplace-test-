@@ -222,6 +222,17 @@ body{background:#07000f;color:#f0e8ff;font-family:'Outfit',sans-serif;overflow-x
   .nav-links{display:flex;gap:28px;align-items:center;}
   .nav-links a{color:rgba(240,232,255,.45);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:color .2s;font-family:'Outfit',sans-serif;}
   .nav-links a:hover{color:#f0e8ff;}
+  .store-item{position:relative;}
+  .store-item > a{display:flex;align-items:center;gap:5px;}
+  .store-drop{position:absolute;top:calc(100% + 14px);left:50%;transform:translateX(-50%);width:240px;background:rgba(7,0,15,0.96);border:1px solid rgba(155,0,255,.2);border-radius:16px;padding:14px;opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);pointer-events:none;}
+  .store-item:hover .store-drop{opacity:1;visibility:visible;pointer-events:auto;}
+  .store-drop::before{content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:12px;height:12px;background:rgba(7,0,15,0.96);border-left:1px solid rgba(155,0,255,.2);border-top:1px solid rgba(155,0,255,.2);rotate:45deg;}
+  .store-drop img{width:100%;border-radius:10px;margin-bottom:10px;display:block;}
+  .store-drop-title{color:#f0e8ff;font-size:12px;font-weight:700;letter-spacing:.05em;font-family:'Outfit',sans-serif;}
+  .store-drop-price{color:rgba(240,232,255,.45);font-size:11px;margin:4px 0 10px;font-family:'Outfit',sans-serif;}
+  .store-drop-dots{display:flex;gap:6px;margin-bottom:12px;}
+  .store-drop-dots span{width:14px;height:14px;border-radius:50%;display:block;}
+  .store-drop-btn{display:block;text-align:center;background:linear-gradient(135deg,var(--p),var(--pk));color:#fff;border-radius:10px;padding:9px;font-size:11px;font-weight:700;text-decoration:none;font-family:'Outfit',sans-serif;letter-spacing:.05em;}
 
   .hero{padding:0;max-width:none;margin:0;overflow:visible;}
   .hz{display:none;}
@@ -308,6 +319,22 @@ body{background:#07000f;color:#f0e8ff;font-family:'Outfit',sans-serif;overflow-x
     <a href="#reviews">Отзывы</a>
     <a href="#faq">FAQ</a>
     <a href="/blog.html">Блог</a>
+    <span class="store-item">
+      <a href="/skins.html">Store</a>
+      <div class="store-drop">
+        <img src="https://raw.githubusercontent.com/djslow7-design/djplace-test-/main/purple.webp" alt="Панель DDJ-FLX4">
+        <div class="store-drop-title">Панели для DDJ-FLX4</div>
+        <div class="store-drop-price">от 2 500 &#8381; &middot; доставка по России</div>
+        <div class="store-drop-dots">
+          <span style="background:#E8006C" title="Фуксия"></span>
+          <span style="background:#E87BAF" title="Розовый"></span>
+          <span style="background:#f0f0f0;border:1px solid #ccc" title="Белый"></span>
+          <span style="background:#FFD600" title="Жёлтый"></span>
+          <span style="background:#C9A87C" title="Бежевый"></span>
+        </div>
+        <a class="store-drop-btn" href="/skins.html">Смотреть &#8594;</a>
+      </div>
+    </span>
   </nav>
   <button class="burger" id="burger" onclick="toggleMenu()" aria-label="Меню">
     <span></span><span></span><span></span>
@@ -324,6 +351,7 @@ body{background:#07000f;color:#f0e8ff;font-family:'Outfit',sans-serif;overflow-x
   <a href="#reviews" onclick="toggleMenu()">Отзывы</a>
   <a href="#faq" onclick="toggleMenu()">FAQ</a>
   <a href="/blog.html" class="blog-link">Блог</a>
+  <a href="/skins.html" class="blog-link">Store</a>
   <button class="mob-menu-btn" onclick="toggleMenu();openModal()">Записаться</button>
 </div>
 <h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;">Школа диджеинга DJ Place в Санкт-Петербурге — обучение с 2016 года</h1>
