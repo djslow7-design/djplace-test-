@@ -2286,35 +2286,16 @@ function submitForm() {
     return;
   }
 
-  var time = new Date().toLocaleString('ru-RU', {timeZone:'Europe/Moscow'});
-  var text = '🎧 Новая заявка — DJ Place\n\n'
-    + '👤 Имя: ' + (name || 'не указано') + '\n'
-    + '📞 Контакт: ' + phone + '\n'
-    + '📚 Курс: ' + course + '\n'
-    + '🕐 Время: ' + time;
-
-  // Отправка в Telegram
-  fetch('https://api.telegram.org/bot8750226765:AAEcVWgi8MM_Mk-t5JpCSQoO-cahhwoVLaI/sendMessage', {
+  // Отправка на свой серверный скрипт: он сам пробует Telegram,
+  // при сбое дублирует на почту. Токен бота на клиенте больше не хранится.
+  fetch('/send-form.php', {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
     keepalive: true,
     body: JSON.stringify({
-      chat_id: '321163553',
-      text: text
-    })
-  }).catch(function(){});
-
-  // Резервная отправка на email через Formspree
-  fetch('https://formspree.io/f/xgopogwa', {
-    method: 'POST',
-    headers: {'Content-Type':'application/json'},
-    keepalive: true,
-    body: JSON.stringify({
-      name: name || 'не указано',
-      contact: phone,
-      course: course,
-      time: time,
-      _replyto: 'djslow7@gmail.com'
+      name: name || '',
+      phone: phone,
+      course: course
     })
   }).catch(function(){});
 
