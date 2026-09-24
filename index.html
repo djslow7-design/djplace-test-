@@ -2286,28 +2286,13 @@ function submitForm() {
     return;
   }
 
-  // 1) Данные уходят только на наш сервер в РФ (письмо на почту)
-  // 2) В Telegram уходит уведомление БЕЗ имени и телефона
-  var time = new Date().toLocaleString('ru-RU', {timeZone:'Europe/Moscow'});
-  function tgNotify(ok){
-    var text = ok
-      ? '🎧 Новая заявка DJ Place\n📚 Курс: ' + course + '\n🕐 ' + time + '\n\n📩 Данные на почте'
-      : '⚠️ Заявка DJ Place НЕ дошла до почты\n🕐 ' + time + '\nПроверь send-mail-smtp.php';
-    fetch('https://api.telegram.org/bot8750226765:AAFiWHh3xXDhUOQrI1XnzkKbsBKxKq83RfM/sendMessage', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      keepalive: true,
-      body: JSON.stringify({ chat_id: '321163553', text: text })
-    }).catch(function(){});
-  }
-
+  // Заявка уходит только на наш сервер в РФ, оттуда письмом на почту
   fetch('/send-mail-smtp.php', {
     method: 'POST',
     headers: {'Content-Type':'application/json'},
     keepalive: true,
     body: JSON.stringify({ name: name || '', phone: phone, course: course })
-  }).then(function(r){ tgNotify(r.ok); })
-    .catch(function(){ tgNotify(false); });
+  }).catch(function(){});
 
   // Показываем thank-you сразу, не ждём ответа серверов
   try{ ym(108510038,'reachGoal','form_submit'); }catch(e){}
@@ -2342,4 +2327,3 @@ function toggleMenu() {
 
 </body>
 </html>
-
